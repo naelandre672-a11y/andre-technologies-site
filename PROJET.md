@@ -91,18 +91,32 @@ redimensionnées à 2400px max, ~150-1000 Ko, utilisées dans le site).
 - `sechage-lef1.jpg` / `sechage-lef2.jpg` — non utilisées pour l'instant
 
 **Étapes du showcase encore en photo de stock (Unsplash), faute de vraie
-photo fournie** : Triage & empilage (accueil + industrie bois), Rabotage
-(accueil + industrie bois), Expédition (accueil), Cogénération (bois
-énergie). À remplacer dès que ces photos seront disponibles.
+photo fournie** : Rabotage (accueil + industrie bois), Expédition (accueil).
+À remplacer dès que ces photos seront disponibles.
+
+## Vidéos partenaires intégrées le 25/07/2026
+Deux vidéos reçues (`Chaudière Urbas.zip`, `Parc à billons springer.zip`)
+ne contenaient que des rushs bruts, sans photo. Traitement avec `ffmpeg`
+(installé en local uniquement pour ce projet, non versionné) :
+- Une image de couverture extraite de chaque vidéo remplace le stock Unsplash
+  restant : `images/cogeneration-urbas.jpg` (bras robotisé qui soude une
+  virole de chaudière, utilisée pour l'étape "Cogénération" sur
+  bois-energie.html) et `images/triage-empilage-springer.jpg` (grume triée
+  automatiquement, utilisée pour l'étape "Triage & empilage" sur l'accueil
+  et industrie-bois.html).
+- Extraits compressés (720p, H.264) dans `videos/` et intégrés en `<video
+  controls>` juste après la section équipements de chaque page concernée :
+  `videos/urbas-fabrication-chaudiere.mp4` (32 s, 5,4 Mo, avec son) sur
+  bois-energie.html, `videos/springer-triage-empilage.mp4` (34 s, 7,3 Mo,
+  muette) sur industrie-bois.html.
+- Les vidéos sources brutes (108 Mo / 69 Mo) restent à la racine du projet,
+  gitignorées, non utilisées telles quelles sur le site.
 
 **Fichiers reçus mais non exploités** — à voir avec André Technologies :
-- `Chaudière Urbas.zip` (vidéo 1080p, 108 Mo) et `Parc à billons springer.zip`
-  (vidéo, 69 Mo) : que des vidéos, pas de photo. Utilisables en `<video>`
-  plus tard si besoin (prévoir compression, 108 Mo brut est bien trop lourd).
 - `Evacuation des connexes Rudnik.zip` et `Triage empilage springer.zip` :
   vides (dossier zippé sans rien dedans).
-- `Non confirmé 56417.crdownload` (794 Mo) : téléchargement resté inachevé,
-  fichier invalide en l'état — à retélécharger si besoin.
+- `Non confirmé 56417.crdownload` (794 Mo, s'il existe encore) : téléchargement
+  resté inachevé, fichier invalide en l'état — à retélécharger si besoin.
 Ces fichiers sont toujours à la racine du projet ; à nettoyer une fois
 vérifiés (ils ne sont pas utilisés par le site).
 
@@ -135,8 +149,9 @@ de glisser-déposer manuellement. Reste à faire : brancher le nom de domaine
 andre-technologies.fr dessus.
 
 ## Ce qu'il reste à faire avant la mise en ligne définitive
-- [x] Vraies photos de l'entreprise — sauf 4 étapes encore en photo de stock
-      faute de photo fournie (voir section Images)
+- [x] Vraies photos de l'entreprise + 2 vidéos partenaires (Urbas, Springer)
+      — sauf Rabotage et Expédition encore en photo de stock faute de
+      matière fournie (voir section Images / Vidéos)
 - [x] Hébergement — en ligne sur Netlify, reste à lier un compte + le domaine
 - [ ] Connecter le formulaire de contact à un vrai service d'envoi
       (`FORM_ENDPOINT` dans `contact.html`)
