@@ -126,12 +126,13 @@ Infobulle au survol avec une courte description de la spécialité de chacun
 André Technologies si possible). Fond clair sans bordure (ombre douce à la
 place, cf retour du client sur le rendu "boîte" trop marqué).
 
-## Hébergement (fait le 24/07/2026)
-Le site est en ligne sur Netlify (déploiement manuel par glisser-déposer,
-sans compte lié pour l'instant) : `papaya-nasturtium-2458e5.netlify.app`.
-Vérifié fonctionnel (photos, showcases, responsive). Reste à faire :
-connecter un compte Netlify pour garder la main dessus + pouvoir mettre à
-jour, et brancher le nom de domaine andre-technologies.fr dessus.
+## Hébergement (fait le 24/07/2026, déploiement continu ajouté le 25/07/2026)
+Le code est versionné sur GitHub (`naelandre672-a11y/andre-technologies-site`,
+branche `main`) et le site est hébergé sur Netlify, lié à ce dépôt :
+`andretechnologies.netlify.app`. Déploiement continu actif : chaque `git push`
+sur `main` redéploie automatiquement le site en quelques minutes, plus besoin
+de glisser-déposer manuellement. Reste à faire : brancher le nom de domaine
+andre-technologies.fr dessus.
 
 ## Ce qu'il reste à faire avant la mise en ligne définitive
 - [x] Vraies photos de l'entreprise — sauf 4 étapes encore en photo de stock
