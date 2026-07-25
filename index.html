@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>André Technologies — Ingénierie des industries du bois</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="site-header">
+  <nav>
+    <a href="#" class="logo"><img src="logo-v2.png" alt="André Technologies" class="logo-img"></a>
+
+    <div class="nav-links">
+      <div class="nav-item">
+        <a href="industrie-bois.html" class="nav-link">Industrie bois <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="industrie-bois.html#parc">Parc à grumes <span>01</span></a>
+          <a href="industrie-bois.html#sciage">Lignes de sciage <span>02</span></a>
+          <a href="industrie-bois.html#triage">Triage &amp; empilage <span>03</span></a>
+          <a href="industrie-bois.html#sechage">Séchoirs &amp; étuves <span>04</span></a>
+          <a href="industrie-bois.html#rabotage">Lignes de rabotage <span>05</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bois-energie.html" class="nav-link">Bois énergie <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
+          <a href="bois-energie.html#pellets">Unités de pellets</a>
+          <a href="bois-energie.html#sechage">Sécheurs à bande</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bureau-etudes.html" class="nav-link">Bureau d'études</a>
+      </div>
+      <div class="nav-item">
+        <a href="#pourquoi" class="nav-link" data-target="pourquoi">Qui sommes-nous</a>
+      </div>
+      <div class="nav-item">
+        <a href="actualites.html" class="nav-link">Actualités</a>
+      </div>
+    </div>
+
+    <a href="contact.html" class="btn solid nav-cta">Nous contacter</a>
+    <button class="burger" id="burger-btn" aria-label="Ouvrir le menu">
+      <span class="bars"><i></i><i></i><i></i></span>
+      Menu
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="industrie-bois.html">Industrie bois</a>
+    <div class="sub">
+      <a href="industrie-bois.html#parc">Parc à grumes</a>
+      <a href="industrie-bois.html#sciage">Lignes de sciage</a>
+      <a href="industrie-bois.html#triage">Triage &amp; empilage</a>
+      <a href="industrie-bois.html#sechage">Séchoirs &amp; étuves</a>
+    </div>
+    <a href="bois-energie.html">Bois énergie</a>
+    <div class="sub">
+      <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
+      <a href="bois-energie.html#pellets">Unités de pellets</a>
+    </div>
+    <a href="bureau-etudes.html">Bureau d'études</a>
+    <a href="#pourquoi">Qui sommes-nous</a>
+    <a href="actualites.html">Actualités</a>
+    <a href="contact.html">Contact</a>
+    <div class="contact-line">+33 (0)3 88 95 44 43</div>
+  </div>
+</header>
+
+<section class="hero" id="hero-spotlight">
+  <div class="hero-bg"></div>
+  <div class="hero-reveal-layer" id="reveal-layer"></div>
+  <span class="hero-reveal-tag" id="reveal-tag">Sciage — vue rapprochée</span>
+  <div class="wrap hero-content">
+    <p class="eyebrow hero-anim hero-fade" style="animation-delay:.15s;">Ingénierie des industries du bois — depuis plus de 40 ans</p>
+    <h1 class="hero-anim hero-fade" style="animation-delay:.3s;">Chaque grume<br>devient <em>précision.</em></h1>
+    <p class="lead hero-anim hero-fade" style="animation-delay:.45s;">André Technologies conçoit et installe les lignes techniques qui transforment le bois rond en produits prêts à expédier — du parc à grumes jusqu'au rabotage — et valorise chaque connexe en énergie.</p>
+    <div class="hero-actions hero-anim hero-fade" style="animation-delay:.6s;">
+      <a href="contact.html" class="btn solid magnetic">Discuter d'un projet</a>
+      <a href="#process" class="btn magnetic">Voir la ligne de process</a>
+    </div>
+  </div>
+  <div class="hero-scroll-cue"><span>Scroll</span><span class="line"></span></div>
+</section>
+
+<section class="stats reveal">
+  <div class="wrap stats-grid">
+    <div class="stat"><div class="stat-num" data-count="40" data-suffix="+">0</div><div class="stat-label">Ans d'expérience</div></div>
+    <div class="stat"><div class="stat-num" data-static="24/7">0</div><div class="stat-label">SAV &amp; pièces de rechange</div></div>
+    <div class="stat"><div class="stat-num" data-count="6">0</div><div class="stat-label">Étapes de process maîtrisées</div></div>
+    <div class="stat"><div class="stat-num" data-static="EU">0</div><div class="stat-label">Partenaires leaders européens</div></div>
+  </div>
+</section>
+
+<section class="partners">
+  <div class="wrap">
+    <p class="eyebrow">Nos partenaires technologiques</p>
+    <div class="partners-grid reveal">
+      <div class="partner-logo">
+        <img src="images/partenaire01.png" alt="Linck" loading="lazy">
+        <span class="partner-tooltip">Lignes de sciage de haute précision.</span>
+      </div>
+      <div class="partner-logo">
+        <img src="images/partenaire02.png" alt="Springer" loading="lazy">
+        <span class="partner-tooltip">Parcs à grumes, triage et empilage automatisés.</span>
+      </div>
+      <div class="partner-logo">
+        <img src="images/partenaire03.png" alt="Urbas" loading="lazy">
+        <span class="partner-tooltip">Chaudières biomasse et solutions énergétiques clé en main.</span>
+      </div>
+      <div class="partner-logo">
+        <img src="images/partenaire04.png" alt="Mühlböck" loading="lazy">
+        <span class="partner-tooltip">Séchoirs et technologies de séchage du bois.</span>
+      </div>
+      <div class="partner-logo">
+        <img src="images/partenaire05.png" alt="Rudnick &amp; Enners" loading="lazy">
+        <span class="partner-tooltip">Unités de granulation, broyage et convoyage pour pellets.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="process" style="padding-bottom:100px;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Fig. 01 — Ligne de process</p>
+      <h2>Suivez la grume, étape par étape.</h2>
+      <p>Chaque ligne que nous installons suit ce même enchaînement, adapté à votre production. Cliquez sur une étape pour voir l'équipement associé.</p>
+    </div>
+    <div class="showcase reveal">
+      <div class="showcase-list">
+        <div class="showcase-step active" data-img="0">
+          <div class="snum">01</div>
+          <div>
+            <div class="sname">Parc à grumes</div>
+            <div class="sdesc">Réception, tri et stockage des bois ronds à l'arrivée des camions.</div>
+          </div>
+        </div>
+        <div class="showcase-step" data-img="1">
+          <div class="snum">02</div>
+          <div>
+            <div class="sname">Sciage</div>
+            <div class="sdesc">Débit des grumes en plots et avivés sur ligne automatisée.</div>
+          </div>
+        </div>
+        <div class="showcase-step" data-img="2">
+          <div class="snum">03</div>
+          <div>
+            <div class="sname">Triage &amp; empilage</div>
+            <div class="sdesc">Classement et empilage automatisés des sciages.</div>
+          </div>
+        </div>
+        <div class="showcase-step" data-img="3">
+          <div class="snum">04</div>
+          <div>
+            <div class="sname">Séchage</div>
+            <div class="sdesc">Séchoirs, étuves et sécheurs sous-vide pour un taux d'humidité maîtrisé.</div>
+          </div>
+        </div>
+        <div class="showcase-step" data-img="4">
+          <div class="snum">05</div>
+          <div>
+            <div class="sname">Rabotage</div>
+            <div class="sdesc">Finition, calibrage et lignes de lamellé-collé.</div>
+          </div>
+        </div>
+        <div class="showcase-step" data-img="5">
+          <div class="snum">06</div>
+          <div>
+            <div class="sname">Expédition</div>
+            <div class="sdesc">Conditionnement des produits sciés, prêts à être livrés.</div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-visual">
+        <img class="active" src="images/pellets-convoyeur.jpg" alt="Parc à grumes">
+        <img src="images/sciage-linck.jpg" alt="Sciage">
+        <img src="https://images.unsplash.com/photo-1631325077010-5362410f3a64?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Triage et empilage">
+        <img src="images/sechage-siat3.jpg" alt="Séchage">
+        <img src="https://images.unsplash.com/photo-1634672652995-ee7525bce595?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Rabotage">
+        <img src="https://images.unsplash.com/photo-1533657792955-7f5783c5d182?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Expédition">
+        <span class="showcase-tag">André Technologies — équipement associé</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="industrie">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Nos domaines</p>
+      <h2>Deux métiers, une même exigence.</h2>
+      <p>De la première transformation du bois rond à la valorisation énergétique de chaque connexe, nous équipons chaque étape avec des technologies fiables et éprouvées.</p>
+    </div>
+    <div class="activities reveal">
+      <div class="activity">
+        <div class="activity-bg" style="background-image:url('images/pellets-scierie-chauvin.jpg');"></div>
+        <span class="tag">01 — Industrie bois</span>
+        <h3>Traitement des bois ronds</h3>
+        <p>Depuis l'arrivée des camions en scierie jusqu'au conditionnement des produits sciés, prêts à être expédiés.</p>
+        <div class="taglist">
+          <span>Parc à grumes</span>
+          <span>Lignes de sciage</span>
+          <span>Triage &amp; empilage</span>
+          <span>Séchage</span>
+          <span>Rabotage</span>
+        </div>
+        <a href="industrie-bois.html" class="activity-link">Découvrir le détail <span class="arrow">→</span></a>
+      </div>
+      <div class="activity energy" id="energie">
+        <div class="activity-bg" style="background-image:url('images/pellets-usine-argentine.jpg');"></div>
+        <span class="tag">02 — Bois énergie</span>
+        <h3>Valorisation énergétique</h3>
+        <p>Chaudières biomasse multi-combustibles, production de chaleur et/ou d'électricité, unités de pellets clé en main.</p>
+        <div class="taglist">
+          <span>Chaudières biomasse</span>
+          <span>Cogénération</span>
+          <span>Sécheurs à bande</span>
+          <span>Unités de pellets</span>
+        </div>
+        <a href="bois-energie.html" class="activity-link">Découvrir Bois énergie <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="etudes">
+  <div class="wrap studio reveal">
+    <div>
+      <p class="eyebrow">Bureau d'études</p>
+      <h2 style="font-size:clamp(30px,4vw,44px);">On dessine la ligne avant de la construire.</h2>
+      <p style="color:var(--birch-dim);font-size:15px;margin-top:16px;">Chaque projet démarre par une étude technique sur mesure : implantation, flux, dimensionnement des équipements. Nos partenaires sont les leaders européens de leur domaine, sélectionnés pour leur fiabilité et la qualité de service.</p>
+      <a href="bureau-etudes.html" class="btn" style="margin-top:26px;">Découvrir le bureau d'études</a>
+    </div>
+    <div class="studio-list">
+      <div class="studio-item"><h4>Étude d'implantation &amp; dimensionnement</h4><span>Phase 01</span></div>
+      <div class="studio-item"><h4>Sélection des équipements &amp; partenaires</h4><span>Phase 02</span></div>
+      <div class="studio-item"><h4>Installation &amp; mise en service</h4><span>Phase 03</span></div>
+      <div class="studio-item"><h4>SAV, pièces de rechange 24h/24 — 7j/7</h4><span>Continu</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block why" id="pourquoi">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Pourquoi André Technologies</p>
+      <h2>Un partenaire, pas un fournisseur.</h2>
+      <p>Plus de 40 ans passés au service de l'industrie du bois nous ont appris une chose : la fiabilité se construit avant la vente, et se prouve après.</p>
+    </div>
+  </div>
+  <div class="why-grid reveal">
+    <div class="why-card tilt">
+      <div class="num">A</div>
+      <h4>Partenaires leaders</h4>
+      <p>Nous travaillons en étroite collaboration avec les leaders européens de la technologie bois, sélectionnés pour leur fiabilité.</p>
+    </div>
+    <div class="why-card tilt">
+      <div class="num">B</div>
+      <h4>SAV permanent</h4>
+      <p>Un service après-vente avec pièces de rechange disponible 24h/24 et 7j/7, parce qu'une ligne à l'arrêt coûte cher.</p>
+    </div>
+    <div class="why-card tilt">
+      <div class="num">C</div>
+      <h4>Vision énergétique</h4>
+      <p>La symbiose entre technologies de sciage et de production d'énergie ouvre de nouveaux gains, comme le séchage basse température couplé à la cogénération.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block cta" id="contact">
+  <div class="cta-bg"></div>
+  <div class="wrap cta-inner reveal">
+    <p class="eyebrow">Un projet en tête</p>
+    <h2>Discutons de votre ligne de production.</h2>
+    <p>Que vous partiez d'une feuille blanche ou souhaitiez moderniser une installation existante, notre bureau d'études étudie votre projet avec vous.</p>
+    <div class="hero-actions">
+      <a href="contact.html" class="btn solid magnetic">Discuter de mon projet</a>
+      <a href="mailto:contact@andre-technologies.fr" class="btn magnetic">contact@andre-technologies.fr</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>André Technologies</h5>
+        <p style="max-width:220px;">Ingénierie des industries du bois — parcs à grumes, sciage, séchage, énergie biomasse.</p>
+        <p style="max-width:220px;margin-top:14px;">8 rue Jean Marie Lehn<br>Parc d'activités du Rosenmeer<br>67560 Rosheim, France</p>
+      </div>
+      <div class="footer-col">
+        <h5>Industrie bois</h5>
+        <a href="industrie-bois.html#parc">Parc à grumes</a>
+        <a href="industrie-bois.html#sciage">Lignes de sciage</a>
+        <a href="industrie-bois.html#sechage">Séchage &amp; rabotage</a>
+      </div>
+      <div class="footer-col">
+        <h5>Bois énergie</h5>
+        <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
+        <a href="bois-energie.html#chaudieres">Cogénération</a>
+        <a href="bois-energie.html#pellets">Unités de pellets</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@andre-technologies.fr">contact@andre-technologies.fr</a>
+        <a href="contact.html">SAV 24/7</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 André Technologies</span>
+      <span class="footer-legal"><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Politique de confidentialité</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

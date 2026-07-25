@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bois Énergie — André Technologies</title>
+<meta name="description" content="Chaudières biomasse, cogénération, sécheurs à bande et unités de pellets : André Technologies conçoit des solutions clé en main de valorisation énergétique du bois.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* -------- ajustements propres à cette page -------- */
+  .subhero{height:64vh;min-height:500px;}
+  .breadcrumb{
+    font-family:var(--font-mono);font-size:11.5px;color:var(--birch-dim);
+    letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .breadcrumb a{color:var(--oak-light);}
+  .breadcrumb a:hover{text-decoration:underline;}
+  .intro-block{max-width:720px;}
+  .intro-block p{color:var(--birch-dim);font-size:16px;margin-top:18px;}
+  .spec-list{display:flex;flex-direction:column;gap:0;margin-top:18px;border-top:1px solid var(--line);}
+  .spec-row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);}
+  .spec-row span:first-child{font-family:var(--font-mono);font-size:11.5px;color:var(--steel-light);text-transform:uppercase;letter-spacing:.05em;}
+  .spec-row span:last-child{font-size:13.5px;color:var(--birch-dim);text-align:right;}
+  .spec-note{font-family:var(--font-mono);font-size:10.5px;color:var(--steel-light);margin-top:12px;}
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <nav>
+    <a href="index.html" class="logo"><img src="logo-v2.png" alt="André Technologies" class="logo-img"></a>
+
+    <div class="nav-links">
+      <div class="nav-item">
+        <a href="industrie-bois.html" class="nav-link">Industrie bois <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="industrie-bois.html#parc">Parc à grumes <span>01</span></a>
+          <a href="industrie-bois.html#sciage">Lignes de sciage <span>02</span></a>
+          <a href="industrie-bois.html#triage">Triage &amp; empilage <span>03</span></a>
+          <a href="industrie-bois.html#sechage">Séchoirs &amp; étuves <span>04</span></a>
+          <a href="industrie-bois.html#rabotage">Lignes de rabotage <span>05</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bois-energie.html" class="nav-link active">Bois énergie <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="#chaudieres">Chaudières biomasse</a>
+          <a href="#pellets">Unités de pellets</a>
+          <a href="#sechage">Sécheurs à bande</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bureau-etudes.html" class="nav-link">Bureau d'études</a>
+      </div>
+      <div class="nav-item">
+        <a href="index.html#pourquoi" class="nav-link">Qui sommes-nous</a>
+      </div>
+      <div class="nav-item">
+        <a href="actualites.html" class="nav-link">Actualités</a>
+      </div>
+    </div>
+
+    <a href="contact.html" class="btn solid nav-cta">Nous contacter</a>
+    <button class="burger" id="burger-btn" aria-label="Ouvrir le menu">
+      <span class="bars"><i></i><i></i><i></i></span>
+      Menu
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="industrie-bois.html">Industrie bois</a>
+    <a href="bois-energie.html">Bois énergie</a>
+    <div class="sub">
+      <a href="#chaudieres">Chaudières biomasse</a>
+      <a href="#pellets">Unités de pellets</a>
+    </div>
+    <a href="bureau-etudes.html">Bureau d'études</a>
+    <a href="index.html#pourquoi">Qui sommes-nous</a>
+    <a href="actualites.html">Actualités</a>
+    <a href="contact.html">Contact</a>
+    <div class="contact-line">+33 (0)3 88 95 44 43</div>
+  </div>
+</header>
+
+<section class="hero subhero" id="hero-spotlight">
+  <div class="hero-bg" style="background-image:url('images/pellets-usine-argentine.jpg');"></div>
+  <div class="hero-reveal-layer" id="reveal-layer" style="background-image:url('images/sechage-scs2.jpg');"></div>
+  <span class="hero-reveal-tag" id="reveal-tag">Combustible bois — vue rapprochée</span>
+  <div class="wrap hero-content">
+    <div class="breadcrumb hero-anim hero-fade" style="animation-delay:.1s;"><a href="index.html">Accueil</a> <span>/</span> <span>Bois énergie</span></div>
+    <p class="eyebrow hero-anim hero-fade" style="animation-delay:.2s;">02 — Valorisation énergétique</p>
+    <h1 class="hero-anim hero-fade" style="animation-delay:.35s;">Rien ne se perd,<br>tout se <em>chauffe.</em></h1>
+    <p class="lead hero-anim hero-fade" style="animation-delay:.5s;">Chaque connexe de sciage — écorces, sciures, chutes — devient une ressource. Nous concevons des lignes complètes de valorisation énergétique du bois, de la chaudière à la cogénération.</p>
+    <div class="hero-actions hero-anim hero-fade" style="animation-delay:.65s;">
+      <a href="contact.html" class="btn solid magnetic">Étudier mon projet</a>
+      <a href="#equipements" class="btn magnetic">Voir les équipements</a>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-bottom:70px;">
+  <div class="wrap">
+    <div class="intro-block reveal">
+      <p class="eyebrow">Notre approche</p>
+      <h2 style="font-size:clamp(28px,3.6vw,42px);">Une chaîne complète de valorisation.</h2>
+      <p>La scierie produit naturellement des connexes — écorces, sciures, chutes de sciage. Plutôt que de les traiter comme un déchet, nous les intégrons dans une boucle énergétique : ils deviennent le combustible qui sèche votre bois, chauffe vos bâtiments ou produit de l'électricité. Nos partenaires sont les leaders européens de la chaudière biomasse et de la cogénération.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="equipements" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Fig. 02 — Les équipements</p>
+      <h2>Cinq briques, une installation sur mesure.</h2>
+      <p>Chaque projet combine différemment ces équipements selon votre production de connexes et vos besoins en chaleur ou en électricité. Cliquez pour explorer chacun.</p>
+    </div>
+    <div class="showcase reveal">
+      <div class="showcase-list">
+        <div class="showcase-step active" data-img="0" id="chaudieres">
+          <div class="snum">01</div>
+          <div>
+            <div class="sname">Chaudières biomasse</div>
+            <div class="sdesc">Chaudières multi-combustibles (plaquettes, écorces, sciures) pour la production de chaleur industrielle.</div>
+          </div>
+        </div>
+        <div class="showcase-step" data-img="1">
+          <div class="snum">02</div>
+          <div>
+            <div class="sname">Cogénération</div>
+            <div class="sdesc">Production simultanée de chaleur et d'électricité à partir de la même ressource bois.</div>
+          </div>
+        </div>
+        <div class="showcase-step" data-img="2" id="sechage">
+          <div class="snum">03</div>
+          <div>
+            <div class="sname">Sécheurs à bande</div>
+            <div class="sdesc">Séchage des plaquettes et sciures avant valorisation, pour un pouvoir calorifique optimal.</div>
+          </div>
+        </div>
+        <div class="showcase-step" data-img="3" id="pellets">
+          <div class="snum">04</div>
+          <div>
+            <div class="sname">Unités de pellets</div>
+            <div class="sdesc">Lignes de granulation clé en main : broyage, séchage, compression, conditionnement.</div>
+          </div>
+        </div>
+        <div class="showcase-step" data-img="4">
+          <div class="snum">05</div>
+          <div>
+            <div class="sname">Broyeurs &amp; cribles</div>
+            <div class="sdesc">Calibrage et homogénéisation de la matière avant valorisation ou combustion.</div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-visual">
+        <img class="active" src="images/sechage-scs2.jpg" alt="Chaudière biomasse">
+        <img src="https://images.unsplash.com/photo-1634672652995-ee7525bce595?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Cogénération">
+        <img src="images/sechage-siat3.jpg" alt="Sécheurs à bande">
+        <img src="images/pellets-ensachage.jpg" alt="Unités de pellets">
+        <img src="images/pellets-trommelhacker.jpg" alt="Broyeurs et cribles">
+        <span class="showcase-tag">André Technologies — équipement associé</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Pourquoi valoriser vos connexes</p>
+      <h2>Trois raisons d'y passer.</h2>
+      <p>La valorisation énergétique n'est pas qu'une question d'image : c'est un vrai levier économique et opérationnel pour une scierie.</p>
+    </div>
+  </div>
+  <div class="why-grid reveal">
+    <div class="why-card tilt">
+      <div class="num">A</div>
+      <h4>Autonomie énergétique</h4>
+      <p>Sécher son propre bois avec ses propres connexes réduit la dépendance aux énergies fossiles et leur volatilité de prix.</p>
+    </div>
+    <div class="why-card tilt">
+      <div class="num">B</div>
+      <h4>Valorisation totale</h4>
+      <p>Écorces, sciures et chutes cessent d'être un coût d'évacuation pour devenir une ressource productive.</p>
+    </div>
+    <div class="why-card tilt">
+      <div class="num">C</div>
+      <h4>Retour sur investissement</h4>
+      <p>Selon le volume de connexes disponible, une installation biomasse s'amortit souvent sur quelques années d'exploitation.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block cta" id="contact">
+  <div class="cta-bg" style="background-image:url('images/pellets-transport-stockage.jpg');"></div>
+  <div class="wrap cta-inner reveal">
+    <p class="eyebrow">Un projet bois énergie ?</p>
+    <h2>Parlons de vos connexes.</h2>
+    <p>Notre bureau d'études évalue avec vous le potentiel énergétique de votre production et dimensionne l'installation adaptée.</p>
+    <div class="hero-actions">
+      <a href="contact.html" class="btn solid magnetic">Étudier mon projet</a>
+      <a href="index.html" class="btn magnetic">← Retour à l'accueil</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>André Technologies</h5>
+        <p style="max-width:220px;">Ingénierie des industries du bois — parcs à grumes, sciage, séchage, énergie biomasse.</p>
+        <p style="max-width:220px;margin-top:14px;">8 rue Jean Marie Lehn<br>Parc d'activités du Rosenmeer<br>67560 Rosheim, France</p>
+      </div>
+      <div class="footer-col">
+        <h5>Industrie bois</h5>
+        <a href="industrie-bois.html#parc">Parc à grumes</a>
+        <a href="industrie-bois.html#sciage">Lignes de sciage</a>
+        <a href="industrie-bois.html#sechage">Séchage &amp; rabotage</a>
+      </div>
+      <div class="footer-col">
+        <h5>Bois énergie</h5>
+        <a href="#chaudieres">Chaudières biomasse</a>
+        <a href="#pellets">Unités de pellets</a>
+        <a href="#sechage">Sécheurs à bande</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@andre-technologies.fr">contact@andre-technologies.fr</a>
+        <a href="contact.html">SAV 24/7</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 André Technologies</span>
+      <span class="footer-legal"><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Politique de confidentialité</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

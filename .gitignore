@@ -1,0 +1,15 @@
+# Photos originales (trop lourdes pour le web, déjà redimensionnées dans images/)
+photos/
+
+# Fichiers reçus non exploités (vidéos brutes, zips, téléchargement inachevé)
+*.zip
+*.crdownload
+
+# Outils internes (serveur de test local, réglages Claude Code)
+.claude/
+
+# Autre projet partageant ce même dossier (Biarritz) — ne pas mélanger
+biarritz-app/
+planning-biarritz.jsx
+images/*.webp
+Site web Nael.url

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bureau d'études — André Technologies</title>
+<meta name="description" content="Étude d'implantation, sélection des équipements, installation et SAV : le bureau d'études André Technologies accompagne chaque projet de l'idée à la mise en service.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* -------- ajustements propres à cette page -------- */
+  .subhero{height:58vh;min-height:440px;}
+  .breadcrumb{
+    font-family:var(--font-mono);font-size:11.5px;color:var(--birch-dim);
+    letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .breadcrumb a{color:var(--oak-light);}
+  .breadcrumb a:hover{text-decoration:underline;}
+  .intro-block{max-width:720px;}
+  .intro-block p{color:var(--birch-dim);font-size:16px;margin-top:18px;}
+  .studio-item{align-items:flex-start;}
+  .studio-item .phase-body p{font-size:13.5px;color:var(--birch-dim);margin-top:8px;max-width:540px;}
+  .studio-item span{padding-top:3px;}
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <nav>
+    <a href="index.html" class="logo"><img src="logo-v2.png" alt="André Technologies" class="logo-img"></a>
+
+    <div class="nav-links">
+      <div class="nav-item">
+        <a href="industrie-bois.html" class="nav-link">Industrie bois <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="industrie-bois.html#parc">Parc à grumes <span>01</span></a>
+          <a href="industrie-bois.html#sciage">Lignes de sciage <span>02</span></a>
+          <a href="industrie-bois.html#triage">Triage &amp; empilage <span>03</span></a>
+          <a href="industrie-bois.html#sechage">Séchoirs &amp; étuves <span>04</span></a>
+          <a href="industrie-bois.html#rabotage">Lignes de rabotage <span>05</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bois-energie.html" class="nav-link">Bois énergie <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
+          <a href="bois-energie.html#pellets">Unités de pellets</a>
+          <a href="bois-energie.html#sechage">Sécheurs à bande</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bureau-etudes.html" class="nav-link active">Bureau d'études</a>
+      </div>
+      <div class="nav-item">
+        <a href="index.html#pourquoi" class="nav-link">Qui sommes-nous</a>
+      </div>
+      <div class="nav-item">
+        <a href="actualites.html" class="nav-link">Actualités</a>
+      </div>
+    </div>
+
+    <a href="contact.html" class="btn solid nav-cta">Nous contacter</a>
+    <button class="burger" id="burger-btn" aria-label="Ouvrir le menu">
+      <span class="bars"><i></i><i></i><i></i></span>
+      Menu
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="industrie-bois.html">Industrie bois</a>
+    <a href="bois-energie.html">Bois énergie</a>
+    <a href="bureau-etudes.html">Bureau d'études</a>
+    <a href="index.html#pourquoi">Qui sommes-nous</a>
+    <a href="actualites.html">Actualités</a>
+    <a href="contact.html">Contact</a>
+    <div class="contact-line">+33 (0)3 88 95 44 43</div>
+  </div>
+</header>
+
+<section class="hero subhero" id="hero-spotlight">
+  <div class="hero-bg" style="background-image:url('images/pellets-pelletisation-1.jpg');"></div>
+  <div class="hero-reveal-layer" id="reveal-layer" style="background-image:url('images/sechage-scs2.jpg');"></div>
+  <span class="hero-reveal-tag" id="reveal-tag">Étude technique — vue rapprochée</span>
+  <div class="wrap hero-content">
+    <div class="breadcrumb hero-anim hero-fade" style="animation-delay:.1s;"><a href="index.html">Accueil</a> <span>/</span> <span>Bureau d'études</span></div>
+    <p class="eyebrow hero-anim hero-fade" style="animation-delay:.2s;">Notre méthode</p>
+    <h1 class="hero-anim hero-fade" style="animation-delay:.35s;">On dessine la ligne<br>avant de la <em>construire.</em></h1>
+    <p class="lead hero-anim hero-fade" style="animation-delay:.5s;">Chaque projet, qu'il concerne l'industrie du bois ou la valorisation énergétique, démarre par une étude technique sur mesure — pas par un catalogue. C'est ce travail en amont qui fait la différence une fois la ligne en production.</p>
+    <div class="hero-actions hero-anim hero-fade" style="animation-delay:.65s;">
+      <a href="contact.html" class="btn solid magnetic">Parler à un ingénieur</a>
+      <a href="#phases" class="btn magnetic">Voir les phases</a>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-bottom:70px;">
+  <div class="wrap">
+    <div class="intro-block reveal">
+      <p class="eyebrow">Notre approche</p>
+      <h2 style="font-size:clamp(28px,3.6vw,42px);">Un accompagnement de bout en bout.</h2>
+      <p>Notre bureau d'études intervient de l'implantation à la mise en service, puis reste votre interlocuteur pour le SAV. Nous nous appuyons sur les leaders européens de chaque technologie — scanners, chaudières, séchoirs — pour proposer une solution fiable plutôt qu'une simple addition d'équipements.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="phases" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Fig. 01 — Les phases</p>
+      <h2>Quatre phases, un seul interlocuteur.</h2>
+      <p>De la première esquisse à la ligne en production, vous gardez le même contact chez André Technologies.</p>
+    </div>
+    <div class="studio-list reveal">
+      <div class="studio-item">
+        <div class="phase-body">
+          <h4>Étude d'implantation &amp; dimensionnement</h4>
+          <p>Analyse de vos flux, de vos volumes et de votre bâtiment existant ou à construire. Nous dimensionnons chaque équipement pour votre production réelle, pas pour une moyenne théorique.</p>
+        </div>
+        <span>Phase 01</span>
+      </div>
+      <div class="studio-item">
+        <div class="phase-body">
+          <h4>Sélection des équipements &amp; partenaires</h4>
+          <p>Choix des technologies et des fournisseurs, parmi les leaders européens du secteur, en fonction de vos contraintes techniques et budgétaires.</p>
+        </div>
+        <span>Phase 02</span>
+      </div>
+      <div class="studio-item">
+        <div class="phase-body">
+          <h4>Installation &amp; mise en service</h4>
+          <p>Coordination du chantier, montage des équipements et réglages jusqu'à l'atteinte des performances contractuelles.</p>
+        </div>
+        <span>Phase 03</span>
+      </div>
+      <div class="studio-item">
+        <div class="phase-body">
+          <h4>SAV, pièces de rechange 24h/24 — 7j/7</h4>
+          <p>Une ligne à l'arrêt coûte cher : notre service après-vente et notre stock de pièces restent disponibles en continu.</p>
+        </div>
+        <span>Continu</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Notre philosophie</p>
+      <h2>Ce que change une vraie étude.</h2>
+      <p>Une ligne bien étudiée en amont évite les mauvaises surprises en production.</p>
+    </div>
+  </div>
+  <div class="why-grid reveal">
+    <div class="why-card tilt">
+      <div class="num">A</div>
+      <h4>Un ingénieur dédié</h4>
+      <p>Un même interlocuteur technique suit votre projet de la première visite à la mise en service.</p>
+    </div>
+    <div class="why-card tilt">
+      <div class="num">B</div>
+      <h4>Partenaires leaders</h4>
+      <p>Nous sélectionnons les technologies auprès des leaders européens, pas auprès du fournisseur le moins cher du moment.</p>
+    </div>
+    <div class="why-card tilt">
+      <div class="num">C</div>
+      <h4>Continuité après livraison</h4>
+      <p>L'équipe qui a étudié votre ligne reste disponible pour le SAV — pas de rupture entre le projet et l'exploitation.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block cta" id="contact">
+  <div class="cta-bg" style="background-image:url('images/sechage-scs3.jpg');"></div>
+  <div class="wrap cta-inner reveal">
+    <p class="eyebrow">Un projet à l'étude ?</p>
+    <h2>Parlons de votre implantation.</h2>
+    <p>Décrivez-nous votre projet, même à un stade très amont : notre bureau d'études vous aide à cadrer les besoins avant de parler équipements.</p>
+    <div class="hero-actions">
+      <a href="contact.html" class="btn solid magnetic">Parler à un ingénieur</a>
+      <a href="index.html" class="btn magnetic">← Retour à l'accueil</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>André Technologies</h5>
+        <p style="max-width:220px;">Ingénierie des industries du bois — parcs à grumes, sciage, séchage, énergie biomasse.</p>
+        <p style="max-width:220px;margin-top:14px;">8 rue Jean Marie Lehn<br>Parc d'activités du Rosenmeer<br>67560 Rosheim, France</p>
+      </div>
+      <div class="footer-col">
+        <h5>Industrie bois</h5>
+        <a href="industrie-bois.html#parc">Parc à grumes</a>
+        <a href="industrie-bois.html#sciage">Lignes de sciage</a>
+        <a href="industrie-bois.html#sechage">Séchage &amp; rabotage</a>
+      </div>
+      <div class="footer-col">
+        <h5>Bois énergie</h5>
+        <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
+        <a href="bois-energie.html#pellets">Unités de pellets</a>
+        <a href="bois-energie.html#sechage">Sécheurs à bande</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@andre-technologies.fr">contact@andre-technologies.fr</a>
+        <a href="contact.html">SAV 24/7</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 André Technologies</span>
+      <span class="footer-legal"><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Politique de confidentialité</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

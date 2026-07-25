@@ -1,0 +1,164 @@
+<!--
+  GABARIT D'ARTICLE — à dupliquer pour chaque nouvelle actualité.
+
+  Mode d'emploi :
+  1. Copier ce fichier, le renommer (ex: actualite-nouvelle-chaudiere-biomasse.html).
+  2. Remplacer tous les [placeholders] ci-dessous par le vrai contenu.
+  3. Changer l'image de la section .hero (background-image) par une vraie photo.
+  4. Ajouter une carte correspondante dans actualites.html (voir le commentaire
+     présent dans ce fichier), en la plaçant en premier (plus récent en haut).
+  5. Supprimer ce bloc de commentaire dans le fichier dupliqué.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[Titre de l'actualité] — Actualités — André Technologies</title>
+<meta name="description" content="[Résumé de l'actualité en une phrase, pour les moteurs de recherche.]">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* -------- ajustements propres à cette page -------- */
+  .subhero{height:42vh;min-height:340px;}
+  .breadcrumb{
+    font-family:var(--font-mono);font-size:11.5px;color:var(--birch-dim);
+    letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .breadcrumb a{color:var(--oak-light);}
+  .breadcrumb a:hover{text-decoration:underline;}
+
+  .article-body{max-width:720px;}
+  .article-body img{width:100%;height:340px;object-fit:cover;margin:8px 0 36px;}
+  .article-body p{color:var(--birch-dim);font-size:16px;line-height:1.75;margin-bottom:20px;}
+  .article-back{margin-top:44px;display:inline-flex;}
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <nav>
+    <a href="index.html" class="logo"><img src="logo-v2.png" alt="André Technologies" class="logo-img"></a>
+
+    <div class="nav-links">
+      <div class="nav-item">
+        <a href="industrie-bois.html" class="nav-link">Industrie bois <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="industrie-bois.html#parc">Parc à grumes <span>01</span></a>
+          <a href="industrie-bois.html#sciage">Lignes de sciage <span>02</span></a>
+          <a href="industrie-bois.html#triage">Triage &amp; empilage <span>03</span></a>
+          <a href="industrie-bois.html#sechage">Séchoirs &amp; étuves <span>04</span></a>
+          <a href="industrie-bois.html#rabotage">Lignes de rabotage <span>05</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bois-energie.html" class="nav-link">Bois énergie <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
+          <a href="bois-energie.html#pellets">Unités de pellets</a>
+          <a href="bois-energie.html#sechage">Sécheurs à bande</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bureau-etudes.html" class="nav-link">Bureau d'études</a>
+      </div>
+      <div class="nav-item">
+        <a href="index.html#pourquoi" class="nav-link">Qui sommes-nous</a>
+      </div>
+      <div class="nav-item">
+        <a href="actualites.html" class="nav-link active">Actualités</a>
+      </div>
+    </div>
+
+    <a href="contact.html" class="btn solid nav-cta">Nous contacter</a>
+    <button class="burger" id="burger-btn" aria-label="Ouvrir le menu">
+      <span class="bars"><i></i><i></i><i></i></span>
+      Menu
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="industrie-bois.html">Industrie bois</a>
+    <a href="bois-energie.html">Bois énergie</a>
+    <a href="bureau-etudes.html">Bureau d'études</a>
+    <a href="index.html#pourquoi">Qui sommes-nous</a>
+    <a href="actualites.html">Actualités</a>
+    <a href="contact.html">Contact</a>
+    <div class="contact-line">+33 (0)3 88 95 44 43</div>
+  </div>
+</header>
+
+<section class="hero subhero">
+  <div class="hero-bg" style="background-image:url('[URL de la photo de couverture]');"></div>
+  <div class="wrap hero-content">
+    <div class="breadcrumb hero-anim hero-fade" style="animation-delay:.1s;"><a href="index.html">Accueil</a> <span>/</span> <a href="actualites.html">Actualités</a> <span>/</span> <span>[Titre court]</span></div>
+    <p class="eyebrow hero-anim hero-fade" style="animation-delay:.2s;">[Mois Année]</p>
+    <h1 class="hero-anim hero-fade" style="animation-delay:.35s;">[Titre de<br>l'actualité.]</h1>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="article-body reveal">
+      <p>[Premier paragraphe : le contexte de l'actualité.]</p>
+      <p>[Deuxième paragraphe : le détail — projet, équipement, événement.]</p>
+      <p>[Troisième paragraphe, optionnel : la suite ou l'impact pour les clients.]</p>
+      <a href="actualites.html" class="btn magnetic article-back">← Toutes les actualités</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>André Technologies</h5>
+        <p style="max-width:220px;">Ingénierie des industries du bois — parcs à grumes, sciage, séchage, énergie biomasse.</p>
+        <p style="max-width:220px;margin-top:14px;">8 rue Jean Marie Lehn<br>Parc d'activités du Rosenmeer<br>67560 Rosheim, France</p>
+      </div>
+      <div class="footer-col">
+        <h5>Industrie bois</h5>
+        <a href="industrie-bois.html#parc">Parc à grumes</a>
+        <a href="industrie-bois.html#sciage">Lignes de sciage</a>
+        <a href="industrie-bois.html#sechage">Séchage &amp; rabotage</a>
+      </div>
+      <div class="footer-col">
+        <h5>Bois énergie</h5>
+        <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
+        <a href="bois-energie.html#pellets">Unités de pellets</a>
+        <a href="bois-energie.html#sechage">Sécheurs à bande</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@andre-technologies.fr">contact@andre-technologies.fr</a>
+        <a href="contact.html">SAV 24/7</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 André Technologies</span>
+      <span class="footer-legal"><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Politique de confidentialité</a></span>
+    </div>
+  </div>
+</footer>
+
+<!--
+  Rappel : pour référencer ce nouvel article, ajouter dans actualites.html
+  (dans .news-grid, en premier) :
+
+  <a href="[nom-du-fichier].html" class="news-card tilt">
+    <div class="news-card-img" style="background-image:url('[URL image miniature]');"></div>
+    <div class="news-card-body">
+      <span class="news-date">[Mois Année]</span>
+      <h3>[Titre de l'actualité]</h3>
+      <p>[Extrait d'une ou deux phrases]</p>
+      <span class="news-link">Lire la suite <span class="arrow">→</span></span>
+    </div>
+  </a>
+-->
+
+<script src="script.js"></script>
+</body>
+</html>
