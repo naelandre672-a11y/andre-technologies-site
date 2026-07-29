@@ -1,0 +1,3 @@
+# L'ancienne page actualités est remplacée par la veille technologique.
+# Redirection permanente pour ne pas casser les liens déjà partagés.
+/actualites.html   /veille.html   301

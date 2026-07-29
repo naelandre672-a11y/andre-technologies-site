@@ -6,8 +6,9 @@
 <title>André Technologies — Ingénierie des industries du bois</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<noscript><style>.reveal,.stagger>*{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
 <body>
 
@@ -38,10 +39,14 @@
         <a href="bureau-etudes.html" class="nav-link">Bureau d'études</a>
       </div>
       <div class="nav-item">
-        <a href="#pourquoi" class="nav-link" data-target="pourquoi">Qui sommes-nous</a>
+        <a href="veille.html" class="nav-link">Veille <i class="caret">&#9662;</i></a>
+        <div class="dropdown">
+          <a href="veille.html">Innovations &amp; nouveaut&eacute;s</a>
+          <a href="evenements.html">&Eacute;v&eacute;nements &amp; salons</a>
+        </div>
       </div>
       <div class="nav-item">
-        <a href="actualites.html" class="nav-link">Actualités</a>
+        <a href="#pourquoi" class="nav-link" data-target="pourquoi">Qui sommes-nous</a>
       </div>
     </div>
 
@@ -66,8 +71,12 @@
       <a href="bois-energie.html#pellets">Unités de pellets</a>
     </div>
     <a href="bureau-etudes.html">Bureau d'études</a>
+    <a href="veille.html">Veille</a>
+    <div class="sub">
+      <a href="veille.html">Innovations &amp; nouveaut&eacute;s</a>
+      <a href="evenements.html">&Eacute;v&eacute;nements &amp; salons</a>
+    </div>
     <a href="#pourquoi">Qui sommes-nous</a>
-    <a href="actualites.html">Actualités</a>
     <a href="contact.html">Contact</a>
     <div class="contact-line">+33 (0)3 88 95 44 43</div>
   </div>
@@ -129,7 +138,7 @@
 <section class="block" id="process" style="padding-bottom:100px;">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow">Fig. 01 — Ligne de process</p>
+      <p class="eyebrow">Ligne de process</p>
       <h2>Suivez la grume, étape par étape.</h2>
       <p>Chaque ligne que nous installons suit ce même enchaînement, adapté à votre production. Cliquez sur une étape pour voir l'équipement associé.</p>
     </div>
@@ -247,6 +256,56 @@
   </div>
 </section>
 
+<!--
+  ============================================================
+  APERÇU DE LA VEILLE SUR L'ACCUEIL
+  ============================================================
+  Cette liste reprend les 3 entrées les plus récentes de veille.html.
+  Comme le site est statique, elle ne se met pas à jour toute seule :
+  après avoir ajouté une entrée dans veille.html, recopier ici son titre,
+  sa date et sa catégorie, et supprimer la plus ancienne des trois.
+  Penser aussi à actualiser la date dans .watch-freshness juste au-dessus.
+  ============================================================
+-->
+<section class="block watch" id="veille">
+  <div class="wrap watch-inner">
+    <div class="watch-intro reveal">
+      <p class="eyebrow">Veille technologique</p>
+      <h2>Nous allons voir,<br>vous en profitez.</h2>
+      <p>Nos clients nous demandent chaque année ce qui est sorti de nouveau chez les constructeurs. Nous passons l'année chez eux et dans les salons européens : ce qui vaut le détour pour une scierie française, nous le publions ici.</p>
+      <div class="watch-freshness">Dernière entrée : juillet 2026</div>
+      <div class="watch-actions">
+        <a href="veille.html" class="btn solid magnetic">Consulter la veille</a>
+        <a href="evenements.html" class="btn magnetic">Où nous rencontrer</a>
+      </div>
+    </div>
+
+    <div class="watch-list stagger">
+      <a href="evenements.html" class="watch-item">
+        <span class="watch-when">Juillet 2026</span>
+        <span>
+          <span class="watch-cat">Événements</span>
+          <span class="watch-title">Eurobois 2028 : les dates sont fixées, du 1<sup>er</sup> au 4 février à Lyon</span>
+        </span>
+      </a>
+      <a href="evenements.html" class="watch-item">
+        <span class="watch-when">Juillet 2026</span>
+        <span>
+          <span class="watch-cat">Événements</span>
+          <span class="watch-title">LIGNA 2027 se tiendra du 10 au 14 mai à Hanovre</span>
+        </span>
+      </a>
+      <a href="actualite-nouveau-site.html" class="watch-item">
+        <span class="watch-when">Juillet 2026</span>
+        <span>
+          <span class="watch-cat">Entreprise</span>
+          <span class="watch-title">Nous ouvrons cette page de veille</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="block why" id="pourquoi">
   <div class="wrap">
     <div class="section-head reveal">
@@ -306,6 +365,11 @@
         <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
         <a href="bois-energie.html#chaudieres">Cogénération</a>
         <a href="bois-energie.html#pellets">Unités de pellets</a>
+      </div>
+      <div class="footer-col">
+        <h5>Veille</h5>
+        <a href="veille.html">Innovations &amp; nouveaut&eacute;s</a>
+        <a href="evenements.html">&Eacute;v&eacute;nements &amp; salons</a>
       </div>
       <div class="footer-col">
         <h5>Contact</h5>

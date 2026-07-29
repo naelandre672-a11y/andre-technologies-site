@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Événements &amp; salons — André Technologies</title>
+<meta name="description" content="Où rencontrer André Technologies : Eurobois 2028 à Lyon, LIGNA 2027 à Hanovre. Nous parcourons les salons européens du machinisme bois et rapportons les nouveautés transposables aux scieries françaises.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<noscript><style>.reveal,.stagger>*{opacity:1!important;transform:none!important;}</style></noscript>
+<style>
+  /* -------- ajustements propres à cette page -------- */
+  .subhero{height:52vh;min-height:420px;}
+  .breadcrumb{
+    font-family:var(--font-structural);font-weight:600;font-size:11px;color:var(--zinc-400);
+    letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .breadcrumb a{color:var(--oak-light);}
+  .breadcrumb a:hover{text-decoration:underline;}
+  .placeholder{
+    color:var(--vert-600);background:rgba(120,162,47,0.12);
+    border:1px dashed var(--vert-600);padding:1px 7px;
+    font-family:var(--font-data);font-size:0.88em;white-space:nowrap;
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <nav>
+    <a href="index.html" class="logo"><img src="logo-v2.png" alt="André Technologies" class="logo-img"></a>
+
+    <div class="nav-links">
+      <div class="nav-item">
+        <a href="industrie-bois.html" class="nav-link">Industrie bois <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="industrie-bois.html#parc">Parc à grumes <span>01</span></a>
+          <a href="industrie-bois.html#sciage">Lignes de sciage <span>02</span></a>
+          <a href="industrie-bois.html#triage">Triage &amp; empilage <span>03</span></a>
+          <a href="industrie-bois.html#sechage">Séchoirs &amp; étuves <span>04</span></a>
+          <a href="industrie-bois.html#rabotage">Lignes de rabotage <span>05</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bois-energie.html" class="nav-link">Bois énergie <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
+          <a href="bois-energie.html#pellets">Unités de pellets</a>
+          <a href="bois-energie.html#sechage">Sécheurs à bande</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bureau-etudes.html" class="nav-link">Bureau d'études</a>
+      </div>
+      <div class="nav-item">
+        <a href="veille.html" class="nav-link active">Veille <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="veille.html">Innovations &amp; nouveautés</a>
+          <a href="evenements.html">Événements &amp; salons</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="index.html#pourquoi" class="nav-link">Qui sommes-nous</a>
+      </div>
+    </div>
+
+    <a href="contact.html" class="btn solid nav-cta">Nous contacter</a>
+    <button class="burger" id="burger-btn" aria-label="Ouvrir le menu">
+      <span class="bars"><i></i><i></i><i></i></span>
+      Menu
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="industrie-bois.html">Industrie bois</a>
+    <a href="bois-energie.html">Bois énergie</a>
+    <a href="bureau-etudes.html">Bureau d'études</a>
+    <a href="veille.html">Veille</a>
+    <div class="sub">
+      <a href="veille.html">Innovations &amp; nouveautés</a>
+      <a href="evenements.html">Événements &amp; salons</a>
+    </div>
+    <a href="index.html#pourquoi">Qui sommes-nous</a>
+    <a href="contact.html">Contact</a>
+    <div class="contact-line">+33 (0)3 88 95 44 43</div>
+  </div>
+</header>
+
+<section class="hero subhero">
+  <div class="hero-bg" style="background-image:url('images/pellets-usine-bresil.jpg');"></div>
+  <div class="wrap hero-content">
+    <div class="breadcrumb hero-anim hero-fade" style="animation-delay:.1s;"><a href="index.html">Accueil</a> <span>/</span> <a href="veille.html">Veille</a> <span>/</span> <span>Événements</span></div>
+    <p class="eyebrow hero-anim hero-fade" style="animation-delay:.2s;">Événements &amp; salons</p>
+    <h1 class="hero-anim hero-fade" style="animation-delay:.35s;">Où nous <em>rencontrer.</em></h1>
+    <p class="lead hero-anim hero-fade" style="animation-delay:.5s;">Nous parcourons les salons européens du machinisme bois pour voir les nouveautés avant qu'elles n'arrivent en France. Venez nous y retrouver, ou lisez ce que nous en rapportons.</p>
+  </div>
+</section>
+
+<!--
+  ============================================================
+  METTRE À JOUR LE COMPTE À REBOURS
+  ============================================================
+  La date cible est dans l'attribut data-countdown ci-dessous, au format
+  AAAA-MM-JJTHH:MM:SS. Il n'y a rien d'autre à modifier : le décompte se
+  calcule tout seul, et s'arrête proprement une fois le salon passé.
+  Quand LIGNA 2027 sera terminé, remplacer la date par celle d'Eurobois
+  (2028-02-01T09:00:00) et adapter le titre juste en dessous.
+  ============================================================
+-->
+<section class="block" style="padding-top:70px;padding-bottom:40px;">
+  <div class="wrap">
+    <div class="countdown reveal" data-countdown="2027-05-10T09:00:00">
+      <div class="cd-intro">
+        <p class="eyebrow">Prochain rendez-vous</p>
+        <h3>LIGNA 2027, Hanovre</h3>
+        <p>Le plus grand salon mondial du machinisme bois. C'est là que nos partenaires autrichiens et allemands dévoilent leurs nouveautés, souvent deux ans avant qu'on les voie sur le marché français.</p>
+        <div class="cd-meta">
+          <span>10 – 14 mai 2027</span>
+          <span>Hanovre, Allemagne</span>
+        </div>
+      </div>
+      <div class="cd-grid">
+        <div class="cd-unit"><div class="cd-num" data-cd="days">—</div><div class="cd-label">Jours</div></div>
+        <div class="cd-unit"><div class="cd-num" data-cd="hours">—</div><div class="cd-label">Heures</div></div>
+        <div class="cd-unit"><div class="cd-num" data-cd="mins">—</div><div class="cd-label">Min</div></div>
+        <div class="cd-unit"><div class="cd-num" data-cd="secs">—</div><div class="cd-label">Sec</div></div>
+      </div>
+      <p class="cd-past" hidden>Ce salon vient de se tenir. Le compte-rendu de ce que nous y avons vu arrive dans la veille.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block doc" style="padding-top:70px;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">L'agenda</p>
+      <h2>Les deux rendez-vous qui comptent.</h2>
+      <p>L'un est le laboratoire européen des nouveautés, l'autre le lieu où la filière française se retrouve. Nous allons aux deux, pour des raisons différentes.</p>
+    </div>
+
+    <div class="events stagger">
+      <article class="event">
+        <span class="event-role exposant">Nous exposons</span>
+        <h3>Eurobois 2028</h3>
+        <div class="event-when">1<sup>er</sup> – 4 février 2028</div>
+        <div class="event-where">Eurexpo Lyon, France</div>
+        <p>Le rendez-vous biennal de la filière bois française. C'est le seul moment de l'année où vous pouvez comparer plusieurs constructeurs sur un même site, en une journée, et discuter d'un projet de ligne face aux machines plutôt que sur plan.</p>
+        <!-- Renseigner le numéro de stand dès qu'il est attribué par l'organisateur. -->
+        <div class="event-stand">Stand <span class="placeholder">[n° à confirmer]</span> — prenez rendez-vous à l'avance, nous bloquons du temps pour les projets à l'étude.</div>
+      </article>
+
+      <article class="event">
+        <span class="event-role visiteur">Nous y allons pour vous</span>
+        <h3>LIGNA 2027</h3>
+        <div class="event-when">10 – 14 mai 2027</div>
+        <div class="event-where">Hanovre, Allemagne</div>
+        <p>Le salon mondial de référence, qui passe au printemps des années impaires à partir de 2027. Nous nous y déplaçons pour repérer ce qui est réellement transposable à une scierie française — puis nous le publions dans la veille, en français et sans jargon commercial.</p>
+        <div class="event-stand">Une question précise à poser sur place ? <a href="contact.html" style="color:var(--vert-600);text-decoration:underline;">Dites-le nous avant</a>, nous irons voir.</div>
+      </article>
+    </div>
+
+    <div class="section-head reveal" style="margin-top:70px;margin-bottom:0;">
+      <p class="eyebrow">Après le salon</p>
+      <h2>Ce que nous en rapportons.</h2>
+      <p>Chaque déplacement donne lieu à un compte-rendu dans la veille : les nouveautés qui méritent le détour, celles qui n'apportent rien, et ce qui vaut le coup pour une scierie de votre taille.</p>
+      <a href="veille.html" class="entry-more" style="align-self:flex-start;">Consulter la veille <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>André Technologies</h5>
+        <p style="max-width:220px;">Ingénierie des industries du bois — parcs à grumes, sciage, séchage, énergie biomasse.</p>
+        <p style="max-width:220px;margin-top:14px;">8 rue Jean Marie Lehn<br>Parc d'activités du Rosenmeer<br>67560 Rosheim, France</p>
+      </div>
+      <div class="footer-col">
+        <h5>Industrie bois</h5>
+        <a href="industrie-bois.html#parc">Parc à grumes</a>
+        <a href="industrie-bois.html#sciage">Lignes de sciage</a>
+        <a href="industrie-bois.html#sechage">Séchage &amp; rabotage</a>
+      </div>
+      <div class="footer-col">
+        <h5>Bois &eacute;nergie</h5>
+        <a href="bois-energie.html#chaudieres">Chaudi&egrave;res biomasse</a>
+        <a href="bois-energie.html#pellets">Unit&eacute;s de pellets</a>
+      </div>
+      <div class="footer-col">
+        <h5>Veille</h5>
+        <a href="veille.html">Innovations &amp; nouveautés</a>
+        <a href="evenements.html">Événements &amp; salons</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@andre-technologies.fr">contact@andre-technologies.fr</a>
+        <a href="contact.html">SAV 24/7</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 André Technologies</span>
+      <span class="footer-legal"><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Politique de confidentialité</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -7,23 +7,20 @@
 <meta name="description" content="André Technologies lance un nouveau site pour présenter ses deux métiers : l'industrie du bois et le bois énergie.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<noscript><style>.reveal,.stagger>*{opacity:1!important;transform:none!important;}</style></noscript>
 <style>
   /* -------- ajustements propres à cette page -------- */
   .subhero{height:42vh;min-height:340px;}
   .breadcrumb{
-    font-family:var(--font-mono);font-size:11.5px;color:var(--birch-dim);
+    font-family:var(--font-structural);font-weight:600;font-size:11px;color:var(--zinc-400);
     letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
     display:flex;align-items:center;gap:8px;flex-wrap:wrap;
   }
   .breadcrumb a{color:var(--oak-light);}
   .breadcrumb a:hover{text-decoration:underline;}
 
-  .article-body{max-width:720px;}
-  .article-body img{width:100%;height:340px;object-fit:cover;margin:8px 0 36px;}
-  .article-body p{color:var(--birch-dim);font-size:16px;line-height:1.75;margin-bottom:20px;}
-  .article-back{margin-top:44px;display:inline-flex;}
 </style>
 </head>
 <body>
@@ -55,10 +52,14 @@
         <a href="bureau-etudes.html" class="nav-link">Bureau d'études</a>
       </div>
       <div class="nav-item">
-        <a href="index.html#pourquoi" class="nav-link">Qui sommes-nous</a>
+        <a href="veille.html" class="nav-link active">Veille <i class="caret">&#9662;</i></a>
+        <div class="dropdown">
+          <a href="veille.html">Innovations &amp; nouveaut&eacute;s</a>
+          <a href="evenements.html">&Eacute;v&eacute;nements &amp; salons</a>
+        </div>
       </div>
       <div class="nav-item">
-        <a href="actualites.html" class="nav-link active">Actualités</a>
+        <a href="index.html#pourquoi" class="nav-link">Qui sommes-nous</a>
       </div>
     </div>
 
@@ -73,8 +74,12 @@
     <a href="industrie-bois.html">Industrie bois</a>
     <a href="bois-energie.html">Bois énergie</a>
     <a href="bureau-etudes.html">Bureau d'études</a>
+    <a href="veille.html">Veille</a>
+    <div class="sub">
+      <a href="veille.html">Innovations &amp; nouveaut&eacute;s</a>
+      <a href="evenements.html">&Eacute;v&eacute;nements &amp; salons</a>
+    </div>
     <a href="index.html#pourquoi">Qui sommes-nous</a>
-    <a href="actualites.html">Actualités</a>
     <a href="contact.html">Contact</a>
     <div class="contact-line">+33 (0)3 88 95 44 43</div>
   </div>
@@ -83,19 +88,40 @@
 <section class="hero subhero">
   <div class="hero-bg" style="background-image:url('images/pellets-scierie-chauvin.jpg');"></div>
   <div class="wrap hero-content">
-    <div class="breadcrumb hero-anim hero-fade" style="animation-delay:.1s;"><a href="index.html">Accueil</a> <span>/</span> <a href="actualites.html">Actualités</a> <span>/</span> <span>Nouveau site</span></div>
+    <div class="breadcrumb hero-anim hero-fade" style="animation-delay:.1s;"><a href="index.html">Accueil</a> <span>/</span> <a href="veille.html">Veille</a> <span>/</span> <span>Nouveau site</span></div>
     <p class="eyebrow hero-anim hero-fade" style="animation-delay:.2s;">Juillet 2026</p>
     <h1 class="hero-anim hero-fade" style="animation-delay:.35s;">Un nouveau site pour<br><em>André Technologies.</em></h1>
   </div>
 </section>
 
-<section class="block">
+<section class="block article">
   <div class="wrap">
     <div class="article-body reveal">
+
+      <div class="article-stamp">
+        <span class="a-date">Juillet 2026</span>
+        <span class="a-src">André Technologies</span>
+        <span class="a-cat">Entreprise</span>
+      </div>
+
+      <p class="lede">Chaque année, sur les salons, un client nous pose la même question : qu'est-ce qui est sorti de nouveau ? Nous ouvrons une page de veille pour y répondre toute l'année, pas seulement tous les deux ans.</p>
+
       <p>André Technologies fait peau neuve en ligne. Ce nouveau site présente plus clairement nos deux métiers — l'ingénierie des industries du bois et la valorisation énergétique du bois — ainsi que le rôle de notre bureau d'études, qui accompagne chaque projet de l'implantation à la mise en service.</p>
-      <p>Vous y retrouverez le détail des étapes que nous équipons, du parc à grumes jusqu'au rabotage côté industrie bois, et des chaudières biomasse jusqu'aux unités de pellets côté bois énergie. Une rubrique Actualités, comme celle-ci, nous permettra de partager régulièrement nos projets et l'actualité de l'entreprise.</p>
-      <p>Ce site continuera d'évoluer dans les prochaines semaines, notamment avec l'ajout de photos de nos installations. N'hésitez pas à nous contacter pour toute question sur vos projets.</p>
-      <a href="actualites.html" class="btn magnetic article-back">← Toutes les actualités</a>
+
+      <p>Vous y retrouverez le détail des étapes que nous équipons : du parc à grumes jusqu'au rabotage côté industrie bois, des chaudières biomasse jusqu'aux unités de pellets côté bois énergie.</p>
+
+      <h2>Une page de veille, plutôt qu'une page d'actualités</h2>
+
+      <p>Nous aurions pu nous contenter d'une rubrique classique où l'entreprise parle d'elle-même. Nous avons préféré autre chose. Notre position d'intermédiaire entre les constructeurs européens et les scieries françaises nous donne accès, chaque année, à des informations que nos clients n'ont pas le temps d'aller chercher eux-mêmes.</p>
+
+      <div class="callout">
+        <strong>Ce que ça change pour votre scierie</strong>
+        <p>Vous n'avez plus besoin d'attendre le prochain salon pour savoir ce qui se fait. Nous publions au fil de l'eau les nouveautés qui nous paraissent transposables à une scierie française — et nous disons aussi quand une nouveauté n'apporte rien.</p>
+      </div>
+
+      <p>Ce site continuera d'évoluer dans les prochaines semaines, notamment avec l'ajout de photos de nos installations. N'hésitez pas à <a href="contact.html">nous contacter</a> pour toute question sur vos projets.</p>
+
+      <a href="veille.html" class="btn magnetic article-back">← Toute la veille</a>
     </div>
   </div>
 </section>
@@ -119,6 +145,11 @@
         <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
         <a href="bois-energie.html#pellets">Unités de pellets</a>
         <a href="bois-energie.html#sechage">Sécheurs à bande</a>
+      </div>
+      <div class="footer-col">
+        <h5>Veille</h5>
+        <a href="veille.html">Innovations &amp; nouveaut&eacute;s</a>
+        <a href="evenements.html">&Eacute;v&eacute;nements &amp; salons</a>
       </div>
       <div class="footer-col">
         <h5>Contact</h5>

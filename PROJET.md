@@ -11,12 +11,38 @@ Projet mené par Nael André (fils du dirigeant), qui apprend le développement
 web en construisant ce site. Il gère seul le contenu (mises à jour mensuelles),
 d'où le choix d'un **site statique HTML/CSS/JS** plutôt qu'un CMS.
 
-## Système de design
-- **Couleurs** (dans style.css `:root`) : vert de marque `#78A22F` (--oak),
-  gris de marque `#A7ACB3` (--steel-light), anthracite `#191A1C` (--graphite),
-  fond clair `#F4F5F2` (--birch). Palette directement extraite du logo réel.
-- **Typographies** : Big Shoulders Display (titres, condensé/industriel),
-  Work Sans (texte courant), IBM Plex Mono (labels techniques, chiffres).
+## Système de design (refondu le 29/07/2026)
+La première version utilisait Big Shoulders Display + Work Sans + IBM Plex Mono
+sur fond quasi-noir avec un seul accent vert : exactement le rendu par défaut
+d'une IA. Retour client explicite là-dessus, d'où cette refonte.
+
+**Trois voix typographiques, chacune avec une règle stricte :**
+- `--font-structural` — **Archivo**. Tout ce qui structure : navigation, boutons,
+  titres des pages métier, libellés. Son axe de chasse variable sert les grands
+  titres en capitales élargies (`font-variation-settings:'wdth' 112`), qui
+  reprennent le lettrage des plaques signalétiques de machines.
+- `--font-editorial` — **Newsreader**. Dessinée pour la presse. Prend le relais
+  dès qu'il s'agit de **lire** : veille, articles, chapôs, citations. Le site
+  change de voix quand il arrête de vendre et se met à informer.
+- `--font-data` — **DM Mono**. Réservée aux **vrais chiffres** : dates, mesures,
+  références, compte à rebours, chiffres clés. Plus jamais d'étiquette
+  décorative en mono — si c'est en mono, c'est une valeur.
+
+**Couleurs** (dans style.css `:root`) — trois matières prises dans le monde
+du client, plutôt qu'un fond noir et un accent :
+- `--acier-900/800/700/600` : l'acier des bâtis de machines, plus froid qu'un
+  noir neutre.
+- `--zinc-400/300/200` : le zinc galvanisé des goulottes et convoyeurs, couleur
+  relevée directement sur les installations Springer de la vidéo.
+- `--doc` / `--doc-2` / `--doc-3` / `--doc-ink` : le papier d'une documentation
+  technique, volontairement froid (et non crème). C'est la surface des pages de
+  veille et des articles.
+- `--vert-600/500/400` : le vert du logo, redevenu **signal** (nouveauté, état
+  actif, lien) et non décoration.
+- `--braise` : réservé au bois énergie.
+
+Les anciens noms (`--graphite`, `--oak`, `--birch`...) sont conservés comme
+alias pointant vers les nouvelles valeurs, pour ne pas réécrire chaque règle.
 - **Logo** : `logo-v2.png`, fond transparent, à utiliser tel quel (ne pas
   recréer de "puce" de fond, contrairement à un ancien essai avec un logo
   sans transparence).
@@ -36,9 +62,12 @@ d'où le choix d'un **site statique HTML/CSS/JS** plutôt qu'un CMS.
   il faut créer un compte Formspree (ou équivalent) et coller le vrai
   endpoint avant la mise en ligne. En attendant, le formulaire affiche un
   message clair invitant à écrire directement par email.
-- `actualites.html` — liste des actualités (cartes réutilisables)
+- `veille.html` — **le cœur de la refonte du 29/07/2026** (voir plus bas).
+  Remplace l'ancienne `actualites.html`, supprimée ; une redirection 301 est
+  posée dans `_redirects` pour ne pas casser les liens déjà partagés.
+- `evenements.html` — agenda des salons + compte à rebours vers le prochain
 - `actualite-nouveau-site.html` — premier article réel (annonce du site)
-- `actualite-modele.html` — gabarit à dupliquer pour chaque nouvelle actu
+- `actualite-modele.html` — gabarit à dupliquer pour chaque nouvel article
   (non lié depuis la navigation, contient des instructions en commentaire)
 - `mentions-legales.html` / `politique-confidentialite.html` — pages
   légales obligatoires. **Contiennent des placeholders en évidence**
@@ -140,6 +169,55 @@ Infobulle au survol avec une courte description de la spécialité de chacun
 André Technologies si possible). Fond clair sans bordure (ombre douce à la
 place, cf retour du client sur le rendu "boîte" trop marqué).
 
+## Veille technologique — refonte stratégique du 29/07/2026
+Demande du PDG d'André Technologies après avoir vu la v1 : le site doit
+**apporter une information utile au client**, pas seulement présenter
+l'entreprise. Son exemple : un client lui demande chaque année, sur le salon
+Eurobois, ce qui est sorti de nouveau chez les constructeurs.
+
+Le positionnement qui en découle : André Technologies est l'intermédiaire entre
+les constructeurs européens (Linck, Springer, Urbas, Mühlböck, Rudnick) et les
+scieries françaises. C'est donc légitimement **la source d'information technique
+de la filière en France**. Le site devient un service, pas une brochure.
+
+**Ce qui a été construit :**
+- `veille.html` — le relevé. Chaque entrée est estampillée date, catégorie et
+  **provenance** (salon, communiqué constructeur, retour de chantier), pour que
+  le lecteur sache toujours ce qu'il lit. Filtres par catégorie **générés
+  automatiquement** à partir des `data-cat` présentes : ajouter une entrée dans
+  une nouvelle catégorie fait apparaître son filtre, sans toucher au code.
+- Le bloc `.entry-impact` (« Ce que ça change pour votre scierie ») est le
+  cœur de la valeur ajoutée : l'info brute existe déjà chez le constructeur,
+  l'analyse pour une scierie française non. **Si un jour il n'y a rien à en
+  dire, supprimer le bloc plutôt que de le remplir de généralités.**
+- `evenements.html` — LIGNA 2027 (10-14 mai, Hanovre, on y va en visiteur) et
+  Eurobois 2028 (1-4 février, Eurexpo Lyon, **on y expose**). Compte à rebours
+  live vers la prochaine échéance : la date cible est dans l'attribut
+  `data-countdown`, rien d'autre à modifier. L'état « salon passé » est géré
+  (message dédié, jamais de nombres négatifs).
+- Sur l'accueil, la veille devient un **pilier** au même niveau que les deux
+  métiers (section `.watch`), avec les 3 dernières entrées et la date de
+  dernière mise à jour affichée franchement — ce qui oblige à la tenir à jour.
+- Navigation : « Actualités » disparaît, remplacé par « Veille » (avec
+  sous-menu Innovations / Événements), placé **avant** « Qui sommes-nous ».
+- Bloc d'inscription à la veille, prêt à brancher sur Brevo (gratuit jusqu'à
+  ~2000 contacts) : remplacer `SUBSCRIBE_ENDPOINT` en bas de `veille.html`.
+  Tant que ce n'est pas fait, le formulaire le dit honnêtement au lieu de faire
+  semblant d'enregistrer.
+
+**Rythme convenu : une entrée par mois**, rédigée par André Technologies.
+Le mode d'emploi complet est en commentaire directement dans `veille.html`.
+
+⚠️ **Une entrée exemple** (badge vert pointillé « Exemple de mise en forme »)
+est encore dans le relevé pour montrer la structure complète : à supprimer dès
+que les vraies entrées sont écrites. Le numéro de stand Eurobois est également
+en placeholder dans `evenements.html`.
+
+⚠️ **Ne pas récupérer automatiquement (scraper) le contenu des sites
+partenaires** : problème de droits d'auteur et casse à la moindre refonte de
+leur site. La bonne méthode est de demander aux constructeurs d'être mis en
+copie de leurs communiqués — c'est dans leur intérêt commercial.
+
 ## Hébergement (fait le 24/07/2026, déploiement continu ajouté le 25/07/2026)
 Le code est versionné sur GitHub (`naelandre672-a11y/andre-technologies-site`,
 branche `main`) et le site est hébergé sur Netlify, lié à ce dépôt :
@@ -153,6 +231,15 @@ andre-technologies.fr dessus.
       — sauf Rabotage et Expédition encore en photo de stock faute de
       matière fournie (voir section Images / Vidéos)
 - [x] Hébergement — en ligne sur Netlify, reste à lier un compte + le domaine
+- [x] Refonte typographique et chromatique (29/07/2026)
+- [x] Rubrique veille technologique + événements (29/07/2026)
+- [ ] **Écrire les premières vraies entrées de veille** et supprimer l'entrée
+      exemple dans `veille.html` — c'est le point bloquant avant publication
+- [ ] Demander aux constructeurs partenaires d'être mis en copie de leurs
+      communiqués de nouveautés (matière première de la veille)
+- [ ] Renseigner le n° de stand Eurobois 2028 dans `evenements.html`
+- [ ] Créer le compte Brevo et coller l'URL dans `SUBSCRIBE_ENDPOINT`
+      (bas de `veille.html`)
 - [ ] Connecter le formulaire de contact à un vrai service d'envoi
       (`FORM_ENDPOINT` dans `contact.html`)
 - [ ] Compléter les informations légales réelles restantes dans

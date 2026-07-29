@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veille technologique — André Technologies</title>
+<meta name="description" content="Les nouveautés de la filière bois décryptées par André Technologies : innovations machines, séchage, bois énergie et automatisation, avec ce que chaque évolution change concrètement pour une scierie française.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<noscript><style>.reveal,.stagger>*{opacity:1!important;transform:none!important;}</style></noscript>
+<style>
+  /* -------- ajustements propres à cette page -------- */
+  .subhero{height:52vh;min-height:420px;}
+  .breadcrumb{
+    font-family:var(--font-structural);font-weight:600;font-size:11px;color:var(--zinc-400);
+    letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .breadcrumb a{color:var(--oak-light);}
+  .breadcrumb a:hover{text-decoration:underline;}
+  /* Badge qui signale une entrée de démonstration. À supprimer en même
+     temps que l'entrée exemple, une fois les vraies entrées rédigées. */
+  .demo-badge{
+    display:inline-block;margin-bottom:8px;
+    font-family:var(--font-structural);font-weight:700;
+    font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--vert-600);background:rgba(120,162,47,0.12);
+    border:1px dashed var(--vert-600);padding:3px 8px;
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <nav>
+    <a href="index.html" class="logo"><img src="logo-v2.png" alt="André Technologies" class="logo-img"></a>
+
+    <div class="nav-links">
+      <div class="nav-item">
+        <a href="industrie-bois.html" class="nav-link">Industrie bois <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="industrie-bois.html#parc">Parc à grumes <span>01</span></a>
+          <a href="industrie-bois.html#sciage">Lignes de sciage <span>02</span></a>
+          <a href="industrie-bois.html#triage">Triage &amp; empilage <span>03</span></a>
+          <a href="industrie-bois.html#sechage">Séchoirs &amp; étuves <span>04</span></a>
+          <a href="industrie-bois.html#rabotage">Lignes de rabotage <span>05</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bois-energie.html" class="nav-link">Bois énergie <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="bois-energie.html#chaudieres">Chaudières biomasse</a>
+          <a href="bois-energie.html#pellets">Unités de pellets</a>
+          <a href="bois-energie.html#sechage">Sécheurs à bande</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="bureau-etudes.html" class="nav-link">Bureau d'études</a>
+      </div>
+      <div class="nav-item">
+        <a href="veille.html" class="nav-link active">Veille <i class="caret">▾</i></a>
+        <div class="dropdown">
+          <a href="veille.html">Innovations &amp; nouveautés</a>
+          <a href="evenements.html">Événements &amp; salons</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="index.html#pourquoi" class="nav-link">Qui sommes-nous</a>
+      </div>
+    </div>
+
+    <a href="contact.html" class="btn solid nav-cta">Nous contacter</a>
+    <button class="burger" id="burger-btn" aria-label="Ouvrir le menu">
+      <span class="bars"><i></i><i></i><i></i></span>
+      Menu
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="industrie-bois.html">Industrie bois</a>
+    <a href="bois-energie.html">Bois énergie</a>
+    <a href="bureau-etudes.html">Bureau d'études</a>
+    <a href="veille.html">Veille</a>
+    <div class="sub">
+      <a href="veille.html">Innovations &amp; nouveautés</a>
+      <a href="evenements.html">Événements &amp; salons</a>
+    </div>
+    <a href="index.html#pourquoi">Qui sommes-nous</a>
+    <a href="contact.html">Contact</a>
+    <div class="contact-line">+33 (0)3 88 95 44 43</div>
+  </div>
+</header>
+
+<section class="hero subhero">
+  <div class="hero-bg" style="background-image:url('images/pellets-scierie-chauvin.jpg');"></div>
+  <div class="wrap hero-content">
+    <div class="breadcrumb hero-anim hero-fade" style="animation-delay:.1s;"><a href="index.html">Accueil</a> <span>/</span> <span>Veille</span></div>
+    <p class="eyebrow hero-anim hero-fade" style="animation-delay:.2s;">Veille technologique</p>
+    <h1 class="hero-anim hero-fade" style="animation-delay:.35s;">Ce qui change<br>dans <em>la filière.</em></h1>
+    <p class="lead hero-anim hero-fade" style="animation-delay:.5s;">Nous passons l'année chez les constructeurs européens et dans les salons. Ce que nous y voyons de transposable à une scierie française, nous le publions ici — avec ce que ça change vraiment pour vous.</p>
+  </div>
+</section>
+
+<!-- Le relevé bascule en mode bulletin : surface claire, typographie de lecture.
+     Le changement de registre est intentionnel — on n'est plus dans la vitrine
+     commerciale mais dans le service d'information. -->
+<section class="block doc" style="padding-top:70px;">
+  <div class="wrap">
+
+    <div class="register-head reveal">
+      <div class="section-head" style="margin-bottom:0;">
+        <p class="eyebrow">Le relevé</p>
+        <h2>Chaque entrée, datée et sourcée.</h2>
+        <p>Nous indiquons systématiquement d'où vient l'information : salon, communiqué constructeur ou retour de chantier. Vous savez ce que vous lisez.</p>
+      </div>
+      <span class="count" id="entry-count"></span>
+    </div>
+
+    <!-- Les filtres sont construits automatiquement à partir des data-cat
+         présentes dans le relevé : ajouter une entrée dans une nouvelle
+         catégorie fait apparaître le filtre correspondant, sans rien coder. -->
+    <div class="filters reveal" id="filters" role="group" aria-label="Filtrer par catégorie"></div>
+
+    <!--
+      ============================================================
+      AJOUTER UNE ENTRÉE DE VEILLE
+      ============================================================
+      1. Copier un bloc <article class="entry"> complet ci-dessous.
+      2. Le coller EN HAUT de la liste (le plus récent en premier).
+      3. Incrémenter le numéro dans .entry-no (N° 005, 006...).
+      4. Renseigner data-cat avec UNE de ces valeurs, à l'identique :
+           sciage · sechage · energie · automatisation · evenements · entreprise
+         (c'est ce qui fait fonctionner les filtres)
+      5. Remplir .entry-date, .entry-src (la provenance), le titre et le résumé.
+      6. Le bloc .entry-impact est le plus important : c'est votre analyse,
+         ce que l'information change concrètement pour une scierie française.
+         C'est ce qui distingue cette page d'un simple relais de communiqué.
+         Si vous n'avez rien à en dire, supprimez le bloc plutôt que de le remplir
+         avec du vide.
+      7. Pour un article complet, dupliquer actualite-modele.html et pointer
+         .entry-more dessus. Sinon, supprimer le lien .entry-more.
+      ============================================================
+    -->
+    <div class="register stagger" id="register">
+
+      <!-- ENTRÉE EXEMPLE — à supprimer une fois les vraies entrées en place.
+           Elle sert uniquement à montrer la mise en forme complète. -->
+      <article class="entry" data-cat="sciage">
+        <div class="entry-stamp">
+          <span class="entry-no">N° 004</span>
+          <span class="entry-date">— · — · 2026</span>
+          <span class="entry-src">Provenance à renseigner</span>
+          <span class="entry-cat">Sciage</span>
+        </div>
+        <div class="entry-body">
+          <span class="demo-badge">Exemple de mise en forme — à remplacer</span>
+          <h3>Le titre de la nouveauté, en une phrase claire</h3>
+          <p class="entry-sum">Deux à quatre phrases pour décrire ce qui est nouveau, sans jargon inutile : de quoi il s'agit, chez quel constructeur, et sur quel type d'installation ça s'applique. Le lecteur doit comprendre l'essentiel sans cliquer.</p>
+          <div class="entry-impact">
+            <strong>Ce que ça change pour votre scierie</strong>
+            <p>Votre analyse, en deux ou trois phrases : pour quel profil de scierie c'est pertinent, à partir de quel volume ça devient intéressant, et ce que ça implique côté investissement ou exploitation. C'est cette partie que vos clients ne trouveront nulle part ailleurs.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry" data-cat="evenements">
+        <div class="entry-stamp">
+          <span class="entry-no">N° 003</span>
+          <span class="entry-date">Juillet 2026</span>
+          <span class="entry-src">Organisateur du salon</span>
+          <span class="entry-cat">Événements</span>
+        </div>
+        <div class="entry-body">
+          <h3>Eurobois 2028 : les dates sont fixées, du 1<sup>er</sup> au 4 février à Lyon</h3>
+          <p class="entry-sum">La prochaine édition du salon français de la filière bois se tiendra à Eurexpo Lyon. Le rendez-vous reste biennal et rassemble l'essentiel des constructeurs de machines présents sur le marché français.</p>
+          <div class="entry-impact">
+            <strong>Ce que ça change pour votre scierie</strong>
+            <p>C'est le seul moment de l'année où vous pouvez comparer plusieurs constructeurs sur un même site, en une journée. Nous y tenons un stand : si vous avez un projet de ligne à l'étude, c'est l'occasion d'en discuter face aux machines plutôt que sur plan.</p>
+          </div>
+          <a href="evenements.html" class="entry-more">Voir l'agenda des salons <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="entry" data-cat="evenements">
+        <div class="entry-stamp">
+          <span class="entry-no">N° 002</span>
+          <span class="entry-date">Juillet 2026</span>
+          <span class="entry-src">Organisateur du salon</span>
+          <span class="entry-cat">Événements</span>
+        </div>
+        <div class="entry-body">
+          <h3>LIGNA 2027 se tiendra du 10 au 14 mai à Hanovre</h3>
+          <p class="entry-sum">Le plus grand salon mondial du machinisme bois change de créneau à partir de 2027 : il quitte la période de l'Ascension et s'installe au printemps des années impaires.</p>
+          <div class="entry-impact">
+            <strong>Ce que ça change pour votre scierie</strong>
+            <p>LIGNA est le salon où nos partenaires autrichiens et allemands présentent leurs nouveautés en avant-première — souvent deux ans avant qu'on les voie en France. Nous nous y déplaçons pour repérer ce qui est réellement transposable à une scierie française, et nous en rendons compte ici.</p>
+          </div>
+          <a href="evenements.html" class="entry-more">Voir l'agenda des salons <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="entry" data-cat="entreprise">
+        <div class="entry-stamp">
+          <span class="entry-no">N° 001</span>
+          <span class="entry-date">Juillet 2026</span>
+          <span class="entry-src">André Technologies</span>
+          <span class="entry-cat">Entreprise</span>
+        </div>
+        <div class="entry-body">
+          <h3>Nous ouvrons cette page de veille</h3>
+          <p class="entry-sum">Nos clients nous demandent chaque année ce qui est sorti de nouveau chez les constructeurs. Plutôt que de répondre une fois par an sur un salon, nous publions désormais ces informations au fil de l'eau.</p>
+          <a href="actualite-nouveau-site.html" class="entry-more">Lire l'article <span>→</span></a>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="register-empty" id="register-empty" hidden>Aucune entrée dans cette catégorie pour le moment.</p>
+
+    <!--
+      ============================================================
+      BRANCHER L'INSCRIPTION À LA VEILLE
+      ============================================================
+      1. Créer un compte gratuit sur brevo.com (jusqu'à 2 000 contacts).
+      2. Créer une liste de contacts, puis un formulaire d'inscription.
+      3. Brevo fournit une URL d'action de formulaire : la coller à la place
+         de VOTRE_ID_BREVO dans SUBSCRIBE_ENDPOINT (bas de cette page).
+      Tant que l'identifiant n'est pas remplacé, le formulaire affiche un
+      message honnête invitant à écrire par email — il ne fait jamais semblant
+      d'avoir enregistré une inscription.
+      ============================================================
+    -->
+    <div class="subscribe reveal">
+      <div class="sub-intro">
+        <h3>Recevoir la veille par email</h3>
+        <p>Un message par mois, avec les nouveautés qui méritent votre attention. Pas de démarchage, et désinscription en un clic.</p>
+      </div>
+      <form id="subscribe-form" novalidate>
+        <div class="sub-row">
+          <label for="sub-email" class="visually-hidden">Votre adresse email</label>
+          <input type="email" id="sub-email" name="email" placeholder="prenom.nom@entreprise.fr" required autocomplete="email">
+          <button type="submit">S'inscrire</button>
+        </div>
+        <label class="sub-consent">
+          <input type="checkbox" name="consent" required>
+          <span>J'accepte de recevoir la veille technologique d'André Technologies. Mon adresse ne sera ni revendue ni transmise à un tiers (<a href="politique-confidentialite.html">politique de confidentialité</a>).</span>
+        </label>
+        <p class="sub-msg" id="sub-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>André Technologies</h5>
+        <p style="max-width:220px;">Ingénierie des industries du bois — parcs à grumes, sciage, séchage, énergie biomasse.</p>
+        <p style="max-width:220px;margin-top:14px;">8 rue Jean Marie Lehn<br>Parc d'activités du Rosenmeer<br>67560 Rosheim, France</p>
+      </div>
+      <div class="footer-col">
+        <h5>Industrie bois</h5>
+        <a href="industrie-bois.html#parc">Parc à grumes</a>
+        <a href="industrie-bois.html#sciage">Lignes de sciage</a>
+        <a href="industrie-bois.html#sechage">Séchage &amp; rabotage</a>
+      </div>
+      <div class="footer-col">
+        <h5>Bois &eacute;nergie</h5>
+        <a href="bois-energie.html#chaudieres">Chaudi&egrave;res biomasse</a>
+        <a href="bois-energie.html#pellets">Unit&eacute;s de pellets</a>
+      </div>
+      <div class="footer-col">
+        <h5>Veille</h5>
+        <a href="veille.html">Innovations &amp; nouveautés</a>
+        <a href="evenements.html">Événements &amp; salons</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@andre-technologies.fr">contact@andre-technologies.fr</a>
+        <a href="contact.html">SAV 24/7</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 André Technologies</span>
+      <span class="footer-legal"><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Politique de confidentialité</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  // Remplacer par l'URL du formulaire fournie par Brevo (voir le mode d'emploi
+  // en commentaire plus haut dans cette page).
+  const SUBSCRIBE_ENDPOINT = 'https://VOTRE_ID_BREVO'; // TODO: coller l'URL Brevo
+
+  const subForm = document.getElementById('subscribe-form');
+  const subMsg = document.getElementById('sub-msg');
+
+  subForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = subForm.email.value.trim();
+    const consent = subForm.consent.checked;
+
+    if (!email || email.indexOf('@') === -1){
+      subMsg.textContent = 'Merci de saisir une adresse email valide.';
+      subMsg.className = 'sub-msg error';
+      return;
+    }
+    if (!consent){
+      subMsg.textContent = 'Merci de cocher la case pour confirmer votre accord.';
+      subMsg.className = 'sub-msg error';
+      return;
+    }
+
+    // Tant que le service n'est pas branché, on le dit franchement plutôt que
+    // de laisser croire à une inscription enregistrée.
+    if (SUBSCRIBE_ENDPOINT.includes('VOTRE_ID_BREVO')){
+      subMsg.textContent = "L'inscription n'est pas encore active — écrivez-nous à contact@andre-technologies.fr et nous vous ajouterons à la liste.";
+      subMsg.className = 'sub-msg error';
+      return;
+    }
+
+    subMsg.textContent = 'Inscription en cours...';
+    subMsg.className = 'sub-msg';
+
+    try {
+      const res = await fetch(SUBSCRIBE_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(subForm),
+        headers: { Accept: 'application/json' }
+      });
+      if (!res.ok) throw new Error('subscribe failed');
+      subMsg.textContent = 'Inscription enregistrée — vous recevrez la prochaine veille.';
+      subMsg.className = 'sub-msg success';
+      subForm.reset();
+    } catch (err) {
+      subMsg.textContent = "L'inscription n'a pas pu aboutir. Écrivez-nous à contact@andre-technologies.fr.";
+      subMsg.className = 'sub-msg error';
+    }
+  });
+</script>
+</body>
+</html>

@@ -8,6 +8,11 @@ photos/
 # Outils internes (serveur de test local, réglages Claude Code)
 .claude/
 
+# Exécutables atterris par erreur dans images/ — ce n'est jamais du contenu de site
+*.exe
+*.msi
+*.winmd
+
 # Autre projet partageant ce même dossier (Biarritz) — ne pas mélanger
 biarritz-app/
 planning-biarritz.jsx

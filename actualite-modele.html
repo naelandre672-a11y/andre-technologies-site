@@ -5,7 +5,7 @@
   1. Copier ce fichier, le renommer (ex: actualite-nouvelle-chaudiere-biomasse.html).
   2. Remplacer tous les [placeholders] ci-dessous par le vrai contenu.
   3. Changer l'image de la section .hero (background-image) par une vraie photo.
-  4. Ajouter une carte correspondante dans actualites.html (voir le commentaire
+  4. Ajouter une carte correspondante dans veille.html (voir le commentaire
      présent dans ce fichier), en la plaçant en premier (plus récent en haut).
   5. Supprimer ce bloc de commentaire dans le fichier dupliqué.
 -->
@@ -18,23 +18,20 @@
 <meta name="description" content="[Résumé de l'actualité en une phrase, pour les moteurs de recherche.]">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<noscript><style>.reveal,.stagger>*{opacity:1!important;transform:none!important;}</style></noscript>
 <style>
   /* -------- ajustements propres à cette page -------- */
   .subhero{height:42vh;min-height:340px;}
   .breadcrumb{
-    font-family:var(--font-mono);font-size:11.5px;color:var(--birch-dim);
+    font-family:var(--font-structural);font-weight:600;font-size:11px;color:var(--zinc-400);
     letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
     display:flex;align-items:center;gap:8px;flex-wrap:wrap;
   }
   .breadcrumb a{color:var(--oak-light);}
   .breadcrumb a:hover{text-decoration:underline;}
 
-  .article-body{max-width:720px;}
-  .article-body img{width:100%;height:340px;object-fit:cover;margin:8px 0 36px;}
-  .article-body p{color:var(--birch-dim);font-size:16px;line-height:1.75;margin-bottom:20px;}
-  .article-back{margin-top:44px;display:inline-flex;}
 </style>
 </head>
 <body>
@@ -66,10 +63,14 @@
         <a href="bureau-etudes.html" class="nav-link">Bureau d'études</a>
       </div>
       <div class="nav-item">
-        <a href="index.html#pourquoi" class="nav-link">Qui sommes-nous</a>
+        <a href="veille.html" class="nav-link active">Veille <i class="caret">&#9662;</i></a>
+        <div class="dropdown">
+          <a href="veille.html">Innovations &amp; nouveaut&eacute;s</a>
+          <a href="evenements.html">&Eacute;v&eacute;nements &amp; salons</a>
+        </div>
       </div>
       <div class="nav-item">
-        <a href="actualites.html" class="nav-link active">Actualités</a>
+        <a href="index.html#pourquoi" class="nav-link">Qui sommes-nous</a>
       </div>
     </div>
 
@@ -84,8 +85,12 @@
     <a href="industrie-bois.html">Industrie bois</a>
     <a href="bois-energie.html">Bois énergie</a>
     <a href="bureau-etudes.html">Bureau d'études</a>
+    <a href="veille.html">Veille</a>
+    <div class="sub">
+      <a href="veille.html">Innovations &amp; nouveaut&eacute;s</a>
+      <a href="evenements.html">&Eacute;v&eacute;nements &amp; salons</a>
+    </div>
     <a href="index.html#pourquoi">Qui sommes-nous</a>
-    <a href="actualites.html">Actualités</a>
     <a href="contact.html">Contact</a>
     <div class="contact-line">+33 (0)3 88 95 44 43</div>
   </div>
@@ -94,19 +99,40 @@
 <section class="hero subhero">
   <div class="hero-bg" style="background-image:url('[URL de la photo de couverture]');"></div>
   <div class="wrap hero-content">
-    <div class="breadcrumb hero-anim hero-fade" style="animation-delay:.1s;"><a href="index.html">Accueil</a> <span>/</span> <a href="actualites.html">Actualités</a> <span>/</span> <span>[Titre court]</span></div>
+    <div class="breadcrumb hero-anim hero-fade" style="animation-delay:.1s;"><a href="index.html">Accueil</a> <span>/</span> <a href="veille.html">Veille</a> <span>/</span> <span>[Titre court]</span></div>
     <p class="eyebrow hero-anim hero-fade" style="animation-delay:.2s;">[Mois Année]</p>
-    <h1 class="hero-anim hero-fade" style="animation-delay:.35s;">[Titre de<br>l'actualité.]</h1>
+    <h1 class="hero-anim hero-fade" style="animation-delay:.35s;">[Titre de<br>l'article.]</h1>
   </div>
 </section>
 
-<section class="block">
+<section class="block article">
   <div class="wrap">
     <div class="article-body reveal">
-      <p>[Premier paragraphe : le contexte de l'actualité.]</p>
-      <p>[Deuxième paragraphe : le détail — projet, équipement, événement.]</p>
-      <p>[Troisième paragraphe, optionnel : la suite ou l'impact pour les clients.]</p>
-      <a href="actualites.html" class="btn magnetic article-back">← Toutes les actualités</a>
+
+      <!-- L'estampille reprend exactement les mêmes informations que dans le
+           relevé : date, catégorie, provenance. Le lecteur retrouve ses repères. -->
+      <div class="article-stamp">
+        <span class="a-date">[Mois Année]</span>
+        <span class="a-src">[Provenance : salon, communiqué constructeur, chantier]</span>
+        <span class="a-cat">[Catégorie]</span>
+      </div>
+
+      <p class="lede">[Chapô : deux phrases qui résument l'essentiel. Le lecteur pressé doit comprendre l'information rien qu'en lisant ce paragraphe.]</p>
+
+      <p>[Le contexte : de quoi s'agit-il, chez quel constructeur, sur quel type d'installation.]</p>
+      <p>[Le détail technique, en français courant. Éviter le vocabulaire de brochure : décrire ce que la machine fait réellement.]</p>
+
+      <!-- Bloc le plus important de l'article : votre analyse. C'est ce que
+           le lecteur ne trouvera nulle part ailleurs. S'il n'y a rien à en dire,
+           supprimer le bloc plutôt que de le remplir de généralités. -->
+      <div class="callout">
+        <strong>Ce que ça change pour votre scierie</strong>
+        <p>[Pour quel profil de scierie c'est pertinent, à partir de quel volume ça devient intéressant, ce que ça implique côté investissement ou exploitation.]</p>
+      </div>
+
+      <p>[La suite : ce qu'on en pense, ce qu'on va suivre, ou comment nous contacter si le sujet intéresse.]</p>
+
+      <a href="veille.html" class="btn magnetic article-back">← Toute la veille</a>
     </div>
   </div>
 </section>
@@ -132,6 +158,11 @@
         <a href="bois-energie.html#sechage">Sécheurs à bande</a>
       </div>
       <div class="footer-col">
+        <h5>Veille</h5>
+        <a href="veille.html">Innovations &amp; nouveaut&eacute;s</a>
+        <a href="evenements.html">&Eacute;v&eacute;nements &amp; salons</a>
+      </div>
+      <div class="footer-col">
         <h5>Contact</h5>
         <a href="mailto:contact@andre-technologies.fr">contact@andre-technologies.fr</a>
         <a href="contact.html">SAV 24/7</a>
@@ -145,7 +176,7 @@
 </footer>
 
 <!--
-  Rappel : pour référencer ce nouvel article, ajouter dans actualites.html
+  Rappel : pour référencer ce nouvel article, ajouter dans veille.html
   (dans .news-grid, en premier) :
 
   <a href="[nom-du-fichier].html" class="news-card tilt">
