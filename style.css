@@ -611,16 +611,21 @@
      ligne de JavaScript. Le script ne fait qu'une chose en plus : désigner
      l'étape active. Si le script tombe, on garde une belle page lisible.
 
-     En mobile .seq reste en display:block : le bloc conteneur est alors
-     toute la section, ce qui donne au média la hauteur de défilement dont
-     sticky a besoin. En grille deux colonnes, c'est la rangée qui la fournit. */
+     L'épinglage n'a de sens qu'à deux colonnes séparées (photo à gauche,
+     texte qui défile à droite) : en une seule colonne, la photo « collée »
+     et le texte qui continue de défiler sous elle finissent par se
+     superposer (le texte remonte visuellement par-dessus la photo figée).
+     Sous 900px, .seq reste donc en display:block ET la photo repasse en
+     position:static — elle défile normalement avec le reste, sans épingle. */
   .seq{display:block;}
+  .seq-media{position:static;}
   @media(min-width:900px){
     .seq{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:start;}
+    .seq-media{position:sticky;}
   }
 
   .seq-media{
-    position:sticky;top:88px;
+    top:88px;
     height:44vh;min-height:260px;margin-bottom:36px;
     overflow:hidden;background:var(--acier-800);
     border:1px solid var(--line);
