@@ -196,6 +196,99 @@
     });
   });
 
+  // ---- vidéo de fond du héros ----
+  // Chargée seulement si elle a des chances d'être la bienvenue : grand écran,
+  // pas de mouvement réduit, pas d'économiseur de données. Le src n'est posé
+  // qu'à ce moment-là, donc les autres visiteurs ne téléchargent rien du tout.
+  const heroVideo = document.getElementById('hero-video');
+  if (heroVideo){
+    const co = navigator.connection || {};
+    const bienvenue =
+      window.matchMedia('(min-width: 900px)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+      co.saveData !== true;
+
+    if (bienvenue){
+      heroVideo.src = heroVideo.dataset.src;
+
+      // On ne révèle la vidéo que lorsqu'elle joue réellement (événement
+      // 'playing', et non 'canplay') : sinon on risque de faire disparaître
+      // l'image de fond au profit d'une vidéo encore figée.
+      heroVideo.addEventListener('playing', () => {
+        heroVideo.classList.add('on');
+        const hero = heroVideo.closest('.hero');
+        if (hero) hero.classList.add('has-video');
+      });
+
+      // Un refus de lecture n'est pas définitif : les navigateurs mettent en
+      // pause les vidéos de fond quand l'onglet n'est pas au premier plan, ou
+      // en mode économie d'énergie. On garde donc la source et on retente dès
+      // que la page redevient visible — sinon un visiteur qui ouvre le site
+      // dans un onglet d'arrière-plan n'aurait jamais la vidéo.
+      const tenter = () => {
+        const essai = heroVideo.play();
+        if (essai && typeof essai.catch === 'function') essai.catch(() => {});
+      };
+      tenter();
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && heroVideo.paused) tenter();
+      });
+    } else {
+      heroVideo.remove();
+    }
+  }
+
+  // ---- séquence de ligne pilotée par le défilement ----
+  // L'épinglage de la photo est déjà assuré par position:sticky en CSS.
+  // Ce script ne fait qu'une chose : désigner le poste en cours, celui dont
+  // le titre est le plus proche d'une ligne de mire placée au tiers haut de
+  // l'écran. Sans lui, la page reste parfaitement lisible.
+  const seq = document.getElementById('seq');
+  if (seq && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const etapes = Array.from(seq.querySelectorAll('.seq-step'));
+    const photos = Array.from(seq.querySelectorAll('.seq-media img'));
+    const remplissage = document.getElementById('seq-fill');
+    const numero = document.getElementById('seq-n');
+    const titre = document.getElementById('seq-t');
+    const liste = document.getElementById('seq-steps');
+    let courant = -1, enAttente = false;
+
+    const majSequence = () => {
+      enAttente = false;
+      const mire = window.innerHeight * 0.38;
+
+      // poste dont le haut est le plus proche de la ligne de mire
+      let meilleur = 0, ecartMin = Infinity;
+      etapes.forEach((e, i) => {
+        const ecart = Math.abs(e.getBoundingClientRect().top - mire);
+        if (ecart < ecartMin){ ecartMin = ecart; meilleur = i; }
+      });
+
+      if (meilleur !== courant){
+        courant = meilleur;
+        etapes.forEach((e, i) => e.classList.toggle('on', i === meilleur));
+        photos.forEach((p, i) => p.classList.toggle('on', i === meilleur));
+        const e = etapes[meilleur];
+        if (numero) numero.textContent = e.querySelector('.n').textContent;
+        if (titre) titre.textContent = e.querySelector('h3').textContent;
+      }
+
+      // remplissage du filet : progression réelle le long de la liste
+      if (remplissage && liste){
+        const r = liste.getBoundingClientRect();
+        const avance = (mire - r.top) / r.height;
+        remplissage.style.height = Math.max(0, Math.min(1, avance)) * 100 + '%';
+      }
+    };
+
+    const planifier = () => {
+      if (!enAttente){ enAttente = true; requestAnimationFrame(majSequence); }
+    };
+    window.addEventListener('scroll', planifier, {passive:true});
+    window.addEventListener('resize', planifier);
+    majSequence();
+  }
+
   // ---- compte à rebours vers le prochain salon ----
   // La date cible vit dans le HTML (data-countdown), pas ici : la personne qui
   // met le site à jour n'a qu'un attribut à changer, jamais de JavaScript.

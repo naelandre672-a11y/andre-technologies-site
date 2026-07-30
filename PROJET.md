@@ -218,6 +218,54 @@ partenaires** : problème de droits d'auteur et casse à la moindre refonte de
 leur site. La bonne méthode est de demander aux constructeurs d'être mis en
 copie de leurs communiqués — c'est dans leur intérêt commercial.
 
+## Accueil — séquence, partenaires et vidéo (29/07/2026)
+
+**Section partenaires — « un spécialiste européen par étape ».**
+La bande de logos a été remplacée par cinq cartes, rangées dans l'ordre de la
+ligne de production, chacune rattachée au poste qu'elle équipe. Un carrousel
+défilant a été écarté volontairement : à cinq logos la boucle se voit, et faire
+défiler des leaders européens comme un tapis roulant les banalise au lieu de les
+valoriser. La spécialité, auparavant cachée dans une infobulle au survol, est
+maintenant lisible d'emblée — y compris au clavier et au doigt.
+
+Les logos ont été remplacés par les fichiers officiels des constructeurs
+(`images/logo-*.png|svg`) : les anciens `partenaire0X.png` faisaient 200×150 px,
+donc impossibles à agrandir sans devenir flous. Linck et Rudnick sont désormais
+en **SVG** (nets à toute taille). Chaque logo reçoit sa hauteur propre via la
+variable `--logo-h` posée en attribut `style` : un logo sept fois plus large que
+haut (Springer) doit être moins haut qu'un logo compact (Linck), sinon il écrase
+visuellement les autres. **Ces valeurs se règlent à l'œil, pas au calcul.**
+
+**Séquence de ligne pilotée par le défilement.**
+La ligne de process n'est plus un jeu d'onglets cliquables : la photo reste
+épinglée pendant qu'on parcourt les postes, et l'étape active suit la lecture.
+L'épinglage repose sur `position:sticky` **en CSS pur** — le JavaScript ne fait
+que désigner le poste courant et remplir le filet de progression. Si le script
+tombe, la page reste entièrement lisible.
+Pour ajouter un poste : ajouter un `<li class="seq-step">` **et** son `<img>`
+dans le même ordre. C'est la position qui les apparie, il n'y a aucun index à
+maintenir dans le JavaScript.
+En mobile `.seq` reste en `display:block` : le bloc conteneur est alors toute la
+section, ce qui donne à `sticky` la hauteur de défilement dont il a besoin. En
+grille deux colonnes, c'est la rangée qui la fournit.
+
+**Vidéo de fond du héros.**
+`videos/hero-triage-boucle.mp4` (12 s, 1,6 Mo, sans son) tirée de la vidéo
+Springer, avec `images/hero-triage-poster.jpg` comme première image.
+La balise `<video>` n'a **pas** d'attribut `src` dans le HTML : le script le pose
+seulement sur grand écran, hors mouvement réduit et hors économiseur de données.
+Sur mobile l'élément est retiré du DOM — pas un octet téléchargé, l'image de fond
+suffit. Un refus de lecture automatique **ne supprime pas la source** : les
+navigateurs mettent les vidéos de fond en pause quand l'onglet est en arrière-plan,
+et on retente à `visibilitychange`. Quand la vidéo tourne, le projecteur à la
+souris est désactivé (`.hero.has-video`) : le mouvement est déjà là.
+
+⚠️ **Le logo André Technologies reste le point faible.** `logo-v2.png` fait
+185×82 px, soit tout juste le minimum pour un affichage à 40 px sur écran Retina.
+Il ne peut pas être agrandi sans devenir flou. **À faire revectoriser** (.svg) :
+cela débloquera un logo plus présent dans l'en-tête, et servira aussi pour les
+plaquettes, le stand Eurobois et les véhicules.
+
 ## Hébergement (fait le 24/07/2026, déploiement continu ajouté le 25/07/2026)
 Le code est versionné sur GitHub (`naelandre672-a11y/andre-technologies-site`,
 branche `main`) et le site est hébergé sur Netlify, lié à ce dépôt :

@@ -82,8 +82,19 @@
   </div>
 </header>
 
+<!--
+  La vidéo n'a volontairement pas d'attribut src : c'est le script qui le pose,
+  et seulement sur grand écran, hors économiseur de données et hors mouvement
+  réduit. Sur mobile, pas un octet n'est téléchargé et l'image de fond suffit.
+  Pour changer la vidéo, modifier data-src ci-dessous (et le poster assorti).
+-->
 <section class="hero" id="hero-spotlight">
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+    <video class="hero-video" id="hero-video"
+           data-src="videos/hero-triage-boucle.mp4"
+           poster="images/hero-triage-poster.jpg"
+           muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+  </div>
   <div class="hero-reveal-layer" id="reveal-layer"></div>
   <span class="hero-reveal-tag" id="reveal-tag">Sciage — vue rapprochée</span>
   <div class="wrap hero-content">
@@ -107,30 +118,65 @@
   </div>
 </section>
 
-<section class="partners">
+<!--
+  Les cartes sont rangées dans l'ordre de la ligne de production, pas par
+  ordre alphabétique : parc à grumes, sciage, séchage, puis valorisation
+  énergétique. La valeur --logo-h est réglée logo par logo au poids optique
+  (un logo très allongé doit être moins haut qu'un logo compact).
+-->
+<section class="block partners" id="partenaires">
   <div class="wrap">
-    <p class="eyebrow">Nos partenaires technologiques</p>
-    <div class="partners-grid reveal">
-      <div class="partner-logo">
-        <img src="images/partenaire01.png" alt="Linck" loading="lazy">
-        <span class="partner-tooltip">Lignes de sciage de haute précision.</span>
-      </div>
-      <div class="partner-logo">
-        <img src="images/partenaire02.png" alt="Springer" loading="lazy">
-        <span class="partner-tooltip">Parcs à grumes, triage et empilage automatisés.</span>
-      </div>
-      <div class="partner-logo">
-        <img src="images/partenaire03.png" alt="Urbas" loading="lazy">
-        <span class="partner-tooltip">Chaudières biomasse et solutions énergétiques clé en main.</span>
-      </div>
-      <div class="partner-logo">
-        <img src="images/partenaire04.png" alt="Mühlböck" loading="lazy">
-        <span class="partner-tooltip">Séchoirs et technologies de séchage du bois.</span>
-      </div>
-      <div class="partner-logo">
-        <img src="images/partenaire05.png" alt="Rudnick &amp; Enners" loading="lazy">
-        <span class="partner-tooltip">Unités de granulation, broyage et convoyage pour pellets.</span>
-      </div>
+    <div class="section-head reveal">
+      <p class="eyebrow">Nos partenaires</p>
+      <h2>Un spécialiste européen par étape.</h2>
+      <p>Nous ne revendons pas un catalogue. Pour chaque poste de votre ligne, nous sélectionnons le constructeur qui fait référence sur ce poste précis — et nous assurons la cohérence de l'ensemble.</p>
+    </div>
+
+    <div class="partners-grid stagger">
+      <a class="partner" href="industrie-bois.html#parc">
+        <div class="partner-plate"><img src="images/logo-springer.png" alt="Springer" loading="lazy" style="--logo-h:24px;"></div>
+        <div class="partner-body">
+          <span class="partner-step">Parc à grumes &amp; triage</span>
+          <span class="partner-name">Springer</span>
+          <span class="partner-role">Réception, tri et empilage automatisés des bois ronds.</span>
+        </div>
+      </a>
+
+      <a class="partner" href="industrie-bois.html#sciage">
+        <div class="partner-plate"><img src="images/logo-linck.svg" alt="Linck" loading="lazy" style="--logo-h:50px;"></div>
+        <div class="partner-body">
+          <span class="partner-step">Sciage</span>
+          <span class="partner-name">Linck</span>
+          <span class="partner-role">Lignes de sciage haute cadence et rendement matière.</span>
+        </div>
+      </a>
+
+      <a class="partner" href="industrie-bois.html#sechage">
+        <div class="partner-plate"><img src="images/logo-muhlbock.png" alt="Mühlböck" loading="lazy" style="--logo-h:42px;"></div>
+        <div class="partner-body">
+          <span class="partner-step">Séchage</span>
+          <span class="partner-name">Mühlböck</span>
+          <span class="partner-role">Séchoirs et étuves à taux d'humidité maîtrisé.</span>
+        </div>
+      </a>
+
+      <a class="partner" href="bois-energie.html#chaudieres">
+        <div class="partner-plate"><img src="images/logo-urbas.png" alt="Urbas" loading="lazy" style="--logo-h:42px;"></div>
+        <div class="partner-body">
+          <span class="partner-step">Bois énergie</span>
+          <span class="partner-name">Urbas</span>
+          <span class="partner-role">Chaudières biomasse et cogénération clé en main.</span>
+        </div>
+      </a>
+
+      <a class="partner" href="bois-energie.html#pellets">
+        <div class="partner-plate"><img src="images/logo-rudnick.svg" alt="Rudnick &amp; Enners" loading="lazy" style="--logo-h:30px;"></div>
+        <div class="partner-body">
+          <span class="partner-step">Granulation</span>
+          <span class="partner-name">Rudnick &amp; Enners</span>
+          <span class="partner-role">Unités de pellets : broyage, séchage, compression.</span>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -140,61 +186,59 @@
     <div class="section-head reveal">
       <p class="eyebrow">Ligne de process</p>
       <h2>Suivez la grume, étape par étape.</h2>
-      <p>Chaque ligne que nous installons suit ce même enchaînement, adapté à votre production. Cliquez sur une étape pour voir l'équipement associé.</p>
+      <p>Chaque ligne que nous installons suit ce même enchaînement, adapté à votre production. Descendez la page pour parcourir la ligne, poste par poste.</p>
     </div>
-    <div class="showcase reveal">
-      <div class="showcase-list">
-        <div class="showcase-step active" data-img="0">
-          <div class="snum">01</div>
-          <div>
-            <div class="sname">Parc à grumes</div>
-            <div class="sdesc">Réception, tri et stockage des bois ronds à l'arrivée des camions.</div>
-          </div>
-        </div>
-        <div class="showcase-step" data-img="1">
-          <div class="snum">02</div>
-          <div>
-            <div class="sname">Sciage</div>
-            <div class="sdesc">Débit des grumes en plots et avivés sur ligne automatisée.</div>
-          </div>
-        </div>
-        <div class="showcase-step" data-img="2">
-          <div class="snum">03</div>
-          <div>
-            <div class="sname">Triage &amp; empilage</div>
-            <div class="sdesc">Classement et empilage automatisés des sciages.</div>
-          </div>
-        </div>
-        <div class="showcase-step" data-img="3">
-          <div class="snum">04</div>
-          <div>
-            <div class="sname">Séchage</div>
-            <div class="sdesc">Séchoirs, étuves et sécheurs sous-vide pour un taux d'humidité maîtrisé.</div>
-          </div>
-        </div>
-        <div class="showcase-step" data-img="4">
-          <div class="snum">05</div>
-          <div>
-            <div class="sname">Rabotage</div>
-            <div class="sdesc">Finition, calibrage et lignes de lamellé-collé.</div>
-          </div>
-        </div>
-        <div class="showcase-step" data-img="5">
-          <div class="snum">06</div>
-          <div>
-            <div class="sname">Expédition</div>
-            <div class="sdesc">Conditionnement des produits sciés, prêts à être livrés.</div>
-          </div>
-        </div>
-      </div>
-      <div class="showcase-visual">
-        <img class="active" src="images/pellets-convoyeur.jpg" alt="Parc à grumes">
-        <img src="images/sciage-linck.jpg" alt="Sciage">
+    <!--
+      Séquence pilotée par le défilement. Pour ajouter ou retirer un poste :
+      ajouter un <li class="seq-step"> ET l'<img> correspondante dans le même
+      ordre — c'est la position qui les apparie, il n'y a aucun index à tenir
+      à jour dans le JavaScript.
+    -->
+    <div class="seq" id="seq">
+      <div class="seq-media">
+        <img class="on" src="images/pellets-convoyeur.jpg" alt="Parc à grumes">
+        <img src="images/sciage-linck.jpg" alt="Ligne de sciage">
         <img src="images/triage-empilage-springer.jpg" alt="Triage et empilage">
-        <img src="images/sechage-siat3.jpg" alt="Séchage">
+        <img src="images/sechage-siat3.jpg" alt="Séchoirs">
         <img src="https://images.unsplash.com/photo-1634672652995-ee7525bce595?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Rabotage">
         <img src="https://images.unsplash.com/photo-1533657792955-7f5783c5d182?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Expédition">
-        <span class="showcase-tag">André Technologies — équipement associé</span>
+        <span class="seq-tag"><span class="n" id="seq-n">01</span><span class="t" id="seq-t">Parc à grumes</span></span>
+      </div>
+
+      <div class="seq-steps" id="seq-steps">
+      <span class="seq-fill" id="seq-fill" aria-hidden="true"></span>
+      <ol>
+        <li class="seq-step on">
+          <span class="n">01</span>
+          <h3>Parc à grumes</h3>
+          <p>Les camions arrivent, les bois ronds sont réceptionnés, triés par essence et par diamètre, puis stockés. Le dimensionnement du parc conditionne la fluidité de tout ce qui suit.</p>
+        </li>
+        <li class="seq-step">
+          <span class="n">02</span>
+          <h3>Sciage</h3>
+          <p>La grume est scannée, orientée, puis débitée en plots et avivés. C'est ici que se joue le rendement matière : quelques millimètres gagnés sur chaque bille changent le résultat de l'année.</p>
+        </li>
+        <li class="seq-step">
+          <span class="n">03</span>
+          <h3>Triage &amp; empilage</h3>
+          <p>Les sciages sont classés par dimension et par qualité, puis empilés avec leurs baguettes pour préparer un séchage homogène.</p>
+        </li>
+        <li class="seq-step">
+          <span class="n">04</span>
+          <h3>Séchage</h3>
+          <p>Séchoirs, étuves ou sécheurs sous vide selon l'essence et l'usage final, pour un taux d'humidité maîtrisé et surtout reproductible d'une charge à l'autre.</p>
+        </li>
+        <li class="seq-step">
+          <span class="n">05</span>
+          <h3>Rabotage</h3>
+          <p>Finition, calibrage aux cotes exactes et, si besoin, lignes de lamellé-collé pour les produits d'ingénierie.</p>
+        </li>
+        <li class="seq-step">
+          <span class="n">06</span>
+          <h3>Expédition</h3>
+          <p>Conditionnement, cerclage et préparation des colis, prêts à charger. La boucle est bouclée : la grume est devenue un produit livrable.</p>
+        </li>
+      </ol>
       </div>
     </div>
   </div>
