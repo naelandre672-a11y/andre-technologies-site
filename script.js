@@ -9,18 +9,28 @@
   // menu mobile plein écran
   const burger = document.getElementById('burger-btn');
   const mobileMenu = document.getElementById('mobile-menu');
-  burger.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.toggle('open');
-    burger.classList.toggle('open', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-  mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
+  if (burger && mobileMenu){
+    const closeMobileMenu = () => {
       mobileMenu.classList.remove('open');
       burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+    };
+    burger.setAttribute('aria-controls', 'mobile-menu');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      burger.classList.toggle('open', isOpen);
+      burger.setAttribute('aria-expanded', String(isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-  });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', closeMobileMenu);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu();
+    });
+  }
 
   // lien actif selon la section visible (uniquement si la page a ces sections)
   const sections = ['industrie','energie','etudes','pourquoi'].map(id => document.getElementById(id)).filter(Boolean);
@@ -162,7 +172,7 @@
     cursorDot.style.top = mouseY + 'px';
     if (ringFrame === null) ringFrame = requestAnimationFrame(animateRing);
   });
-  document.querySelectorAll('a, button, .tilt, .showcase-step').forEach(el => {
+  document.querySelectorAll('a, button, .showcase-step').forEach(el => {
     el.addEventListener('mouseenter', () => { cursorDot.classList.add('hovering'); cursorRing.classList.add('hovering'); });
     el.addEventListener('mouseleave', () => { cursorDot.classList.remove('hovering'); cursorRing.classList.remove('hovering'); });
   });
@@ -182,19 +192,6 @@
       revealTag.style.top = (y + 24) + 'px';
     });
   }
-
-  // tilt 3D au survol des cartes
-  document.querySelectorAll('.tilt').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const px = (e.clientX - rect.left) / rect.width - 0.5;
-      const py = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.transform = `perspective(700px) rotateX(${-py * 8}deg) rotateY(${px * 8}deg) translateY(-4px)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(700px) rotateX(0) rotateY(0) translateY(0)';
-    });
-  });
 
   // ---- séquence de ligne pilotée par le défilement ----
   // L'épinglage de la photo est déjà assuré par position:sticky en CSS.
