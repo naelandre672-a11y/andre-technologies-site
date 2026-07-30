@@ -270,6 +270,29 @@ souris d'origine. Fichiers supprimés (`videos/hero-triage-boucle.mp4`,
 `images/hero-triage-poster.jpg`) ainsi que le HTML/CSS/JS associés — rien n'a
 été laissé en dormant dans le code.
 
+## Bug corrigé le 30/07/2026 : menu mobile cassé (« bizarre en défilant »)
+
+Signalé par le client : rendu mobile étrange en faisant défiler / en cliquant
+sur le menu. Reproduit et diagnostiqué : le menu mobile plein écran
+(`.mobile-menu`, `position:fixed;inset:0`) ne couvrait qu'environ 150 px de
+haut en haut de l'écran au lieu de tout l'écran — le reste de la page restait
+visible (et cliquable) dessous.
+
+**Cause : un piège CSS classique.** `header` a un `backdrop-filter:blur(10px)`
+(l'effet de flou derrière la barre de navigation). Or tout élément avec
+`filter` ou `backdrop-filter` crée un nouveau bloc de référencement pour ses
+descendants en `position:fixed` — et `.mobile-menu` était un enfant direct de
+`<header>` dans le HTML. Résultat : au lieu de se positionner par rapport à
+tout l'écran, le menu se positionnait par rapport à la barre de nav elle-même
+(≈150 px de haut), d'où le rendu cassé.
+
+**Correctif :** sortir `.mobile-menu` du `<header>` (il devient un frère
+direct, placé juste après `</header>`) sur les 11 pages du site. Le
+`backdrop-filter` de l'en-tête est conservé — l'effet visuel voulu ne change
+pas, seul le menu mobile est déplacé dans le DOM. Vérifié : le menu couvre
+maintenant tout l'écran, tous les liens (avec sous-menus) sont visibles et
+défilables, la barre de nav (logo) reste visible par-dessus comme prévu.
+
 ⚠️ **Le logo André Technologies reste le point faible.** `logo-v2.png` fait
 185×82 px, soit tout juste le minimum pour un affichage à 40 px sur écran Retina.
 Il ne peut pas être agrandi sans devenir flou. **À faire revectoriser** (.svg) :
