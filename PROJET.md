@@ -236,6 +236,19 @@ variable `--logo-h` posée en attribut `style` : un logo sept fois plus large qu
 haut (Springer) doit être moins haut qu'un logo compact (Linck), sinon il écrase
 visuellement les autres. **Ces valeurs se règlent à l'œil, pas au calcul.**
 
+⚠️ **Erreur corrigée le 29/07/2026 : mauvais logo Mühlböck.** Le premier
+téléchargement automatique avait récupéré le logo de « mühlböck küche.raum »,
+une entreprise de cuisines homonyme — pas le fabricant de séchoirs à bois
+(Mühlböck Holztrocknungsanlagen GmbH, `muehlboeck.com`, pas `.at`). Remplacé par
+le vrai logo (`images/logo-muhlbock.svg`, vectoriel officiel). **Leçon : pour un
+nom d'entreprise courant, vérifier le domaine par une recherche dédiée avant de
+télécharger — ne pas faire confiance au premier résultat.**
+Le logo Springer (`images/logo-springer.png`) est correct (bonne entreprise,
+vérifié visuellement) mais c'est un fichier blanc pur, prévu pour un fond
+sombre : il paraissait invisible sur nos plaques claires. Corrigé avec
+`filter:invert(1)` en CSS plutôt qu'en retouchant le fichier — le fichier
+original reste intact si on en a besoin ailleurs sur fond sombre.
+
 **Séquence de ligne pilotée par le défilement.**
 La ligne de process n'est plus un jeu d'onglets cliquables : la photo reste
 épinglée pendant qu'on parcourt les postes, et l'étape active suit la lecture.
@@ -249,16 +262,13 @@ En mobile `.seq` reste en `display:block` : le bloc conteneur est alors toute la
 section, ce qui donne à `sticky` la hauteur de défilement dont il a besoin. En
 grille deux colonnes, c'est la rangée qui la fournit.
 
-**Vidéo de fond du héros.**
-`videos/hero-triage-boucle.mp4` (12 s, 1,6 Mo, sans son) tirée de la vidéo
-Springer, avec `images/hero-triage-poster.jpg` comme première image.
-La balise `<video>` n'a **pas** d'attribut `src` dans le HTML : le script le pose
-seulement sur grand écran, hors mouvement réduit et hors économiseur de données.
-Sur mobile l'élément est retiré du DOM — pas un octet téléchargé, l'image de fond
-suffit. Un refus de lecture automatique **ne supprime pas la source** : les
-navigateurs mettent les vidéos de fond en pause quand l'onglet est en arrière-plan,
-et on retente à `visibilitychange`. Quand la vidéo tourne, le projecteur à la
-souris est désactivé (`.hero.has-video`) : le mouvement est déjà là.
+**Vidéo de fond du héros — essayée puis retirée le 29/07/2026.**
+Une boucle de 12 s tirée de la vidéo Springer avait été mise en fond du héros
+(chargée uniquement sur grand écran, retirée du DOM sur mobile). Le client n'a
+finalement pas aimé le rendu ; retour au hero photo + effet spotlight à la
+souris d'origine. Fichiers supprimés (`videos/hero-triage-boucle.mp4`,
+`images/hero-triage-poster.jpg`) ainsi que le HTML/CSS/JS associés — rien n'a
+été laissé en dormant dans le code.
 
 ⚠️ **Le logo André Technologies reste le point faible.** `logo-v2.png` fait
 185×82 px, soit tout juste le minimum pour un affichage à 40 px sur écran Retina.

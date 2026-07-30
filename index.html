@@ -82,19 +82,8 @@
   </div>
 </header>
 
-<!--
-  La vidéo n'a volontairement pas d'attribut src : c'est le script qui le pose,
-  et seulement sur grand écran, hors économiseur de données et hors mouvement
-  réduit. Sur mobile, pas un octet n'est téléchargé et l'image de fond suffit.
-  Pour changer la vidéo, modifier data-src ci-dessous (et le poster assorti).
--->
 <section class="hero" id="hero-spotlight">
-  <div class="hero-bg">
-    <video class="hero-video" id="hero-video"
-           data-src="videos/hero-triage-boucle.mp4"
-           poster="images/hero-triage-poster.jpg"
-           muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-  </div>
+  <div class="hero-bg"></div>
   <div class="hero-reveal-layer" id="reveal-layer"></div>
   <span class="hero-reveal-tag" id="reveal-tag">Sciage — vue rapprochée</span>
   <div class="wrap hero-content">
@@ -134,7 +123,10 @@
 
     <div class="partners-grid stagger">
       <a class="partner" href="industrie-bois.html#parc">
-        <div class="partner-plate"><img src="images/logo-springer.png" alt="Springer" loading="lazy" style="--logo-h:24px;"></div>
+        <!-- Le fichier officiel Springer est un logotype blanc pur (pensé pour
+             leur propre en-tête sombre) : sans couleur de marque à préserver,
+             on l'inverse pour l'afficher en noir sur notre plaque claire. -->
+        <div class="partner-plate"><img src="images/logo-springer.png" alt="Springer" loading="lazy" style="--logo-h:22px;filter:invert(1);"></div>
         <div class="partner-body">
           <span class="partner-step">Parc à grumes &amp; triage</span>
           <span class="partner-name">Springer</span>
@@ -152,7 +144,7 @@
       </a>
 
       <a class="partner" href="industrie-bois.html#sechage">
-        <div class="partner-plate"><img src="images/logo-muhlbock.png" alt="Mühlböck" loading="lazy" style="--logo-h:42px;"></div>
+        <div class="partner-plate"><img src="images/logo-muhlbock.svg" alt="Mühlböck" loading="lazy" style="--logo-h:44px;"></div>
         <div class="partner-body">
           <span class="partner-step">Séchage</span>
           <span class="partner-name">Mühlböck</span>

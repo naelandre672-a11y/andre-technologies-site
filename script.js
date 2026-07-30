@@ -196,48 +196,6 @@
     });
   });
 
-  // ---- vidéo de fond du héros ----
-  // Chargée seulement si elle a des chances d'être la bienvenue : grand écran,
-  // pas de mouvement réduit, pas d'économiseur de données. Le src n'est posé
-  // qu'à ce moment-là, donc les autres visiteurs ne téléchargent rien du tout.
-  const heroVideo = document.getElementById('hero-video');
-  if (heroVideo){
-    const co = navigator.connection || {};
-    const bienvenue =
-      window.matchMedia('(min-width: 900px)').matches &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
-      co.saveData !== true;
-
-    if (bienvenue){
-      heroVideo.src = heroVideo.dataset.src;
-
-      // On ne révèle la vidéo que lorsqu'elle joue réellement (événement
-      // 'playing', et non 'canplay') : sinon on risque de faire disparaître
-      // l'image de fond au profit d'une vidéo encore figée.
-      heroVideo.addEventListener('playing', () => {
-        heroVideo.classList.add('on');
-        const hero = heroVideo.closest('.hero');
-        if (hero) hero.classList.add('has-video');
-      });
-
-      // Un refus de lecture n'est pas définitif : les navigateurs mettent en
-      // pause les vidéos de fond quand l'onglet n'est pas au premier plan, ou
-      // en mode économie d'énergie. On garde donc la source et on retente dès
-      // que la page redevient visible — sinon un visiteur qui ouvre le site
-      // dans un onglet d'arrière-plan n'aurait jamais la vidéo.
-      const tenter = () => {
-        const essai = heroVideo.play();
-        if (essai && typeof essai.catch === 'function') essai.catch(() => {});
-      };
-      tenter();
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && heroVideo.paused) tenter();
-      });
-    } else {
-      heroVideo.remove();
-    }
-  }
-
   // ---- séquence de ligne pilotée par le défilement ----
   // L'épinglage de la photo est déjà assuré par position:sticky en CSS.
   // Ce script ne fait qu'une chose : désigner le poste en cours, celui dont

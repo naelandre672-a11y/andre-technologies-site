@@ -279,22 +279,6 @@
       linear-gradient(100deg, rgba(25,26,28,0.75) 0%, rgba(25,26,28,0.15) 55%);
   }
   @keyframes heroZoom{ 0%{transform:scale(1.12);} 100%{transform:scale(1);} }
-
-  /* Vidéo de fond du héros. Placée DANS .hero-bg, donc elle recouvre l'image
-     de fond mais reste sous le dégradé ::after — l'ordre de peinture garantit
-     que le titre demeure lisible sans bricoler de z-index.
-     .hero-bg conserve son image : c'est le repli quand la vidéo n'est pas
-     chargée (mobile, économiseur de données, mouvement réduit). */
-  .hero-video{
-    position:absolute;inset:0;width:100%;height:100%;
-    object-fit:cover;
-    opacity:0;transition:opacity 1.4s ease;
-  }
-  .hero-video.on{opacity:1;}
-  /* Quand la vidéo tourne, le projecteur à la souris devient un effet de trop :
-     le mouvement est déjà là. On l'éteint plutôt que d'empiler. */
-  .hero.has-video .hero-reveal-layer,
-  .hero.has-video .hero-reveal-tag{display:none;}
   .hero-content{position:relative;z-index:2;padding:0 0 76px;width:100%;}
   .hero-content .eyebrow{color:var(--oak-light);}
   /* Archivo en chasse élargie occupe bien plus de largeur que la condensée
