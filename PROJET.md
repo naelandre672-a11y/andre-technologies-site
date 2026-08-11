@@ -270,6 +270,79 @@ souris d'origine. Fichiers supprimés (`videos/hero-triage-boucle.mp4`,
 `images/hero-triage-poster.jpg`) ainsi que le HTML/CSS/JS associés — rien n'a
 été laissé en dormant dans le code.
 
+## Scène 3D de la ligne de process (11/08/2026)
+
+La séquence « Ligne de process » de l'accueil (6 photos en fondu, pilotées par
+le défilement) a été remplacée par une scène 3D : la grume est suivie du parc
+à grumes jusqu'au chargement du camion, en Three.js pur (pas de bundler).
+
+**Origine.** Une scène 3D avait été testée puis retirée le 18/07/2026 à la
+demande du client (voir plus bas) — cette fois, c'est le client qui l'a
+redemandée explicitement, avec un paquet de fichiers prêt à intégrer
+(`tree-scene.js` + `README-INTEGRATION.md` + une version de référence
+d'`index.html`, déposés dans `3D tree scene integration.zip` à la racine —
+zip gitignoré, conservé sur le poste mais jamais commité).
+
+**Ce qui a changé dans `index.html`** — exactement les 3 points documentés,
+appliqués à la main sur la version courante du fichier plutôt que par un
+remplacement en bloc (la version fournie datait d'avant le nettoyage de la
+classe `tilt` et aurait fait régresser ce correctif) :
+1. Dans le `<head>` : un `<script type="importmap">` qui charge three.js
+   0.184.0 depuis unpkg.com avec hash d'intégrité (SRI), et un `<style>` qui
+   donne sa taille au conteneur `#tree-3d` et restaure `.seq-media`/`.seq-tag`
+   sous `prefers-reduced-motion`.
+2. Dans `.seq-media` : les 6 `<img>` remplacées par `<div id="tree-3d"></div>`
+   (le cartouche `.seq-tag` reste inchangé, toujours piloté par `script.js`).
+3. Juste avant `</body>` : un module qui initialise la scène et lui transmet
+   la progression du scroll.
+
+`style.css` et `script.js` n'ont **pas** été modifiés — c'est le point le plus
+important de l'intégration. Le filet vert, le cartouche 01/Parc à grumes et
+l'étape active continuent d'être calculés par `script.js` exactement comme
+avant. Le module d'initialisation de la scène 3D lit la **même donnée** de la
+même façon : `(mire38% - #seq-steps.getBoundingClientRect().top) / hauteur`.
+Les deux écouteurs de scroll sont indépendants (le module 3D ne connaît pas
+`script.js` et inversement) mais calculent la même formule sur le même
+élément — donc synchronisés par construction, sans coordination directe.
+
+**Comportement dégradé** (géré par `tree-scene.js` lui-même, rien à faire
+dans le reste du site) :
+- Écran < 900px ou `prefers-reduced-motion` : pas d'épinglage, la grume
+  tourne lentement sur elle-même, la colonne de texte se lit normalement.
+- WebGL indisponible ou CDN three.js bloqué : le conteneur reste vide sur le
+  fond sombre de `.seq-media`, mais la colonne de texte, le filet et le
+  cartouche restent entièrement fonctionnels — rien de bloquant.
+- CDN de textures (Poly Haven, CC0) bloqué : repli sur des textures
+  procédurales générées en Canvas2D, visibles immédiatement le temps que les
+  vraies textures arrivent (ou en remplacement permanent si le CDN échoue).
+
+**Vérification.** Le scroll réel n'a pas pu être simulé de façon fiable dans
+l'outillage de test disponible ici (bug d'outillage : `window.scrollTo()`
+combiné à `virtual-time-budget` sous Chromium headless produit un rendu
+blanc, y compris sur une page vide sans rapport avec ce projet). Vérifié à la
+place par : (1) comparaison de code confirmant que les deux formules sont
+identiques ; (2) pilotage direct de l'API publique de la scène
+(`scene.setProgress()`) pour confirmer que les étapes s'enchaînent dans le
+bon ordre aux bonnes bornes ; (3) rendu visuel réel (Edge headless) à trois
+moments du parcours — grume texturée au début, pile de planches en séchage au
+milieu, camion avec bandeau vert de marque à la fin — confirmant que
+géométrie, matériaux, éclairage et CDN fonctionnent bout en bout sans erreur
+console.
+
+**Un seul écart avec la doc fournie** : le fichier `index.html` du paquet
+contenait encore `class="why-card tilt"` sur 3 cartes (généré avant le
+nettoyage du 30/07/2026, voir plus bas) — non repris, gardé nettoyé.
+
+**Réglages** (fluidité du scroll, exposition, focale, teinte du bois,
+particules) : objet `params` en haut de `tree-scene.js`. Un panneau de réglage
+(`demo.html`) existe dans le projet de conception d'origine mais n'a pas été
+fourni avec ce paquet ; retoucher `params` directement si besoin.
+
+⚠️ **Dépendance à deux CDN externes** (unpkg.com pour three.js, Poly Haven
+pour les textures). `README-INTEGRATION.md` documente comment héberger les
+deux en propre dans `vendor/` et `images/textures/` — pas fait pour l'instant,
+la scène fonctionne mais dépend de la disponibilité de ces deux CDN.
+
 ## Bug corrigé le 30/07/2026 : menu mobile cassé (« bizarre en défilant »)
 
 Signalé par le client : rendu mobile étrange en faisant défiler / en cliquant

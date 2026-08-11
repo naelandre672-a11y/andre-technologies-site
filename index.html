@@ -9,6 +9,50 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <noscript><style>.reveal,.stagger>*{opacity:1!important;transform:none!important;}</style></noscript>
+
+<!--
+  ============================================================
+  SCÈNE 3D DE LA LIGNE DE PROCESS
+  ============================================================
+  La séquence #seq affichait 6 photos en fondu ; elle affiche désormais une
+  scène 3D qui suit la grume d'un bout à l'autre de la ligne. Trois choses
+  seulement ont changé dans cette page :
+    1. cet import map + ce bloc <style> ;
+    2. le contenu de .seq-media (les 6 <img> remplacées par #tree-3d) ;
+    3. le module d'initialisation, juste avant </body>.
+
+  style.css et script.js n'ont PAS été modifiés. La liste des postes, le filet
+  vert qui se remplit et le cartouche 01/Parc à grumes continuent d'être pilotés
+  par script.js comme avant — la scène 3D lit la même progression, donc tout
+  reste synchrone image par image. Si le JavaScript ou WebGL tombe, la colonne
+  de texte reste entièrement lisible.
+  ============================================================
+-->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT"
+  }
+}
+</script>
+<style>
+  /* La scène occupe exactement la place de l'ancienne photo épinglée. */
+  #tree-3d{position:relative;width:100%;height:100%;}
+  #tree-3d canvas{display:block;width:100%;height:100%;}
+
+  /* Sans mouvement, style.css rend .seq-media auto-dimensionnée (elle n'avait
+     plus que des <img> en flux). La scène a besoin d'une hauteur : on la lui
+     redonne, et on rétablit le cartouche que la règle d'origine masquait. */
+  @media (prefers-reduced-motion: reduce){
+    .seq-media{height:52vh;min-height:300px;}
+    .seq-media::after,.seq-tag{display:block;}
+    .seq-tag{display:flex;}
+  }
+</style>
 </head>
 <body>
 
@@ -184,18 +228,16 @@
     </div>
     <!--
       Séquence pilotée par le défilement. Pour ajouter ou retirer un poste :
-      ajouter un <li class="seq-step"> ET l'<img> correspondante dans le même
-      ordre — c'est la position qui les apparie, il n'y a aucun index à tenir
-      à jour dans le JavaScript.
+      ajouter un <li class="seq-step">. La scène 3D, elle, a ses six étapes
+      inscrites dans tree-scene.js (constante STEPS et bornes BOUNDS) : un
+      poste ajouté ici allonge la colonne de texte sans casser la scène, mais
+      pour qu'il ait sa propre étape en 3D il faut aussi la déclarer là-bas.
     -->
     <div class="seq" id="seq">
       <div class="seq-media">
-        <img class="on" src="images/pellets-convoyeur.jpg" alt="Parc à grumes">
-        <img src="images/sciage-linck.jpg" alt="Ligne de sciage">
-        <img src="images/triage-empilage-springer.jpg" alt="Triage et empilage">
-        <img src="images/sechage-siat3.jpg" alt="Séchoirs">
-        <img src="https://images.unsplash.com/photo-1634672652995-ee7525bce595?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Rabotage">
-        <img src="https://images.unsplash.com/photo-1533657792955-7f5783c5d182?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Expédition">
+        <!-- Les six <img> en fondu ont laissé la place à la scène 3D.
+             Le cartouche ci-dessous reste piloté par script.js. -->
+        <div id="tree-3d"></div>
         <span class="seq-tag"><span class="n" id="seq-n">01</span><span class="t" id="seq-t">Parc à grumes</span></span>
       </div>
 
@@ -423,5 +465,40 @@
 </footer>
 
 <script src="script.js"></script>
+
+<!--
+  Initialisation de la scène 3D. La progression est calculée avec la formule
+  exacte qu'utilise script.js pour remplir le filet vert (ligne de mire au
+  tiers haut de l'écran, rapportée à la hauteur de la colonne des postes) :
+  la scène, l'étape active et le filet avancent donc rigoureusement ensemble.
+  Sous 900px et en prefers-reduced-motion, la scène se met d'elle-même en
+  repli (grume en rotation lente, pas d'épinglage) : rien à gérer ici.
+-->
+<script type="module">
+  import { initTreeScene } from './tree-scene.js';
+
+  const hote = document.getElementById('tree-3d');
+  const liste = document.getElementById('seq-steps');
+
+  if (hote && liste) {
+    const scene = initTreeScene(hote, null, { manualScroll: true });
+
+    if (!scene.isSimplified) {
+      let enAttente = false;
+      const majScene = () => {
+        enAttente = false;
+        const r = liste.getBoundingClientRect();
+        const mire = window.innerHeight * 0.38;
+        scene.setProgress((mire - r.top) / r.height);
+      };
+      const planifier = () => {
+        if (!enAttente) { enAttente = true; requestAnimationFrame(majScene); }
+      };
+      window.addEventListener('scroll', planifier, { passive: true });
+      window.addEventListener('resize', planifier);
+      majScene();
+    }
+  }
+</script>
 </body>
 </html>
