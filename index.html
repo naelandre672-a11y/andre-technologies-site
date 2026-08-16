@@ -485,11 +485,24 @@
 
     if (!scene.isSimplified) {
       let enAttente = false;
+      let derniereValeur = null;
       const majScene = () => {
         enAttente = false;
         const r = liste.getBoundingClientRect();
         const mire = window.innerHeight * 0.38;
-        scene.setProgress((mire - r.top) / r.height);
+        const p = (mire - r.top) / r.height;
+        // La scène interpole en douceur vers chaque nouvelle valeur : c'est
+        // l'effet voulu pendant un défilement normal, à la souris ou au doigt.
+        // Mais après un grand saut instantané — clic sur "Voir la ligne de
+        // process", chargement de la page avec une ancre, retour en arrière
+        // du navigateur, touche Fin — cette interpolation met un instant à
+        // rattraper le cartouche de texte, qui lui saute immédiatement : la
+        // scène affiche alors une étape visiblement en retard sur son propre
+        // titre. On saute donc sans interpolation quand l'écart est grand
+        // (plus de 15 % de la séquence en un seul événement de scroll).
+        const grandSaut = derniereValeur === null || Math.abs(p - derniereValeur) > 0.15;
+        scene.setProgress(p, grandSaut);
+        derniereValeur = p;
       };
       const planifier = () => {
         if (!enAttente) { enAttente = true; requestAnimationFrame(majScene); }
