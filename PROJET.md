@@ -342,6 +342,57 @@ pour les textures). `README-INTEGRATION.md` documente comment héberger les
 deux en propre dans `vendor/` et `images/textures/` — pas fait pour l'instant,
 la scène fonctionne mais dépend de la disponibilité de ces deux CDN.
 
+## Rythme de la séquence 3D corrigé (19/08/2026)
+Retour client : « les étapes vont un peu vite — avec la souris ça va trop vite »,
+et « à la fin, quand le bois va dans le camion, on ne voit pas bien ».
+
+**Le diagnostic est le même pour les deux remarques, et il est arithmétique.**
+La progression est le rapport entre la ligne de mire et la hauteur de la colonne
+`#seq-steps` : c'est donc cette hauteur qui fixe la vitesse. Elle mesurait
+1 402 px pour six étapes, soit 234 px par étape — et un cran de molette Windows
+vaut environ 100 px. Chaque étape tenait donc en **2,3 crans**. Pire, à l'étape 6
+le chargement du camion n'occupait que 34 % de l'étape, soit **79 px : moins d'un
+cran.** Le colis se téléportait sur le plateau entre deux crans de molette. Ce
+n'était pas un problème de cadrage mais de durée.
+
+**Trois réglages, aucun changement de structure :**
+1. `style.css` — `.seq-step` passe de `padding:7vh` à `14vh` (et le repère
+   `::before` de `calc(7vh + 8px)` à `calc(14vh + 8px)`, sinon les pastilles se
+   décalent des titres). La colonne passe à 2 452 px sur une fenêtre de 900 px :
+   409 px par étape, soit **4,1 crans au lieu de 2,8**.
+2. `tree-scene.js` — `params.smoothing` de `0.10` à `0.07`. Le lissage est
+   indépendant du framerate (`k = 1 - (1-smoothing)^(dt*60)`) ; on passe d'une
+   constante de temps de ~0,17 s à ~0,25 s. Entre deux crans de molette la scène
+   glisse au lieu de se figer. Ne pas descendre plus bas : le cartouche et le
+   filet vert, eux, sautent immédiatement, et un lissage trop long ferait
+   réapparaître le décalage corrigé le 16/08/2026.
+3. `tree-scene.js`, étape 6 — le chargement occupe désormais **58 % de l'étape
+   au lieu de 34 %** : camion garé plus tôt (`arrive` sur `t5` 0,02→0,32),
+   cerclage avant le levage (`strapIn` 0,26→0,36), chargement étalé
+   (`load` 0,38→0,96). Le chargement dure maintenant ~237 px, soit **2,4 crans
+   contre 1 avant**.
+
+⚠️ **Ne pas rapprocher la caméra à la fin — testé et écarté.** Le camion mesure
+8,11 unités du pare-chocs au bout du plateau ; à la focale de la scène (34°) et
+au format du conteneur `.seq-media`, la caméra n'en cadre que 7,1. **Le camion
+dépassait déjà du cadre avant toute modification** (111 %). Réduire le recul de
+6,4 à 4,2 fait bien passer le colis de 39 % à 51 % de la largeur d'image, mais
+coupe alors soit la cabine et son bandeau vert de marque (à x = −2,88), soit le
+bout du plateau (x = 4,05). Le gain de taille ne valait pas la perte : `radius`,
+`height` et `camTarget` de l'étape 6 sont **restés à leurs valeurs d'origine**.
+Si le cadrage devait quand même être resserré un jour, il faudrait d'abord
+raccourcir le modèle du camion, pas reculer la caméra.
+
+**Vérification.** Impossible de contrôler le rendu 3D dans le navigateur intégré
+ici : `requestAnimationFrame` est gelé tant que le panneau n'est pas affiché
+(sonde posée : **0 image en 7 secondes**), donc ni la scène ni le cartouche
+n'avancent, même en pilotant `window.scrollTo`. À noter aussi, `scroll-behavior:
+smooth` est actif : tout `scrollTo` de test doit passer `behavior:'instant'`,
+sinon la position lue est encore l'ancienne. Vérifié à la place par le calcul —
+hauteurs de colonne mesurées dans le DOM, distances et angles de caméra
+recalculés à partir des formules du fichier (script conservé dans le
+scratchpad de la session). **Le rendu final reste à valider à l'œil.**
+
 ## Bug corrigé le 30/07/2026 : menu mobile cassé (« bizarre en défilant »)
 
 Signalé par le client : rendu mobile étrange en faisant défiler / en cliquant

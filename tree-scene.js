@@ -202,7 +202,7 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
 
   /* ---------- paramètres réglables à chaud (panneau de la démo) ---------- */
   const params = {
-    smoothing: 0.10,
+    smoothing: 0.07,
     exposure: 1.18,
     keyIntensity: 2.6,
     accentIntensity: 3.2,
@@ -884,7 +884,7 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
         m.position.x = 0;
         m.position.z = lerp((i % 2 ? 0.06 : -0.06) * (1 - s), 0, s);
       });
-      const strapIn = ramp(t5, 0.46, 0.58);
+      const strapIn = ramp(t5, 0.26, 0.36);
       strapMat.opacity = strapIn;
       strapMat.transparent = strapIn < 0.995;
       straps.forEach((s) => {
@@ -892,13 +892,13 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
         s.scale.y = Math.max(strapIn, 0.001);
       });
 
-      const arrive = smooth(clamp((t5 - 0.04) / 0.46, 0, 1));
+      const arrive = smooth(clamp((t5 - 0.02) / 0.30, 0, 1));
       const truckX = lerp(-17, 0, arrive);
       truckGroup.position.x = truckX;
       const rolled = (truckX + 17) / 0.425;
       wheels.forEach((w) => { w.rotation.z = -rolled; });
 
-      const load = smooth(clamp((t5 - 0.56) / 0.34, 0, 1));
+      const load = smooth(clamp((t5 - 0.38) / 0.58, 0, 1));
       const up = smooth(clamp(load / 0.35, 0, 1));
       const over = smooth(clamp((load - 0.25) / 0.45, 0, 1));
       const down = smooth(clamp((load - 0.72) / 0.28, 0, 1));
