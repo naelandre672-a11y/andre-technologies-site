@@ -294,7 +294,9 @@
       energie:'Bois énergie',
       automatisation:'Automatisation',
       evenements:'Événements',
-      entreprise:'Entreprise'
+      entreprise:'Entreprise',
+      marche:'Marché',
+      reglementation:'Réglementation'
     };
     const entries = Array.from(register.querySelectorAll('.entry'));
     const countEl = document.getElementById('entry-count');

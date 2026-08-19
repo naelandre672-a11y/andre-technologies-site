@@ -208,10 +208,9 @@ de la filière en France**. Le site devient un service, pas une brochure.
 **Rythme convenu : une entrée par mois**, rédigée par André Technologies.
 Le mode d'emploi complet est en commentaire directement dans `veille.html`.
 
-⚠️ **Une entrée exemple** (badge vert pointillé « Exemple de mise en forme »)
-est encore dans le relevé pour montrer la structure complète : à supprimer dès
-que les vraies entrées sont écrites. Le numéro de stand Eurobois est également
-en placeholder dans `evenements.html`.
+✅ **L'entrée exemple a été supprimée le 19/08/2026**, remplacée par six entrées
+réelles (voir « Premières entrées de veille » plus bas). Le numéro de stand
+Eurobois reste en placeholder dans `evenements.html`.
 
 ⚠️ **Ne pas récupérer automatiquement (scraper) le contenu des sites
 partenaires** : problème de droits d'auteur et casse à la moindre refonte de
@@ -372,6 +371,52 @@ Il ne peut pas être agrandi sans devenir flou. **À faire revectoriser** (.svg)
 cela débloquera un logo plus présent dans l'en-tête, et servira aussi pour les
 plaquettes, le stand Eurobois et les véhicules.
 
+## Premières entrées de veille (19/08/2026)
+Six entrées réelles (N° 004 à 009) remplacent l'entrée exemple, qui est
+supprimée, ainsi que le style `.demo-badge` devenu mort. Le relevé compte
+désormais 9 entrées.
+
+**Deux catégories ont été ajoutées**, parce que la demande du PDG ne portait pas
+seulement sur les nouveautés constructeurs : ses clients lui demandent aussi ce
+qui se passe dans la filière. Il a donc fallu compléter le dictionnaire `LABELS`
+dans `script.js` — sans quoi le filtre s'affiche avec la valeur brute non
+accentuée :
+- `marche` → « Marché »
+- `reglementation` → « Réglementation »
+
+**Les six entrées et leurs sources :**
+- N° 009 · Réglementation — RDUE/EUDR applicable au 30/12/2026, déclaration de
+  diligence raisonnée dans TRACES. Source : ministère de la Transition
+  écologique. Point vérifié à deux reprises car il engage le lecteur : le report
+  de six mois accordé aux micro et petites entreprises **ne couvre pas le bois**.
+- N° 008 · Marché — note de conjoncture FNB (−14,4 % de CA pour les scieries
+  résineux, −18,1 % feuillus, −8,6 % à l'export), redressement des prix des
+  sciages au T1 2026 alors que les bois sur pied baissent.
+- N° 007 · Sciage — Linck PRO NANO : 8 à 35 cm, 220 m/min, ~250 000 m³/an et par
+  équipe, canter horizontal qui supprime le retourneur.
+- N° 006 · Automatisation — Springer SAWBOX, présentée au salon de Klagenfurt en
+  mars 2026, visites chez Cimenti.
+- N° 005 · Séchage — Mühlböck, récupération de chaleur : jusqu'à 50 % annoncés au
+  catalogue, ~20 % sur la référence française de Volgelsheim (Schilliger Bois).
+  **L'écart est assumé et expliqué dans l'entrée** — c'est ce qui donne sa
+  crédibilité au relevé.
+- N° 004 · Bois énergie — Urbas : Pölkky (Kajaani, janvier 2026), Lustenau 5 MW
+  (juin 2026), Holtmeyer (granulés + cogénération). Prix du granulé ~410 €/t en
+  vrac en 2026 contre ~285 €/t avant la crise de 2022.
+
+**Règle de rédaction retenue pour la suite.** Chaque entrée renvoie à sa source
+par le lien `.entry-more` (`target="_blank" rel="noopener"`), et les six liens
+ont été testés — tous en HTTP 200. On ne recopie jamais le texte d'un
+constructeur : on résume, on date, on source, et on ajoute l'analyse française
+dans `.entry-impact`. Quand un chiffre constructeur est un maximum commercial,
+on le présente comme tel et on donne la valeur observée sur une installation
+réelle : c'est le seul moyen que le lecteur revienne.
+
+Les trois entrées les plus récentes ont été recopiées dans le bloc `.watch` de
+l'accueil et la date `.watch-freshness` passée à « août 2026 ». Vérifié après
+coup : filtres générés correctement (9 boutons), aucun débordement horizontal en
+1265 px comme en 375 px, aucune erreur console.
+
 ## Travailler en local (ajouté le 19/08/2026)
 Le projet a été récupéré depuis GitHub sur un nouveau PC. Pour le développer :
 
@@ -408,7 +453,7 @@ andre-technologies.fr dessus.
 - [x] Hébergement — en ligne sur Netlify, reste à lier un compte + le domaine
 - [x] Refonte typographique et chromatique (29/07/2026)
 - [x] Rubrique veille technologique + événements (29/07/2026)
-- [ ] **Écrire les premières vraies entrées de veille** et supprimer l'entrée
+- [x] **Écrire les premières vraies entrées de veille** et supprimer l'entrée
       exemple dans `veille.html` — c'est le point bloquant avant publication
 - [ ] Demander aux constructeurs partenaires d'être mis en copie de leurs
       communiqués de nouveautés (matière première de la veille)

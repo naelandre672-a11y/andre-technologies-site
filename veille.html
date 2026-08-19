@@ -20,15 +20,6 @@
   }
   .breadcrumb a{color:var(--oak-light);}
   .breadcrumb a:hover{text-decoration:underline;}
-  /* Badge qui signale une entrée de démonstration. À supprimer en même
-     temps que l'entrée exemple, une fois les vraies entrées rédigées. */
-  .demo-badge{
-    display:inline-block;margin-bottom:8px;
-    font-family:var(--font-structural);font-weight:700;
-    font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--vert-600);background:rgba(120,162,47,0.12);
-    border:1px dashed var(--vert-600);padding:3px 8px;
-  }
 </style>
 </head>
 <body>
@@ -147,23 +138,111 @@
     -->
     <div class="register stagger" id="register">
 
-      <!-- ENTRÉE EXEMPLE — à supprimer une fois les vraies entrées en place.
-           Elle sert uniquement à montrer la mise en forme complète. -->
+      <article class="entry" data-cat="reglementation">
+        <div class="entry-stamp">
+          <span class="entry-no">N° 009</span>
+          <span class="entry-date">Août 2026</span>
+          <span class="entry-src">Commission européenne</span>
+          <span class="entry-cat">Réglementation</span>
+        </div>
+        <div class="entry-body">
+          <h3>Déforestation : la déclaration européenne devient obligatoire le 30 décembre 2026</h3>
+          <p class="entry-sum">Le règlement européen sur la déforestation (RDUE, ou EUDR) interdit de mettre sur le marché de l'Union du bois issu de la déforestation. À partir du 30 décembre 2026, tout opérateur qui met du bois sur le marché européen doit déposer une déclaration de diligence raisonnée dans le système TRACES avant la mise sur le marché, en remontant jusqu'à la géolocalisation des parcelles d'origine. Le report de six mois accordé aux micro et petites entreprises ne couvre pas le secteur du bois : l'échéance est la même pour tout le monde. Un paquet de simplification adopté en 2026 allège les procédures — déclaration annuelle unique possible pour les plus petits opérateurs primaires — sans lever l'obligation de fond.</p>
+          <div class="entry-impact">
+            <strong>Ce que ça change pour votre scierie</strong>
+            <p>C'est l'échéance la plus proche, et la plus souvent sous-estimée : s'approvisionner en grumes françaises n'exonère de rien. Il faut pouvoir relier chaque lot entrant à sa parcelle d'origine, ce qui se joue d'abord dans les contrats d'approvisionnement et dans l'identification des bois à la réception — pas dans un logiciel acheté en décembre. Le règlement impose aux États membres de prévoir des amendes pouvant atteindre 4 % du chiffre d'affaires réalisé dans l'Union : le sujet se traite en direction, pas au parc à grumes.</p>
+          </div>
+          <a href="https://www.deforestationimportee.ecologie.gouv.fr/reglement-europeen-contre-la-deforestation-et-la-degradation-des-forets/article/reglement-europeen-contre-la-deforestation-et-la-degradation-des-forets" class="entry-more" target="_blank" rel="noopener">Le règlement expliqué par le ministère <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="entry" data-cat="marche">
+        <div class="entry-stamp">
+          <span class="entry-no">N° 008</span>
+          <span class="entry-date">Août 2026</span>
+          <span class="entry-src">Note de conjoncture FNB</span>
+          <span class="entry-cat">Marché</span>
+        </div>
+        <div class="entry-body">
+          <h3>Résineux : le creux se prolonge, la reprise s'annonce sans être encore là</h3>
+          <p class="entry-sum">La note de conjoncture de la Fédération Nationale du Bois chiffre le repli : −14,4 % de chiffre d'affaires sur un trimestre pour les scieries à dominante résineux, −18,1 % pour les feuillus, avec un export résineux en recul de 8,6 %. Les carnets tiennent, mais la visibilité reste courte. Le scénario retenu est une reprise des résineux amorcée début 2026, les feuillus suivant environ six mois plus tard. Au premier trimestre 2026, les prix des sciages résineux se redressent effectivement, tirés par la charpente, pendant que le marché des bois sur pied reste orienté à la baisse.</p>
+          <div class="entry-impact">
+            <strong>Ce que ça change pour votre scierie</strong>
+            <p>Deux signaux qu'il ne faut pas confondre : le sciage remonte pendant que la grume baisse, ce qui reconstitue mécaniquement la marge de sciage. C'est la fenêtre où un investissement se calcule le mieux — et elle est étroite. La France a perdu près de 2 millions de m³ de sciages résineux annuels en quinze ans et reste déficitaire sur ce produit. Les unités qui traversent le creux sont celles qui ont modernisé avant, rarement celles qui s'y résolvent pendant.</p>
+          </div>
+          <a href="https://www.fnbois.com/note-de-conjoncture-economique/" class="entry-more" target="_blank" rel="noopener">La note de conjoncture complète <span>→</span></a>
+        </div>
+      </article>
+
       <article class="entry" data-cat="sciage">
         <div class="entry-stamp">
-          <span class="entry-no">N° 004</span>
-          <span class="entry-date">— · — · 2026</span>
-          <span class="entry-src">Provenance à renseigner</span>
+          <span class="entry-no">N° 007</span>
+          <span class="entry-date">Août 2026</span>
+          <span class="entry-src">Documentation Linck</span>
           <span class="entry-cat">Sciage</span>
         </div>
         <div class="entry-body">
-          <span class="demo-badge">Exemple de mise en forme — à remplacer</span>
-          <h3>Le titre de la nouveauté, en une phrase claire</h3>
-          <p class="entry-sum">Deux à quatre phrases pour décrire ce qui est nouveau, sans jargon inutile : de quoi il s'agit, chez quel constructeur, et sur quel type d'installation ça s'applique. Le lecteur doit comprendre l'essentiel sans cliquer.</p>
+          <h3>Linck PRO NANO : une ligne de profilage pensée pour les petits diamètres</h3>
+          <p class="entry-sum">Linck a complété sa gamme par le bas avec la PRO NANO, une ligne de profilage destinée aux bois de 8 à 35 cm de diamètre, jusqu'à 220 m/min d'avance et de l'ordre de 250 000 m³ de grumes par an et par équipe. Sa particularité tient à son architecture : un canter horizontal supprime le dispositif de retournement, ce qui raccourcit la ligne et réduit son emprise au sol.</p>
           <div class="entry-impact">
             <strong>Ce que ça change pour votre scierie</strong>
-            <p>Votre analyse, en deux ou trois phrases : pour quel profil de scierie c'est pertinent, à partir de quel volume ça devient intéressant, et ce que ça implique côté investissement ou exploitation. C'est cette partie que vos clients ne trouveront nulle part ailleurs.</p>
+            <p>C'est la réponse machine à une réalité française : la ressource résineuse disponible est de plus en plus faite de petits bois — éclaircies, et bois de crise sur épicéa dans l'Est. Beaucoup de sites passent ces diamètres sur une ligne dimensionnée pour de la grosse grume, avec un rendement matière et une cadence qui n'y sont pas. La suppression du retourneur intéresse d'abord les scieries contraintes en longueur de bâtiment, où rallonger une ligne classique coûte souvent plus cher que la machine elle-même.</p>
           </div>
+          <a href="https://www.linck.com/en/magazine/processing-of-small-diameter-logs" class="entry-more" target="_blank" rel="noopener">La fiche du constructeur <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="entry" data-cat="automatisation">
+        <div class="entry-stamp">
+          <span class="entry-no">N° 006</span>
+          <span class="entry-date">Mars 2026</span>
+          <span class="entry-src">Salon international du bois, Klagenfurt</span>
+          <span class="entry-cat">Automatisation</span>
+        </div>
+        <div class="entry-body">
+          <h3>Springer SAWBOX : de la grume au bois trié dans un seul ensemble</h3>
+          <p class="entry-sum">Springer a présenté sa SAWBOX au salon international du bois de Klagenfurt, en mars 2026, avec des visites de l'installation en fonctionnement chez le scieur Cimenti. Le principe : réunir toute la chaîne, de la grume au bois scié et trié, dans un système compact piloté par scanner, automatisation et robotique, là où ces fonctions occupent habituellement plusieurs machines et plusieurs postes.</p>
+          <div class="entry-impact">
+            <strong>Ce que ça change pour votre scierie</strong>
+            <p>L'argument n'est pas seulement la cadence : c'est le personnel et la surface. La filière annonce des difficultés sur près de deux tiers de ses recrutements, et ce sont les postes de tri et de manutention qui se pourvoient le plus mal. Une ligne qui tourne avec moins d'opérateurs sur ces postes-là change le calcul d'un site qui ne remplace plus ses départs. La question à poser au constructeur est le volume annuel à partir duquel l'ensemble se justifie face à des machines séparées : en dessous, l'intégration coûte plus qu'elle ne rapporte.</p>
+          </div>
+          <a href="https://www.springer.eu/en/unternehmen/news/" class="entry-more" target="_blank" rel="noopener">L'annonce du constructeur <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="entry" data-cat="sechage">
+        <div class="entry-stamp">
+          <span class="entry-no">N° 005</span>
+          <span class="entry-date">Août 2026</span>
+          <span class="entry-src">Documentation Mühlböck</span>
+          <span class="entry-cat">Séchage</span>
+        </div>
+        <div class="entry-body">
+          <h3>Séchage : la récupération de chaleur devient l'argument principal, chiffres à l'appui</h3>
+          <p class="entry-sum">Mühlböck met en avant la récupération de chaleur sur toute sa gamme : séchoirs à air chaud climatisé 1306 PRO, séchoirs à bande 1003 PREMIUM pour le séchage continu des connexes. L'économie d'énergie thermique annoncée va jusqu'à 50 % selon les configurations. Sur la référence française de Volgelsheim, dans le Haut-Rhin, équipée en 1306 PRO de classe de performance 5, l'économie citée est de l'ordre de 20 % par rapport à une installation classique.</p>
+          <div class="entry-impact">
+            <strong>Ce que ça change pour votre scierie</strong>
+            <p>L'écart entre les 50 % du catalogue et les 20 % d'un site réel n'est pas une contradiction : tout dépend de la classe de performance retenue et de la référence à laquelle on se compare. C'est exactement la question à poser en phase d'étude, avant la commande — sur quelle base l'économie est-elle calculée. Le séchage étant le premier poste de consommation thermique d'une scierie, chaque point gagné se lit directement sur le prix de revient du m³ séché, et conditionne le dimensionnement de la chaufferie qui l'alimente.</p>
+          </div>
+          <a href="https://www.muehlboeck.com/fr/installations-de-sechage/sechoirs-air-chaud-climatise/sechoir-1306-pro/sechage-avec-insonorisation-technologie-de-sechage-50119.html" class="entry-more" target="_blank" rel="noopener">La documentation du séchoir 1306 PRO <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="entry" data-cat="energie">
+        <div class="entry-stamp">
+          <span class="entry-no">N° 004</span>
+          <span class="entry-date">Juin 2026</span>
+          <span class="entry-src">Communiqués Urbas</span>
+          <span class="entry-cat">Bois énergie</span>
+        </div>
+        <div class="entry-body">
+          <h3>Les scieries européennes rééquipent leurs connexes, de la Finlande au Vorarlberg</h3>
+          <p class="entry-sum">Urbas a livré coup sur coup une chaufferie pour le scieur finlandais Pölkky à Kajaani, en janvier 2026, puis une chaufferie biomasse de 5 MW à Lustenau, dans le Vorarlberg, mise en service en juin 2026. En Allemagne, la scierie Holtmeyer s'est équipée pour transformer ses propres connexes en granulés, avec production combinée de chaleur et d'électricité.</p>
+          <div class="entry-impact">
+            <strong>Ce que ça change pour votre scierie</strong>
+            <p>Le calcul a changé depuis la crise de 2022 : le granulé s'échange autour de 410 €/t en vrac en 2026, contre environ 285 €/t avant la crise. Vendre sa sciure brute n'est plus le réflexe évident. Pour un site qui sèche déjà, la vraie question est de savoir si les connexes valent davantage en combustible interne, en granulés vendus ou en électricité — et la réponse dépend du volume de connexes disponible et du besoin de chaleur du séchage. C'est un calcul qui se fait sur site, avec vos chiffres, pas sur catalogue.</p>
+          </div>
+          <a href="https://www.urbas.at/en/news-2/" class="entry-more" target="_blank" rel="noopener">Les références du constructeur <span>→</span></a>
         </div>
       </article>
 
