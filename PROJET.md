@@ -372,6 +372,27 @@ Il ne peut pas être agrandi sans devenir flou. **À faire revectoriser** (.svg)
 cela débloquera un logo plus présent dans l'en-tête, et servira aussi pour les
 plaquettes, le stand Eurobois et les véhicules.
 
+## Travailler en local (ajouté le 19/08/2026)
+Le projet a été récupéré depuis GitHub sur un nouveau PC. Pour le développer :
+
+```bash
+git clone https://github.com/naelandre672-a11y/andre-technologies-site.git
+cd andre-technologies-site
+node serve.mjs
+```
+
+Le site est alors sur http://localhost:4321. Rien à installer : `serve.mjs` est un
+serveur de fichiers de 40 lignes qui n'utilise que Node (aucune dépendance npm),
+volontairement, pour ne pas trahir le choix du site sans chaîne d'outils.
+
+⚠️ **Ouvrir `index.html` par double-clic ne fonctionne pas.** Les scripts de la
+scène 3D sont chargés en `type="module"`, et les navigateurs refusent de charger
+un module depuis `file://` (règle CORS). Le serveur est donc obligatoire pour
+voir la page telle qu'elle sera en ligne.
+
+`serve.mjs` sert aussi les URL sans extension (`/contact` → `contact.html`) pour
+se comporter comme Netlify.
+
 ## Hébergement (fait le 24/07/2026, déploiement continu ajouté le 25/07/2026)
 Le code est versionné sur GitHub (`naelandre672-a11y/andre-technologies-site`,
 branche `main`) et le site est hébergé sur Netlify, lié à ce dépôt :
