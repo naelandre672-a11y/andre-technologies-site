@@ -393,6 +393,54 @@ hauteurs de colonne mesurées dans le DOM, distances et angles de caméra
 recalculés à partir des formules du fichier (script conservé dans le
 scratchpad de la session). **Le rendu final reste à valider à l'œil.**
 
+### Deuxième passe : le visuel se décrochait avant la fin (19/08/2026)
+Après la correction de rythme ci-dessus, retour client : « c'est mieux, mais on
+ne voit presque pas la dernière animation avec le camion ». La cause n'était pas
+le rythme, c'était l'épinglage.
+
+`.seq-media` est en `position:sticky` **à l'intérieur de la grille `.seq`**. Son
+bloc conteneur est donc sa cellule de grille, dont la hauteur était exactement
+celle de la colonne de texte. Le visuel se décrochait dès que le bas de la
+colonne remontait à `104px + hauteur du visuel` — mesuré dans le navigateur :
+
+| progression | haut du visuel | épinglé | visible |
+|---|---|---|---|
+| 0,83 | 104 px | oui | 100 % |
+| 0,90 | 11 px | **non** | 100 % |
+| 0,95 | −82 px | non | 79 % |
+| 1,00 | −176 px | non | **54 %** |
+
+Le décrochage tombait à p = 0,83, c'est-à-dire **pile au début de l'étape 6**.
+Toute la séquence camion jouait pendant que l'image s'échappait par le haut, et
+à la fin elle n'était plus qu'à moitié visible. Aucun réglage de durée ne
+pouvait corriger ça.
+
+**Correctif : une réserve de défilement.** `#seq-steps` est désormais enveloppé
+dans `.seq-col`, qui contient aussi une `.seq-tail` vide. C'est `.seq-col` qui
+fixe la hauteur de la rangée, donc la durée d'épinglage ; la progression, elle,
+reste mesurée sur `#seq-steps` seul — **le rythme n'a pas bougé, seul
+l'épinglage a été prolongé**. C'est ce qui rend le correctif sûr : ni
+`script.js` ni le module d'init n'ont été touchés.
+
+La hauteur de la réserve est calculée, pas devinée :
+`calc(124px + min(70vh, 620px) - 38vh)` — décalage haut du visuel, plus sa
+hauteur (plafonnée comme dans sa propre règle), moins la ligne de mire, plus
+20 px de marge. Elle s'adapte donc à la fenêtre : 402 px en 1440×900, 334 px en
+1920×1080, 0 sur mobile et sous `prefers-reduced-motion`, où il n'y a pas
+d'épinglage.
+
+**Vérifié** en pilotant `window.scrollTo({behavior:'instant'})` et en relevant
+la position du visuel à p = 0,83 / 0,90 / 0,95 / 1,00 : épinglé et visible à
+100 % jusqu'au bout, sur 375×812, 550 px de test, 1440×900 et 1920×1080, sans
+débordement horizontal ni erreur console. La mise en page est mesurable dans cet
+outillage même quand `requestAnimationFrame` est gelé — c'est seulement le rendu
+WebGL qui ne l'est pas.
+
+⚠️ Conséquence assumée : sur grand écran, la colonne de texte se termine environ
+400 px avant la fin de la séquence. Pendant ce défilement, le visuel épinglé
+joue le chargement du camion en face d'une colonne vide. C'est voulu — c'est le
+prix pour voir la fin.
+
 ## Bug corrigé le 30/07/2026 : menu mobile cassé (« bizarre en défilant »)
 
 Signalé par le client : rendu mobile étrange en faisant défiler / en cliquant

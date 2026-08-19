@@ -658,6 +658,13 @@
 
   /* La colonne des postes. Le filet vertical à gauche est la ligne
      elle-même ; il se remplit à mesure qu'on la descend. */
+  /* Réserve de défilement sous les postes : elle prolonge la rangée de la
+     grille, donc l’épinglage du visuel, sans entrer dans la mesure de la
+     progression (calculée sur #seq-steps seul). Sa hauteur est exactement
+     ce qui manquait : décalage haut du visuel + hauteur du visuel − ligne
+     de mire, plus 20px de marge. Elle s'adapte donc à la fenêtre. */
+  .seq-tail{height:0;}
+  @media(min-width:900px){.seq-tail{height:calc(124px + min(70vh, 620px) - 38vh);}}
   .seq-steps{padding:0 0 0 34px;position:relative;}
   .seq-steps ol{list-style:none;margin:0;padding:0;}
   .seq-steps::before{
@@ -696,6 +703,7 @@
      visibles les unes après les autres, et toutes les étapes lisibles. */
   @media (prefers-reduced-motion: reduce){
     .seq-media{position:static;height:auto;min-height:0;}
+    .seq-tail{display:none;}
     .seq-media img{position:relative;opacity:1;transform:none;transition:none;height:auto;}
     .seq-media::after,.seq-tag{display:none;}
     .seq-step{opacity:1;}

@@ -241,6 +241,14 @@
         <span class="seq-tag"><span class="n" id="seq-n">01</span><span class="t" id="seq-t">Parc à grumes</span></span>
       </div>
 
+      <!-- La colonne de texte enveloppe les postes ET une réserve de
+           défilement (.seq-tail). C’est elle qui fixe la hauteur de la
+           rangée, donc la durée pendant laquelle le visuel reste épinglé.
+           Sans cette réserve, le visuel se décroche à 83 % de la séquence,
+           soit pile au début de l’étape camion, qui défilait alors hors
+           de l’écran. La progression, elle, reste mesurée sur #seq-steps
+           seul : la réserve allonge l’épinglage sans changer le rythme. -->
+      <div class="seq-col">
       <div class="seq-steps" id="seq-steps">
       <span class="seq-fill" id="seq-fill" aria-hidden="true"></span>
       <ol>
@@ -275,6 +283,8 @@
           <p>Conditionnement, cerclage et préparation des colis, prêts à charger. La boucle est bouclée : la grume est devenue un produit livrable.</p>
         </li>
       </ol>
+      </div>
+      <div class="seq-tail" aria-hidden="true"></div>
       </div>
     </div>
   </div>
