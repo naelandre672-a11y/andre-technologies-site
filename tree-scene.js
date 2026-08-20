@@ -31,10 +31,10 @@ const BG_COLOR = 0x191a1c;
 const ACCENT = 0x78a22f;
 
 const CC0_TEXTURES = {
-  barkDiff: 'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/bark_brown_02/bark_brown_02_diff_1k.jpg',
-  barkNormal: 'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/bark_brown_02/bark_brown_02_nor_gl_1k.jpg',
-  sawnWood: 'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/plywood/plywood_diff_1k.jpg',
-  planedWood: 'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/plywood/plywood_diff_1k.jpg',
+  barkDiff: 'images/textures/bark_brown_02_diff.jpg',
+  barkNormal: 'images/textures/bark_brown_02_nor_gl.jpg',
+  sawnWood: 'images/textures/plywood_diff.jpg',
+  planedWood: 'images/textures/plywood_diff.jpg',
 };
 
 const clamp = THREE.MathUtils.clamp;

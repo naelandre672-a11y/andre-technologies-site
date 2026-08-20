@@ -9,49 +9,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <noscript><style>.reveal,.stagger>*{opacity:1!important;transform:none!important;}</style></noscript>
-
 <!--
   ============================================================
-  SCÈNE 3D DE LA LIGNE DE PROCESS
+  SCÈNE 3D DE LA LIGNE DE PROCESS — ÉCRANS LARGES SEULEMENT
   ============================================================
-  La séquence #seq affichait 6 photos en fondu ; elle affiche désormais une
-  scène 3D qui suit la grume d'un bout à l'autre de la ligne. Trois choses
-  seulement ont changé dans cette page :
-    1. cet import map + ce bloc <style> ;
-    2. le contenu de .seq-media (les 6 <img> remplacées par #tree-3d) ;
-    3. le module d'initialisation, juste avant </body>.
+  La séquence #seq repose sur six photos qui s'enchaînent au défilement.
+  Elles sont dans le HTML, pilotées par script.js, et fonctionnent partout :
+  téléphone, tablette, ordinateur, avec ou sans JavaScript pour l'essentiel.
 
-  style.css et script.js n'ont PAS été modifiés. La liste des postes, le filet
-  vert qui se remplit et le cartouche 01/Parc à grumes continuent d'être pilotés
-  par script.js comme avant — la scène 3D lit la même progression, donc tout
-  reste synchrone image par image. Si le JavaScript ou WebGL tombe, la colonne
-  de texte reste entièrement lisible.
+  Sur écran large uniquement, une scène 3D vient les remplacer : la grume y est
+  suivie du parc à grumes jusqu'au chargement du camion. Le module en bas de
+  page ne charge tree-scene.js que si l'écran fait au moins 900px et que le
+  visiteur n'a pas demandé à réduire les animations. En dessous, **rien de la
+  3D n'est téléchargé** — ni three.js, ni ses textures, soit environ 2,6 Mo
+  épargnés à chaque visite sur téléphone.
+
+  three.js et les textures sont hébergés ici, dans vendor/ et images/textures/.
+  Le site ne dépend donc d'aucun CDN externe : ni unpkg, ni Poly Haven. Un
+  pare-feu d'entreprise qui bloque ces domaines ne casse plus la page.
+
+  style.css et script.js pilotent la liste des postes, le filet vert et le
+  cartouche. La scène 3D lit la même progression, donc tout reste synchrone.
   ============================================================
 -->
 <script type="importmap">
 {
   "imports": {
-    "three": "https://unpkg.com/three@0.184.0/build/three.module.js"
-  },
-  "integrity": {
-    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
-    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT"
+    "three": "./vendor/three.module.js"
   }
 }
 </script>
 <style>
-  /* La scène occupe exactement la place de l'ancienne photo épinglée. */
+  /* La scène occupe exactement la place de la photo épinglée. */
   #tree-3d{position:relative;width:100%;height:100%;}
   #tree-3d canvas{display:block;width:100%;height:100%;}
 
-  /* Sans mouvement, style.css rend .seq-media auto-dimensionnée (elle n'avait
-     plus que des <img> en flux). La scène a besoin d'une hauteur : on la lui
-     redonne, et on rétablit le cartouche que la règle d'origine masquait. */
-  @media (prefers-reduced-motion: reduce){
-    .seq-media{height:52vh;min-height:300px;}
-    .seq-media::after,.seq-tag{display:block;}
-    .seq-tag{display:flex;}
-  }
+  /* Quand la scène 3D est en place, les photos s'effacent : c'est le module
+     du bas de page qui pose .avec-3d, une fois tree-scene.js réellement
+     chargé. Si le chargement échoue, les photos restent — c'est voulu. */
+  .seq-media.avec-3d img{display:none;}
 </style>
 </head>
 <body>
@@ -235,8 +231,22 @@
     -->
     <div class="seq" id="seq">
       <div class="seq-media">
-        <!-- Les six <img> en fondu ont laissé la place à la scène 3D.
-             Le cartouche ci-dessous reste piloté par script.js. -->
+        <!--
+          Les six photos sont la séquence de base. Elles fonctionnent partout,
+          y compris sur téléphone, et c'est script.js qui les enchaîne au
+          défilement (classe .on), exactement comme avant la scène 3D.
+
+          Sur écran large seulement, le module en bas de page charge la scène 3D,
+          pose la classe .avec-3d sur ce bloc, et les photos s'effacent au profit
+          de la 3D. Sous 900px ou en prefers-reduced-motion, la scène n'est même
+          pas téléchargée : ni three.js, ni ses textures. Voir PROJET.md.
+        -->
+        <img class="on" src="images/pellets-convoyeur.jpg" srcset="images/pellets-convoyeur-800.jpg 800w, images/pellets-convoyeur-1200.jpg 1200w, images/pellets-convoyeur.jpg 1800w" sizes="(min-width: 900px) 48vw, 100vw" width="1800" height="1202" decoding="async" alt="Parc à grumes : réception et tri des bois ronds">
+        <img src="images/sciage-linck.jpg" srcset="images/sciage-linck-800.jpg 800w, images/sciage-linck-1200.jpg 1200w, images/sciage-linck.jpg 1800w" sizes="(min-width: 900px) 48vw, 100vw" width="1800" height="1200" loading="lazy" decoding="async" alt="Ligne de sciage Linck">
+        <img src="images/triage-empilage-springer.jpg" srcset="images/triage-empilage-springer-800.jpg 800w, images/triage-empilage-springer-1200.jpg 1200w, images/triage-empilage-springer.jpg 1800w" sizes="(min-width: 900px) 48vw, 100vw" width="1800" height="1013" loading="lazy" decoding="async" alt="Triage et empilage Springer">
+        <img src="images/sechage-siat3.jpg" srcset="images/sechage-siat3-800.jpg 800w, images/sechage-siat3-1200.jpg 1200w, images/sechage-siat3.jpg 1800w" sizes="(min-width: 900px) 48vw, 100vw" width="1800" height="1350" loading="lazy" decoding="async" alt="Séchoirs et étuves">
+        <img src="images/rabotage-stock.jpg" srcset="images/rabotage-stock-800.jpg 800w, images/rabotage-stock-1200.jpg 1200w, images/rabotage-stock.jpg 1600w" sizes="(min-width: 900px) 48vw, 100vw" width="1600" height="1067" loading="lazy" decoding="async" alt="Sciages empilés sur baguettes avant rabotage">
+        <img src="images/pellets-transport-stockage.jpg" srcset="images/pellets-transport-stockage-800.jpg 800w, images/pellets-transport-stockage-1200.jpg 1200w, images/pellets-transport-stockage.jpg 1800w" sizes="(min-width: 900px) 48vw, 100vw" width="1800" height="1199" loading="lazy" decoding="async" alt="Stockage et expédition">
         <div id="tree-3d"></div>
         <span class="seq-tag"><span class="n" id="seq-n">01</span><span class="t" id="seq-t">Parc à grumes</span></span>
       </div>
@@ -477,49 +487,68 @@
 <script src="script.js"></script>
 
 <!--
-  Initialisation de la scène 3D. La progression est calculée avec la formule
-  exacte qu'utilise script.js pour remplir le filet vert (ligne de mire au
-  tiers haut de l'écran, rapportée à la hauteur de la colonne des postes) :
-  la scène, l'étape active et le filet avancent donc rigoureusement ensemble.
-  Sous 900px et en prefers-reduced-motion, la scène se met d'elle-même en
-  repli (grume en rotation lente, pas d'épinglage) : rien à gérer ici.
+  Initialisation de la scène 3D — écrans larges uniquement.
+
+  Le test de largeur est fait AVANT l'import : sous 900px, tree-scene.js n'est
+  jamais téléchargé, et avec lui ni three.js ni les textures. C'est ce qui évite
+  à un visiteur sur téléphone de payer environ 2,6 Mo pour une scène qui, de
+  toute façon, ne raconterait pas l'histoire à cette taille : les six photos le
+  font mieux, en une fraction du poids.
+
+  La progression est calculée avec la formule exacte qu'utilise script.js pour
+  remplir le filet vert (ligne de mire au tiers haut de l'écran, rapportée à la
+  hauteur de la colonne des postes) : la scène, l'étape active et le filet
+  avancent donc rigoureusement ensemble.
 -->
 <script type="module">
-  import { initTreeScene } from './tree-scene.js';
-
   const hote = document.getElementById('tree-3d');
   const liste = document.getElementById('seq-steps');
+  const media = document.querySelector('.seq-media');
 
-  if (hote && liste) {
-    const scene = initTreeScene(hote, null, { manualScroll: true });
+  const ecranLarge = window.matchMedia('(min-width: 900px)').matches;
+  const mouvementAccepte = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!scene.isSimplified) {
-      let enAttente = false;
-      let derniereValeur = null;
-      const majScene = () => {
-        enAttente = false;
-        const r = liste.getBoundingClientRect();
-        const mire = window.innerHeight * 0.38;
-        const p = (mire - r.top) / r.height;
-        // La scène interpole en douceur vers chaque nouvelle valeur : c'est
-        // l'effet voulu pendant un défilement normal, à la souris ou au doigt.
-        // Mais après un grand saut instantané — clic sur "Voir la ligne de
-        // process", chargement de la page avec une ancre, retour en arrière
-        // du navigateur, touche Fin — cette interpolation met un instant à
-        // rattraper le cartouche de texte, qui lui saute immédiatement : la
-        // scène affiche alors une étape visiblement en retard sur son propre
-        // titre. On saute donc sans interpolation quand l'écart est grand
-        // (plus de 15 % de la séquence en un seul événement de scroll).
-        const grandSaut = derniereValeur === null || Math.abs(p - derniereValeur) > 0.15;
-        scene.setProgress(p, grandSaut);
-        derniereValeur = p;
-      };
-      const planifier = () => {
-        if (!enAttente) { enAttente = true; requestAnimationFrame(majScene); }
-      };
-      window.addEventListener('scroll', planifier, { passive: true });
-      window.addEventListener('resize', planifier);
-      majScene();
+  if (hote && liste && media && ecranLarge && mouvementAccepte) {
+    // Import dynamique : c'est lui qui déclenche le téléchargement de three.js.
+    // Si quoi que ce soit échoue (fichier absent, WebGL indisponible), on ne
+    // pose pas .avec-3d et les six photos continuent de fonctionner seules.
+    try {
+      const { initTreeScene } = await import('./tree-scene.js');
+      const scene = initTreeScene(hote, null, { manualScroll: true });
+
+      if (!scene.isSimplified) {
+        media.classList.add('avec-3d');
+
+        let enAttente = false;
+        let derniereValeur = null;
+        const majScene = () => {
+          enAttente = false;
+          const r = liste.getBoundingClientRect();
+          const mire = window.innerHeight * 0.38;
+          const p = (mire - r.top) / r.height;
+          // La scène interpole en douceur vers chaque nouvelle valeur : c'est
+          // l'effet voulu pendant un défilement normal, à la souris ou au doigt.
+          // Mais après un grand saut instantané — clic sur "Voir la ligne de
+          // process", chargement de la page avec une ancre, retour en arrière
+          // du navigateur, touche Fin — cette interpolation met un instant à
+          // rattraper le cartouche de texte, qui lui saute immédiatement : la
+          // scène affiche alors une étape visiblement en retard sur son propre
+          // titre. On saute donc sans interpolation quand l'écart est grand
+          // (plus de 15 % de la séquence en un seul événement de scroll).
+          const grandSaut = derniereValeur === null || Math.abs(p - derniereValeur) > 0.15;
+          scene.setProgress(p, grandSaut);
+          derniereValeur = p;
+        };
+        const planifier = () => {
+          if (!enAttente) { enAttente = true; requestAnimationFrame(majScene); }
+        };
+        window.addEventListener('scroll', planifier, { passive: true });
+        window.addEventListener('resize', planifier);
+        majScene();
+      }
+    } catch (e) {
+      // Volontairement silencieux côté visiteur : la page reste complète.
+      console.warn('Scène 3D non chargée, les photos prennent le relais.', e);
     }
   }
 </script>
