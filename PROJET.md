@@ -545,29 +545,170 @@ sur `main` redéploie automatiquement le site en quelques minutes, plus besoin
 de glisser-déposer manuellement. Reste à faire : brancher le nom de domaine
 andre-technologies.fr dessus.
 
+
+### Brancher andre-technologies.fr (procédure, non faite au 20/08/2026)
+Le domaine est chez OVH et sert encore l'ancien site. La bascule est décidée par
+le client, pas par nous — dès la propagation, l'ancien site disparaît.
+
+1. **Dans Netlify** : Site configuration → Domain management → Add a domain →
+   `andre-technologies.fr`. Netlify affiche alors les valeurs exactes à saisir.
+2. **Chez OVH**, zone DNS du domaine :
+   - l'enregistrement `A` de la racine (`@`) → l'adresse IP donnée par Netlify
+     (aujourd'hui `75.2.60.5`, mais **toujours prendre celle affichée par
+     Netlify**, elle change) ;
+   - l'enregistrement `CNAME` de `www` → le sous-domaine `.netlify.app` du site.
+   - Supprimer les anciens `A`/`CNAME` qui pointent sur l'hébergement OVH.
+3. Attendre la propagation : de quelques minutes à 24 h. Netlify installe le
+   certificat HTTPS (Let's Encrypt) tout seul une fois le DNS en place.
+4. **Puis, dans le dépôt**, basculer les URLs absolues :
+   ```bash
+   sed -i 's|https://andretechnologies.netlify.app|https://andre-technologies.fr|g' *.html sitemap.xml robots.txt
+   ```
+   et pousser. Sans ça, les balises canonical et le sitemap continuent de
+   désigner l'adresse Netlify, et Google indexe la mauvaise.
+5. Déclarer enfin le site à Google Search Console et y soumettre le sitemap.
+
+⚠️ Prévenir avant : les adresses email `@andre-technologies.fr` dépendent des
+enregistrements `MX`, **qu'il ne faut surtout pas toucher**. Ne modifier que les
+`A` et `CNAME` du site web.
+
+## Passe de finition demandée après audit (20/08/2026)
+Audit du site à la demande du client, puis correction de tout ce qui était
+corrigible sans son intervention. Ce qui suit remplace plusieurs lignes de la
+liste de fin de fichier.
+
+### 1. Le mobile ne recevait plus la 3D — et ne la payait plus
+Constat : sous 900px, `tree-scene.js` basculait en mode simplifié (une grume
+qui tourne, sans les six étapes) **mais téléchargeait quand même** three.js et
+ses textures. Mesuré : 3,1 Mo pour une scène qui ne racontait rien.
+
+Le test de largeur est désormais fait **avant** l'import, dans le module en bas
+d'`index.html` : sous 900px ou en `prefers-reduced-motion`, `tree-scene.js`
+n'est jamais chargé. Les six photos, remises dans le HTML, reprennent leur rôle
+d'origine — c'est toujours `script.js` qui les enchaîne. Sur écran large, le
+module pose `.avec-3d` sur `.seq-media` et les photos s'effacent. Un `try/catch`
+entoure l'import : si trois.js manque, les photos restent.
+
+Vérifié au réseau en 375px : aucune requête vers `tree-scene.js`, `vendor/three*`
+ni les textures. **Accueil mobile : 340 Ko en 8 requêtes, contre ~5,5 Mo.**
+
+### 2. Plus aucun CDN externe
+`three.js` est dans `vendor/`, les textures dans `images/textures/` (réduites de
+2 497 à 634 Ko), et la photo « Rabotage » qui venait d'Unsplash en direct est
+rapatriée. Le site ne dépend plus d'unpkg ni de Poly Haven : le pare-feu d'une
+scierie qui bloque ces domaines ne casse plus la page. L'import map pointe sur
+`./vendor/three.module.js`, sans SRI — inutile en même origine.
+
+### 3. Photos : trois largeurs, servies selon l'écran
+Toutes réencodées en 1800 px max (mozjpeg 78), plus des variantes 800 et 1200.
+Les `<img>` ont `srcset`, `sizes`, `width`, `height` et `decoding`. Le `sizes`
+a été mesuré dans le navigateur, pas estimé : `.showcase-visual` fait 53vw.
+
+Les fonds photo posaient un problème : un `style` en ligne ne peut pas porter de
+media query. Ils passent donc par `--fond` / `--fond-petit`, et c'est `style.css`
+qui choisit la variante 800 px sous 900 px. ⚠️ Deux règles de base existent
+(`.hero-bg`, `.hero-reveal-layer`, `.cta-bg` ont une image par défaut ;
+`.activity-bg` et `.news-card-img` n'en ont pas) — ne pas les fusionner, sinon
+le héros de l'accueil perd son image.
+
+### 4. Mentions légales — l'ancien site était faux
+⚠️ Point important. `andre-technologies.fr` publie encore « SARL HENRY ANDRE ET
+FILS, SARL ». Le registre officiel donne **ANDRE TECHNOLOGIES SAS**, capital
+**75 000 €**, RCS **Saverne 450 846 522**, SIRET siège **450 846 522 00024**,
+APE 46.69B, président **Henry André**. Ce sont ces valeurs qui sont publiées ici.
+Sources : API `recherche-entreprises.api.gouv.fr` et registre RCS.
+
+L'hébergeur déclaré est **Netlify, Inc.**, 101 2nd Street, San Francisco —
+plus OVH, qui n'héberge que l'ancien site.
+
+**Le numéro de TVA intracommunautaire n'est pas publié.** Le numéro calculé
+selon la formule habituelle (FR96 450846522) n'est pas reconnu par le service
+européen VIES : soit l'entreprise n'y est pas inscrite, soit la clé est
+particulière. À faire confirmer par le comptable avant d'ajouter la ligne.
+
+### 5. Les deux formulaires fonctionnent enfin
+Contact et inscription à la veille sont branchés sur **Netlify Forms** :
+`data-netlify="true"`, un champ caché `form-name`, un piège à robots
+`bot-field`. Aucun compte tiers, aucune clé d'API, 100 envois par mois inclus.
+Ils restent de vrais `<form method="POST">` : sans JavaScript, le navigateur
+les envoie et Netlify affiche sa page de confirmation.
+
+⚠️ **Reste une action manuelle** : Netlify → Forms → Form notifications →
+Email notification, avec `henry.andre@andre-technologies.fr`. Sans ça les
+messages sont bien enregistrés, mais personne n'est prévenu.
+
+### 6. Référencement : les fondations manquaient
+L'accueil — la page la plus importante — **n'avait aucune meta description**,
+seule page dans ce cas. Ajouté partout : `canonical`, Open Graph et Twitter Card
+(un lien partagé sur LinkedIn ou WhatsApp n'affichait ni titre, ni image, ni
+description), `sitemap.xml`, `robots.txt`, et des données structurées
+`Organization` sur l'accueil. `actualite-modele.html` passe en `noindex` et sort
+du sitemap : c'est un gabarit rempli de faux texte.
+
+L'image de partage est `images/partage-og.jpg` (1200×630, recadrée du parc à
+grumes). Un favicon existe enfin, tiré du A du logo.
+
+⚠️ Les URLs absolues pointent sur `andretechnologies.netlify.app`. Le jour de
+la bascule DNS, **une seule commande** :
+```bash
+sed -i 's|https://andretechnologies.netlify.app|https://andre-technologies.fr|g' *.html sitemap.xml robots.txt
+```
+
+### 7. Logo vectorisé
+Aucune source de meilleure qualité n'existait : les deux logos de l'ancien site
+font 185×82 et 166×74 px, soit la taille du PNG déjà en place. `logo.svg` a donc
+été **vectorisé depuis le PNG**, couche par couche (bloc gris, lettres NDRE
+détourées en blanc, A et TECHNOLOGIES en vert), en traçant une version agrandie
+8× et adoucie pour éviter l'escalier de pixels.
+
+Comparé à la taille d'affichage réelle sur écran 3× : le SVG est **plus net que
+le PNG**, qui était à sa limite. À grande taille il reste un calque — les
+contours ondulent légèrement. `logo-v2.png` est conservé (données structurées).
+**Le jour où le fichier vectoriel d'origine réapparaît chez l'imprimeur ou le
+poseur d'enseigne, le remplacer :** ce sera meilleur que n'importe quel tracé.
+
 ## Ce qu'il reste à faire avant la mise en ligne définitive
 - [x] Vraies photos de l'entreprise + 2 vidéos partenaires (Urbas, Springer)
-      — sauf Rabotage et Expédition encore en photo de stock faute de
-      matière fournie (voir section Images / Vidéos)
-- [x] Hébergement — en ligne sur Netlify, reste à lier un compte + le domaine
+      — sauf Rabotage et Expédition, encore approximatives faute de matière
+      fournie (voir section Images / Vidéos)
+- [x] Hébergement — en ligne sur Netlify, déploiement continu actif
 - [x] Refonte typographique et chromatique (29/07/2026)
 - [x] Rubrique veille technologique + événements (29/07/2026)
 - [x] **Écrire les premières vraies entrées de veille** et supprimer l'entrée
-      exemple dans `veille.html` — c'est le point bloquant avant publication
-- [ ] Demander aux constructeurs partenaires d'être mis en copie de leurs
-      communiqués de nouveautés (matière première de la veille)
-- [ ] Renseigner le n° de stand Eurobois 2028 dans `evenements.html`
-- [ ] Créer le compte Brevo et coller l'URL dans `SUBSCRIBE_ENDPOINT`
-      (bas de `veille.html`)
-- [ ] Connecter le formulaire de contact à un vrai service d'envoi
-      (`FORM_ENDPOINT` dans `contact.html`)
-- [ ] Compléter les informations légales réelles restantes dans
-      `mentions-legales.html` (forme juridique, capital social, RCS, SIRET,
-      dirigeant, hébergeur — l'adresse est déjà à jour)
-- [ ] Brancher le nom de domaine andre-technologies.fr sur Netlify (DNS)
-- [ ] SEO on-page (meta descriptions déjà en place par page, ajouter
-      sitemap.xml) + accessibilité
-- [ ] Tests multi-navigateurs / vitesse
-- [ ] Mise en ligne définitive + redirections + suivi (Analytics, Search Console)
+      exemple dans `veille.html` (19/08/2026)
+- [x] Inscription à la veille branchée — sur Netlify Forms plutôt que Brevo :
+      pas de compte à créer (20/08/2026)
+- [x] Formulaire de contact branché, également sur Netlify Forms (20/08/2026)
+- [x] Informations légales réelles — reprises du registre officiel, pas de
+      l'ancien site qui est périmé (20/08/2026)
+- [x] SEO on-page : meta descriptions complètes, Open Graph, canonical,
+      sitemap.xml, robots.txt, données structurées, favicon (20/08/2026)
+- [x] Poids et images : trois largeurs servies selon l'écran, plus aucun CDN
+      externe, 3D retirée du mobile (20/08/2026)
+- [x] Logo vectorisé en `logo.svg` (20/08/2026)
+
+### Ce qui demande une action de votre côté
+- [ ] **Activer la notification email des formulaires** : Netlify → Forms →
+      Form notifications → Email notification → `henry.andre@andre-technologies.fr`.
+      Sans ça les messages sont enregistrés mais personne n'est prévenu.
+- [ ] **Brancher andre-technologies.fr sur Netlify** (voir la procédure dans la
+      section Hébergement) puis lancer la commande `sed` de bascule des URLs.
+- [ ] **Faire confirmer le numéro de TVA intracommunautaire** par le comptable,
+      puis l'ajouter aux mentions légales.
+- [ ] Demander le **fichier vectoriel d'origine du logo** à l'imprimeur ou au
+      poseur d'enseigne, et remplacer `logo.svg` par un vrai vecteur.
+- [ ] Fournir de **vraies photos de rabotage et d'expédition** (les deux étapes
+      utilisent aujourd'hui des images approchantes).
+- [ ] Renseigner le **n° de stand Eurobois 2028** dans `evenements.html`.
+- [ ] Demander aux constructeurs partenaires d'être **mis en copie de leurs
+      communiqués** de nouveautés (matière première de la veille).
+
+### Reste à faire côté technique
+- [ ] Déclarer le site à **Google Search Console** et y soumettre le sitemap
+      (à faire après la bascule du domaine, sinon c'est à refaire).
+- [ ] Suivi d'audience respectueux de la vie privée (Plausible, Matomo) —
+      à décider : ça touche la politique de confidentialité.
+- [ ] Tests multi-navigateurs, notamment Safari iOS.
+- [ ] Accessibilité : passe au clavier et contrastes à vérifier.
 - [ ] Nettoyer les gros fichiers à la racine (zips, vidéos, .crdownload —
       voir section Images, ~1 Go non utilisé par le site)
