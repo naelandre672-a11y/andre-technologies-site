@@ -8,7 +8,26 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/favicon-180.png">
 <link rel="stylesheet" href="style.css">
+<!-- Partage et indexation. og:* pilote l'aperçu sur LinkedIn, WhatsApp et
+     les messageries ; sans elles, un lien partagé n'affiche qu'une URL nue. -->
+<link rel="canonical" href="https://andretechnologies.netlify.app/veille">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="André Technologies">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Veille technologique — André Technologies">
+<meta property="og:description" content="Les nouveautés de la filière bois décryptées par André Technologies : innovations machines, séchage, bois énergie et automatisation, avec ce que chaque évolution change concrètement pour une scierie française.">
+<meta property="og:url" content="https://andretechnologies.netlify.app/veille">
+<meta property="og:image" content="https://andretechnologies.netlify.app/images/partage-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Parc à grumes et silos d'une scierie équipée par André Technologies">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#191a1c">
+
 <noscript><style>.reveal,.stagger>*{opacity:1!important;transform:none!important;}</style></noscript>
 <style>
   /* -------- ajustements propres à cette page -------- */
@@ -26,7 +45,7 @@
 
 <header id="site-header">
   <nav>
-    <a href="index.html" class="logo"><img src="logo-v2.png" alt="André Technologies" class="logo-img"></a>
+    <a href="index.html" class="logo"><img src="logo.svg" alt="André Technologies" class="logo-img" width="185" height="82"></a>
 
     <div class="nav-links">
       <div class="nav-item">
@@ -304,15 +323,19 @@
 
     <!--
       ============================================================
-      BRANCHER L'INSCRIPTION À LA VEILLE
+      INSCRIPTION À LA VEILLE
       ============================================================
-      1. Créer un compte gratuit sur brevo.com (jusqu'à 2 000 contacts).
-      2. Créer une liste de contacts, puis un formulaire d'inscription.
-      3. Brevo fournit une URL d'action de formulaire : la coller à la place
-         de VOTRE_ID_BREVO dans SUBSCRIBE_ENDPOINT (bas de cette page).
-      Tant que l'identifiant n'est pas remplacé, le formulaire affiche un
-      message honnête invitant à écrire par email — il ne fait jamais semblant
-      d'avoir enregistré une inscription.
+      Les inscriptions sont enregistrées par Netlify Forms, sous le nom
+      « veille » : rien à installer, aucun compte tiers, aucune clé d'API.
+      Vous les retrouvez dans Netlify → Forms → veille, exportables en CSV.
+
+      Pour être prévenu à chaque nouvelle inscription, activez une fois
+      Netlify → Forms → Form notifications → Email notification.
+
+      Le jour où la liste dépassera quelques centaines d'adresses, exportez
+      le CSV vers un vrai outil d'emailing (Brevo, gratuit jusqu'à 2 000
+      contacts) : c'est lui qui saura envoyer la veille en nombre, gérer les
+      désinscriptions et prouver le consentement.
       ============================================================
     -->
     <div class="subscribe reveal">
@@ -320,7 +343,9 @@
         <h3>Recevoir la veille par email</h3>
         <p>Un message par mois, avec les nouveautés qui méritent votre attention. Pas de démarchage, et désinscription en un clic.</p>
       </div>
-      <form id="subscribe-form" novalidate>
+      <form id="subscribe-form" name="veille" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="veille">
+        <p hidden><label>Ne pas remplir : <input name="bot-field"></label></p>
         <div class="sub-row">
           <label for="sub-email" class="visually-hidden">Votre adresse email</label>
           <input type="email" id="sub-email" name="email" placeholder="prenom.nom@entreprise.fr" required autocomplete="email">
@@ -377,8 +402,10 @@
 <script>
   // Remplacer par l'URL du formulaire fournie par Brevo (voir le mode d'emploi
   // en commentaire plus haut dans cette page).
-  const SUBSCRIBE_ENDPOINT = 'https://VOTRE_ID_BREVO'; // TODO: coller l'URL Brevo
-
+  // Inscription à la veille, enregistrée par Netlify Forms comme le formulaire
+  // de contact : aucun compte tiers, aucune clé d'API. Les adresses recueillies
+  // arrivent dans Netlify → Forms → veille, et s'exportent en CSV le jour où
+  // vous voudrez les basculer dans un vrai outil d'emailing.
   const subForm = document.getElementById('subscribe-form');
   const subMsg = document.getElementById('sub-msg');
 
@@ -398,25 +425,17 @@
       return;
     }
 
-    // Tant que le service n'est pas branché, on le dit franchement plutôt que
-    // de laisser croire à une inscription enregistrée.
-    if (SUBSCRIBE_ENDPOINT.includes('VOTRE_ID_BREVO')){
-      subMsg.textContent = "L'inscription n'est pas encore active — écrivez-nous à contact@andre-technologies.fr et nous vous ajouterons à la liste.";
-      subMsg.className = 'sub-msg error';
-      return;
-    }
-
     subMsg.textContent = 'Inscription en cours...';
     subMsg.className = 'sub-msg';
 
     try {
-      const res = await fetch(SUBSCRIBE_ENDPOINT, {
+      const res = await fetch('/', {
         method: 'POST',
-        body: new FormData(subForm),
-        headers: { Accept: 'application/json' }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(subForm)).toString()
       });
-      if (!res.ok) throw new Error('subscribe failed');
-      subMsg.textContent = 'Inscription enregistrée — vous recevrez la prochaine veille.';
+      if (!res.ok) throw new Error('réponse ' + res.status);
+      subMsg.textContent = 'Inscription enregistrée — vous recevrez la prochaine entrée de veille.';
       subMsg.className = 'sub-msg success';
       subForm.reset();
     } catch (err) {

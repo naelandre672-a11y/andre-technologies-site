@@ -8,7 +8,26 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/favicon-180.png">
 <link rel="stylesheet" href="style.css">
+<!-- Partage et indexation. og:* pilote l'aperçu sur LinkedIn, WhatsApp et
+     les messageries ; sans elles, un lien partagé n'affiche qu'une URL nue. -->
+<link rel="canonical" href="https://andretechnologies.netlify.app/contact">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="André Technologies">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Contact — André Technologies">
+<meta property="og:description" content="Discutons de votre projet d'ingénierie bois ou bois énergie : formulaire de contact, coordonnées et SAV 24h/24, 7j/7 d'André Technologies.">
+<meta property="og:url" content="https://andretechnologies.netlify.app/contact">
+<meta property="og:image" content="https://andretechnologies.netlify.app/images/partage-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Parc à grumes et silos d'une scierie équipée par André Technologies">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#191a1c">
+
 <noscript><style>.reveal,.stagger>*{opacity:1!important;transform:none!important;}</style></noscript>
 <style>
   /* -------- ajustements propres à cette page -------- */
@@ -60,7 +79,7 @@
 
 <header id="site-header">
   <nav>
-    <a href="index.html" class="logo"><img src="logo-v2.png" alt="André Technologies" class="logo-img"></a>
+    <a href="index.html" class="logo"><img src="logo.svg" alt="André Technologies" class="logo-img" width="185" height="82"></a>
 
     <div class="nav-links">
       <div class="nav-item">
@@ -133,7 +152,17 @@
 <section class="block" style="padding-top:80px;">
   <div class="wrap contact-grid">
     <div class="reveal">
-      <form id="contact-form" novalidate>
+      <!--
+        Formulaire branché sur Netlify Forms : rien à installer, aucun compte
+        tiers. Netlify repère le formulaire au déploiement grâce à
+        data-netlify="true" et enregistre les envois. Deux détails obligatoires :
+        le champ caché form-name (sinon l'envoi en JavaScript est rejeté) et le
+        piège à robots bot-field, laissé vide par un humain et rempli par un
+        automate — Netlify jette alors le message sans rien demander de plus.
+      -->
+      <form id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="contact">
+        <p hidden><label>Ne pas remplir : <input name="bot-field"></label></p>
         <div class="field-row">
           <div class="field">
             <label for="f-name">Nom complet *</label>
@@ -235,19 +264,24 @@
 
 <script src="script.js"></script>
 <script>
-  // Formulaire : à connecter à un service d'envoi (Formspree, Netlify Forms...)
-  // avant la mise en ligne définitive — voir PROJET.md. En attendant, le
-  // formulaire prévient l'utilisateur et propose l'email direct en repli.
-  const FORM_ENDPOINT = 'https://formspree.io/f/VOTRE_ID_FORMSPREE'; // TODO: remplacer par votre vrai endpoint
+  // Envoi vers Netlify Forms. L'envoi se fait en JavaScript pour garder le
+  // visiteur sur la page, mais le formulaire reste un vrai <form method="POST"> :
+  // si le JavaScript ne s'exécute pas, le navigateur l'envoie quand même et
+  // Netlify affiche sa page de confirmation. Rien ne se perd.
+  //
+  // Les messages arrivent dans Netlify → Forms → contact. Pour les recevoir par
+  // email, il faut l'activer une fois dans Netlify (Forms → Form notifications →
+  // Email notification). Voir PROJET.md.
   const contactForm = document.getElementById('contact-form');
   const formMsg = document.getElementById('form-msg');
 
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (FORM_ENDPOINT.includes('VOTRE_ID_FORMSPREE')) {
-      formMsg.textContent = "Le formulaire n'est pas encore connecté à un service d'envoi — écrivez-nous directement à contact@andre-technologies.fr en attendant.";
+    if (!contactForm.checkValidity()) {
+      formMsg.textContent = 'Merci de compléter les champs obligatoires.';
       formMsg.className = 'form-msg error';
+      contactForm.reportValidity();
       return;
     }
 
@@ -255,17 +289,17 @@
     formMsg.className = 'form-msg';
 
     try {
-      const res = await fetch(FORM_ENDPOINT, {
+      const res = await fetch('/', {
         method: 'POST',
-        body: new FormData(contactForm),
-        headers: { Accept: 'application/json' }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(contactForm)).toString()
       });
       if (res.ok) {
         formMsg.textContent = 'Message envoyé — nous revenons vers vous rapidement.';
         formMsg.className = 'form-msg success';
         contactForm.reset();
       } else {
-        throw new Error('submit failed');
+        throw new Error('réponse ' + res.status);
       }
     } catch (err) {
       formMsg.textContent = 'Une erreur est survenue. Écrivez-nous directement à contact@andre-technologies.fr.';

@@ -1,0 +1,10 @@
+# André Technologies — https://andretechnologies.netlify.app
+# Tout est ouvert à l'indexation, sauf le gabarit d'article qui ne contient
+# que des textes de remplissage.
+
+User-agent: *
+Allow: /
+Disallow: /actualite-modele
+Disallow: /actualite-modele.html
+
+Sitemap: https://andretechnologies.netlify.app/sitemap.xml
