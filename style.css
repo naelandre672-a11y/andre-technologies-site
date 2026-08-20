@@ -273,7 +273,8 @@
   }
   .hero-bg{
     position:absolute;inset:0;
-    background-image:url('images/pellets-convoyeur.jpg');
+    --fond:url('images/pellets-convoyeur.jpg');--fond-petit:url('images/pellets-convoyeur-800.jpg');
+      background-image:var(--fond);
     background-size:cover;background-position:center 65%;
     animation:heroZoom 16s ease-out forwards;
   }
@@ -357,7 +358,8 @@
   /* -------- hero spotlight reveal -------- */
   .hero-reveal-layer{
     position:absolute;inset:0;z-index:1;
-    background-image:url('images/sciage-linck.jpg');
+    --fond:url('images/sciage-linck.jpg');--fond-petit:url('images/sciage-linck-800.jpg');
+      background-image:var(--fond);
     background-size:cover;background-position:center;
     -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
     -webkit-mask-size:340px 340px; mask-size:340px 340px;
@@ -743,7 +745,8 @@
   }
   .cta-bg{
     position:absolute;inset:0;
-    background-image:url('images/pellets-usine-argentine.jpg');
+    --fond:url('images/pellets-usine-argentine.jpg');--fond-petit:url('images/pellets-usine-argentine-800.jpg');
+      background-image:var(--fond);
     background-size:cover;background-position:center;
     opacity:0.22;
   }
@@ -1129,4 +1132,18 @@
     section.subhero{padding:88px 0 20px;min-height:560px;}
     section.subhero .hero-content{padding-bottom:24px;}
     section.subhero .hero-content .lead{font-size:15px;margin-bottom:18px;}
+  }
+
+  /* Fonds photo : la variante 800px sur les petits écrans. Les blocs posent
+     --fond et --fond-petit en style inline (voir les pages) ; c'est ici, et
+     nulle part ailleurs, qu'on décide laquelle sert. Un style inline ne peut
+     pas contenir de media query — d'où le passage par des variables. */
+  /* Ces deux-là n'ont pas d'image par défaut : elle vient toujours du style
+     inline de la page, via --fond. */
+  .activity-bg, .news-card-img{background-image:var(--fond);}
+
+  @media(max-width:900px){
+    .hero-bg, .hero-reveal-layer, .cta-bg, .activity-bg, .news-card-img{
+      background-image:var(--fond-petit, var(--fond));
+    }
   }
