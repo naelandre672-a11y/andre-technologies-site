@@ -654,18 +654,40 @@ la bascule DNS, **une seule commande** :
 sed -i 's|https://andretechnologies.netlify.app|https://andre-technologies.fr|g' *.html sitemap.xml robots.txt
 ```
 
-### 7. Logo vectorisé
-Aucune source de meilleure qualité n'existait : les deux logos de l'ancien site
-font 185×82 et 166×74 px, soit la taille du PNG déjà en place. `logo.svg` a donc
-été **vectorisé depuis le PNG**, couche par couche (bloc gris, lettres NDRE
-détourées en blanc, A et TECHNOLOGIES en vert), en traçant une version agrandie
-8× et adoucie pour éviter l'escalier de pixels.
+### 7. Logo — vectorisation tentée puis abandonnée (20/08/2026)
+Aucune source de meilleure qualité n'existe : les deux logos de l'ancien site
+font 185×82 et 166×74 px, soit la taille du PNG déjà en place. Un `logo.svg` a
+donc été vectorisé depuis le PNG, couche par couche.
 
-Comparé à la taille d'affichage réelle sur écran 3× : le SVG est **plus net que
-le PNG**, qui était à sa limite. À grande taille il reste un calque — les
-contours ondulent légèrement. `logo-v2.png` est conservé (données structurées).
-**Le jour où le fichier vectoriel d'origine réapparaît chez l'imprimeur ou le
-poseur d'enseigne, le remplacer :** ce sera meilleur que n'importe quel tracé.
+**Rejeté par le client : « il est bizarre », « c'est même pas un A ».** Le tracé
+donnait au A un sommet arrondi que le vrai logo n'a pas, et les lettres NDRE
+détourées ne retrouvaient pas leur découpe d'origine. `logo-v2.png` est donc
+**remis partout**, et `logo.svg` supprimé (récupérable dans l'historique git au
+commit précédent si besoin).
+
+**Leçon : un tracé automatique depuis un bitmap de 185 px ne restitue pas une
+identité de marque.** La netteté gagnée ne compense pas la déformation des
+lettres — un logo, on le reconnaît ou on ne le reconnaît pas. La seule vraie
+solution reste le fichier vectoriel d'origine, à réclamer à l'imprimeur ou au
+poseur d'enseigne.
+
+**Les favicons, eux, viennent maintenant du vrai logo.** Le A vert est extrait
+de `logo-v2.png` **par la couleur et non par un rectangle** : le A et le N
+s'imbriquent en diagonale (à x=43, la colonne contient autant de vert que de
+gris), donc aucun découpage rectangulaire ne peut les séparer sans emporter un
+bout du N. Le filtre retient les pixels où `vert > rouge+10` et
+`vert > bleu+10`, ce qui isole le A seul : 52×59 px, recadré sur un carré de
+76 px pour lui donner sa marge.
+
+⚠️ **Fusionner sur le fond sombre AVANT de redimensionner.** Redimensionner
+d'abord laissait un bord transparent autour du A, et le noyau lanczos3 y
+produisait un anneau clair — deux barres blanches verticales bien visibles de
+part et d'autre du A. En aplatissant d'abord sur `#16191B`, il n'y a plus de
+bord alpha, donc plus d'artefact.
+
+Restent `favicon-32.png` (net, c'est une réduction) et `favicon-180.png` pour
+iOS (agrandi 3×, donc légèrement doux — inévitable depuis une source de 59 px).
+Le `favicon.svg` tracé et le `favicon-512.png` ont été supprimés.
 
 ## Ce qu'il reste à faire avant la mise en ligne définitive
 - [x] Vraies photos de l'entreprise + 2 vidéos partenaires (Urbas, Springer)
@@ -685,7 +707,7 @@ poseur d'enseigne, le remplacer :** ce sera meilleur que n'importe quel tracé.
       sitemap.xml, robots.txt, données structurées, favicon (20/08/2026)
 - [x] Poids et images : trois largeurs servies selon l'écran, plus aucun CDN
       externe, 3D retirée du mobile (20/08/2026)
-- [x] Logo vectorisé en `logo.svg` (20/08/2026)
+- [x] Favicons refaits depuis le vrai logo ; vectorisation abandonnée (20/08/2026)
 
 ### Ce qui demande une action de votre côté
 - [ ] **Activer la notification email des formulaires** : Netlify → Forms →
@@ -696,7 +718,7 @@ poseur d'enseigne, le remplacer :** ce sera meilleur que n'importe quel tracé.
 - [ ] **Faire confirmer le numéro de TVA intracommunautaire** par le comptable,
       puis l'ajouter aux mentions légales.
 - [ ] Demander le **fichier vectoriel d'origine du logo** à l'imprimeur ou au
-      poseur d'enseigne, et remplacer `logo.svg` par un vrai vecteur.
+      poseur d'enseigne — c'est la seule façon d'avoir un logo net en grand.
 - [ ] Fournir de **vraies photos de rabotage et d'expédition** (les deux étapes
       utilisent aujourd'hui des images approchantes).
 - [ ] Renseigner le **n° de stand Eurobois 2028** dans `evenements.html`.
