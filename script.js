@@ -344,3 +344,11 @@
 
     apply('all');
   }
+
+/* Millésime du pied de page. Le 2026 reste écrit dans le HTML : si JS ne
+   s'exécute pas, la page affiche une année plausible au lieu de rien. On ne
+   fait que la rafraîchir — sans ça, au 1er janvier le site annonce lui-même
+   qu'il n'est plus tenu à jour. */
+document.querySelectorAll('[data-annee]').forEach((el) => {
+  el.textContent = String(new Date().getFullYear());
+});

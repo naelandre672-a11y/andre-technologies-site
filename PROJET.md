@@ -760,6 +760,36 @@ fixe, **mais ni la fluidité ni le rythme des transitions** — à valider à l'
 - **Silhouette de la grume** : la normal map ne modifie pas le contour, qui reste
   parfaitement lisse et trahit le maillage.
 
+## Passe typographique française (24/08/2026)
+
+Ce qui trahit un travail bâclé sur un site français, ce n'est presque jamais le
+code : c'est la typographie. Un imprimeur ou un graphiste le voit en une seconde.
+
+- **255 apostrophes droites** (`'`) remplacées par l'apostrophe typographique
+  (`’`) dans les nœuds de texte, plus celles des attributs visibles (`alt`,
+  `content`, `title`, `aria-label`). C'était le défaut le plus massif : 394
+  occurrences dans les fichiers, dont 4 seulement étaient correctes.
+- **66 espaces insécables** posées avant la ponctuation double, qui n'en avait
+  aucune : `&nbsp;` avant « : », `&#8239;` (fine) avant « ; ! ? », selon la règle
+  de l'Imprimerie nationale. Sans elles, la ponctuation peut basculer seule en
+  début de ligne — un défaut très visible sur mobile.
+- Entités HTML plutôt que caractères Unicode invisibles : les pages s'éditent à
+  la main, une insécable doit se voir dans le source.
+
+**Zones protégées.** Le script ne touche ni aux `<script>`, ni aux `<style>`, ni
+aux commentaires, et ne traite que les nœuds de texte entre `>` et `<`. Une
+apostrophe droite dans du JS (`querySelector('h1')`) correspond au même motif
+« lettre-apostrophe-lettre » et aurait cassé le code. Vérifié après coup :
+aucune ligne de JS modifiée, JSON-LD toujours valide, 11 pages en 200.
+
+## Millésime du pied de page (24/08/2026)
+
+`© 2026` était écrit en dur sur les 11 pages. Au 1er janvier, un site qui affiche
+l'année précédente annonce lui-même qu'il n'est plus tenu à jour. Le pied de page
+porte maintenant `<span data-annee>2026</span>`, rafraîchi par `script.js`. Le
+2026 reste dans le HTML : sans JS, la page affiche une année plausible plutôt
+que rien.
+
 ## Ce qu'il reste à faire avant la mise en ligne définitive
 - [x] Vraies photos de l'entreprise + 2 vidéos partenaires (Urbas, Springer)
       — sauf Rabotage et Expédition, encore approximatives faute de matière
