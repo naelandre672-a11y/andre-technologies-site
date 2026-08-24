@@ -1147,3 +1147,21 @@
       background-image:var(--fond-petit, var(--fond));
     }
   }
+
+/* ---------------------------------------------------------------------------
+   Marqueur de contenu à compléter.
+   Cette classe existait déjà dans le HTML mais n'avait aucun style : deux
+   placeholders — un numéro de stand et une durée de conservation RGPD — sont
+   ainsi restés visibles en production, en texte normal, sans que personne les
+   remarque. Ils se voient maintenant immédiatement, y compris en ligne : c'est
+   volontaire. Un oubli qui saute aux yeux se corrige, un oubli discret reste.
+   --------------------------------------------------------------------------- */
+.placeholder {
+  background: #ffd54f;
+  color: #1b1c1d;
+  font-weight: 700;
+  padding: 0 .35em;
+  border-radius: 3px;
+  outline: 2px dashed #c62828;
+  outline-offset: 1px;
+}

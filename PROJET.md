@@ -790,6 +790,45 @@ porte maintenant `<span data-annee>2026</span>`, rafraîchi par `script.js`. Le
 2026 reste dans le HTML : sans JS, la page affiche une année plausible plutôt
 que rien.
 
+## Placeholders visibles en production — corrigés (24/08/2026)
+
+Deux contenus à compléter s'affichaient **en clair pour les visiteurs**, depuis la
+mise en ligne. La cause est nette : la classe `.placeholder` était posée dans le
+HTML mais **n'avait aucune règle CSS**. Elle se rendait donc en texte normal, et
+personne — ni en relecture, ni en recette — n'avait de raison de la remarquer.
+
+- `evenements.html` : « Stand [n° à confirmer] ». Reformulé sans crochets —
+  « Numéro de stand communiqué dès son attribution par l'organisateur » — parce
+  que le numéro n'est pas inventable et que les stands d'Eurobois 2028 ne sont
+  pas encore attribués. Le commentaire de rappel dans le HTML est conservé.
+- `politique-confidentialite.html` : « puis [durée à confirmer, ex. 3 ans] ».
+  Le plus gênant des deux : c'est un document juridique, et le RGPD impose une
+  durée **précise**. Rédigé « pendant trois ans à compter de notre dernier
+  contact », qui est la valeur que la page esquissait déjà et la recommandation
+  CNIL en prospection commerciale. **À faire valider** : c'est un engagement
+  juridique, pas un réglage technique.
+
+**Garde-fou.** `.placeholder` a maintenant un style volontairement criard (fond
+ambre, contour rouge tireté) dans `style.css`. Un oubli qui saute aux yeux se
+corrige ; un oubli discret reste en ligne des semaines. C'est exactement ce qui
+s'est passé ici.
+
+## Tirets cadratins — quatre tournures resserrées (24/08/2026)
+
+Le motif « tiret cadratin + conjonction » (`— et`, `— mais`) apparaissait 9 fois.
+Quatre ont été passées à la virgule, où la rupture n'apportait rien :
+`index.html`, `actualite-nouveau-site.html` et deux entrées de `veille.html`.
+
+Les autres sont **conservées volontairement** : les ruptures d'emphase
+(« — pas par un catalogue », « — pas de rupture entre le projet et l'exploitation »)
+sont du bon français et portent la voix de l'entreprise. Et le dernier `— et` de
+l'accueil ferme une incise ouverte plus haut dans la phrase : le remplacer par
+une virgule casserait la paire de tirets.
+
+À noter, contre une idée reçue : la densité de tirets n'était pas anormale. Sur
+les 11 de la page d'accueil, la plupart sont des séparateurs légitimes (titre,
+chapô, numérotation « 01 — Industrie bois »).
+
 ## Ce qu'il reste à faire avant la mise en ligne définitive
 - [x] Vraies photos de l'entreprise + 2 vidéos partenaires (Urbas, Springer)
       — sauf Rabotage et Expédition, encore approximatives faute de matière
@@ -818,11 +857,15 @@ que rien.
       section Hébergement) puis lancer la commande `sed` de bascule des URLs.
 - [ ] **Faire confirmer le numéro de TVA intracommunautaire** par le comptable,
       puis l'ajouter aux mentions légales.
+- [ ] **Valider la durée de conservation RGPD** (trois ans à compter du dernier
+      contact) inscrite dans `politique-confidentialite.html` — engagement
+      juridique, à confirmer même si la valeur suit la recommandation CNIL.
 - [ ] Demander le **fichier vectoriel d'origine du logo** à l'imprimeur ou au
       poseur d'enseigne — c'est la seule façon d'avoir un logo net en grand.
 - [ ] Fournir de **vraies photos de rabotage et d'expédition** (les deux étapes
       utilisent aujourd'hui des images approchantes).
-- [ ] Renseigner le **n° de stand Eurobois 2028** dans `evenements.html`.
+- [ ] Renseigner le **n° de stand Eurobois 2028** dans `evenements.html` dès son
+      attribution (la page ne montre plus de placeholder en attendant).
 - [ ] Demander aux constructeurs partenaires d'être **mis en copie de leurs
       communiqués** de nouveautés (matière première de la veille).
 
