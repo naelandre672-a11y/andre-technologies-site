@@ -43,6 +43,81 @@ const smooth = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
 const stageT = (p, i) => clamp((p - BOUNDS[i]) / (BOUNDS[i + 1] - BOUNDS[i]), 0, 1);
 const ramp = (x, a, b) => smooth((x - a) / (b - a));
 
+/* ---------------- boîte à arêtes chanfreinées ----------------
+ * Aucun objet réel n'a d'arête parfaitement vive : il reste toujours un micro-
+ * chanfrein qui accroche la lumière. Sans lui, une BoxGeometry se lit comme une
+ * primitive 3D — c'est ce qui faisait « maquette » dans la scène.
+ *
+ * Méthode : on subdivise le cube en 3 (nombre impair, pour qu'aucun sommet ne
+ * tombe sur un plan médian), puis on repousse chaque sommet sur la somme de
+ * Minkowski « boîte creuse + sphère de rayon r ». Les sommets intérieurs
+ * atterrissent pile sur le départ du chanfrein, les sommets extérieurs dessinent
+ * l'arrondi. C'est l'approche de RoundedBoxGeometry (three/examples), qu'on ne
+ * peut pas importer : seuls three.core.js et three.module.js sont embarqués.
+ *
+ * Les groupes de faces de BoxGeometry sont conservés — les meshes
+ * multi-matériaux (les débits, qui ont un matériau par face) continuent donc de
+ * fonctionner. Les UV sont recalculés depuis la position finale, sinon la face
+ * plane n'occuperait que le tiers central de la texture et le fil du bois
+ * serait écrasé.
+ */
+function roundedBox(w, h, d, rayon) {
+  // 9 % de la plus petite dimension, plafonné : on veut l'arête cassée d'une
+  // pièce usinée, pas un arrondi de mobilier. Au-delà, le bois scié perd son
+  // arête vive et la pile se met à ressembler à un meuble.
+  const r = Math.min(
+    rayon !== undefined ? rayon : Math.min(w, h, d) * 0.09,
+    0.035,
+    Math.min(w, h, d) * 0.5
+  );
+  const geo = new THREE.BoxGeometry(1, 1, 1, 3, 3, 3);
+  if (!(r > 1e-6)) { geo.scale(w, h, d); return geo; }
+
+  const plat = geo.toNonIndexed();
+  geo.index = null;
+  geo.attributes.position = plat.attributes.position;
+  geo.attributes.normal = plat.attributes.normal;
+  geo.attributes.uv = plat.attributes.uv;
+
+  const pos = geo.attributes.position.array;
+  const nor = geo.attributes.normal.array;
+  const uv = geo.attributes.uv.array;
+  const demi = new THREE.Vector3(w, h, d).divideScalar(2).subScalar(r);
+  const PAS = 0.5 / 3; // demi-pas de subdivision
+  const p = new THREE.Vector3(), n = new THREE.Vector3();
+
+  for (let i = 0, j = 0; i < pos.length; i += 3, j += 2) {
+    p.fromArray(pos, i);
+    // normale de la face d'origine (axée), lue avant d'être écrasée
+    const ax = nor[i], ay = nor[i + 1], az = nor[i + 2];
+
+    n.set(
+      p.x - Math.sign(p.x) * PAS,
+      p.y - Math.sign(p.y) * PAS,
+      p.z - Math.sign(p.z) * PAS
+    ).normalize();
+
+    const x = demi.x * Math.sign(p.x) + n.x * r;
+    const y = demi.y * Math.sign(p.y) + n.y * r;
+    const z = demi.z * Math.sign(p.z) + n.z * r;
+    pos[i] = x; pos[i + 1] = y; pos[i + 2] = z;
+    nor[i] = n.x; nor[i + 1] = n.y; nor[i + 2] = n.z;
+
+    // Conventions UV de BoxGeometry, reprises face par face.
+    if (ax > 0.5)       { uv[j] = -z / d + 0.5; uv[j + 1] = 0.5 + y / h; }
+    else if (ax < -0.5) { uv[j] =  z / d + 0.5; uv[j + 1] = 0.5 + y / h; }
+    else if (ay > 0.5)  { uv[j] =  x / w + 0.5; uv[j + 1] = 0.5 - z / d; }
+    else if (ay < -0.5) { uv[j] =  x / w + 0.5; uv[j + 1] = 0.5 + z / d; }
+    else if (az > 0.5)  { uv[j] =  x / w + 0.5; uv[j + 1] = 0.5 + y / h; }
+    else                { uv[j] = -x / w + 0.5; uv[j + 1] = 0.5 + y / h; }
+  }
+
+  geo.attributes.position.needsUpdate = true;
+  geo.attributes.normal.needsUpdate = true;
+  geo.attributes.uv.needsUpdate = true;
+  return geo;
+}
+
 /* ---------------- textures procédurales (repli + affichage immédiat) ---------------- */
 
 function canvasTexture(draw, w, h, repeat, srgb = true) {
@@ -273,7 +348,7 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
   key.shadow.camera.near = 1; key.shadow.camera.far = 26;
   key.shadow.camera.left = -8; key.shadow.camera.right = 8;
   key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
-  key.shadow.bias = -0.0007; key.shadow.normalBias = 0.02; key.shadow.radius = 3;
+  key.shadow.bias = -0.0007; key.shadow.normalBias = 0.02; key.shadow.radius = 1.5;
   scene.add(key);
 
   const fillLight = new THREE.DirectionalLight(0x9ab8cf, 0.6);
@@ -308,6 +383,35 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
+
+  /* ---------- ombres de contact ----------
+   * L'ombre portée du key light ne suffit pas à poser les objets au sol : il
+   * manque l'assombrissement serré, juste sous la pièce, que produit en vrai
+   * l'occlusion ambiante. Sans lui tout semble léviter d'un centimètre.
+   * Un dégradé radial posé à plat, enfant du groupe qu'il accompagne, coûte un
+   * quad et suit automatiquement ses déplacements.
+   */
+  const contactTex = canvasTexture((ctx, w, h) => {
+    ctx.clearRect(0, 0, w, h);
+    const g = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
+    g.addColorStop(0, 'rgba(0,0,0,0.8)');
+    g.addColorStop(0.4, 'rgba(0,0,0,0.42)');
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  }, 256, 256, null, false);
+  contactTex.wrapS = contactTex.wrapT = THREE.ClampToEdgeWrapping;
+
+  const contactOmbre = (parent, larg, prof, y) => {
+    const mat = new THREE.MeshBasicMaterial({
+      map: contactTex, transparent: true, depthWrite: false,
+    });
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(larg, prof), mat);
+    m.rotation.x = -Math.PI / 2;
+    m.position.y = y;
+    m.renderOrder = -1;
+    parent.add(m);
+    return { mesh: m, mat };
+  };
 
   /* ---------- matériaux bois ---------- */
   const texLoader = new THREE.TextureLoader();
@@ -383,10 +487,12 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
   });
 
   // plaques de mousse / lichen + une zone d'écorce détachée
-  const mossMat = new THREE.MeshStandardMaterial({ color: 0x49523e, roughness: 1, transparent: true, opacity: 0.92 });
-  const lichenMat = new THREE.MeshStandardMaterial({ color: 0x5e6456, roughness: 1, transparent: true, opacity: 0.85 });
+  // Mousse et lichen retirés : c'étaient des sphères aplaties en couleur unie,
+  // au bord net, qui se lisaient comme des pastilles collées — et qui restaient
+  // visibles sur les faces déjà sciées pendant le fondu de la grume, avec la
+  // courbure du rond. La grume est plus crédible sans elles.
   const barkLossMat = new THREE.MeshStandardMaterial({ color: 0x8a6b4a, roughness: 0.9, transparent: true });
-  const decalMats = [mossMat, lichenMat, barkLossMat];
+  const decalMats = [barkLossMat];
   const addDecal = (mat, x, angle, sx, sz) => {
     const m = new THREE.Mesh(new THREE.SphereGeometry(1, 10, 7), mat);
     const t = x / LOG_LEN + 0.5;
@@ -396,12 +502,9 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
     m.lookAt(m.position.x, m.position.y * 2.5, m.position.z * 2.5);
     logGroup.add(m);
   };
-  addDecal(mossMat, -1.1, 0.5, 0.19, 0.13);
-  addDecal(mossMat, -0.3, 0.9, 0.16, 0.12);
-  addDecal(lichenMat, 0.55, -0.7, 0.19, 0.13);
-  addDecal(lichenMat, 1.05, 0.3, 0.12, 0.1);
   addDecal(barkLossMat, 0.1, -2.4, 0.3, 0.17); // écorce détachée : bois nu
 
+  const logOmbre = contactOmbre(logGroup, LOG_LEN * 1.3, R_BUTT * 3.0, -R_BUTT + 0.004);
   logGroup.position.y = R_BUTT;
   logGroup.rotation.y = 0.05;
   scene.add(logGroup);
@@ -429,7 +532,7 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
     });
     // ordre des faces : +x, -x, +y (dessus), -y (dessous), +z, -z
     const mats = [endFace, endFace, faceMat, bottomMat, faceMat, faceMat];
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(LOG_LEN * 0.96, T, UNIFORM_W), mats);
+    const mesh = new THREE.Mesh(roundedBox(LOG_LEN * 0.96, T, UNIFORM_W), mats);
     mesh.castShadow = true; mesh.receiveShadow = true;
     mesh.visible = false;
     scene.add(mesh);
@@ -455,31 +558,34 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
     sawGroup.add(m);
     return m;
   };
-  addSawPart(new THREE.BoxGeometry(0.14, 2.2, 0.14), sawFrameMat, [0, 1.1, -0.95]);
-  addSawPart(new THREE.BoxGeometry(0.14, 2.2, 0.14), sawFrameMat, [0, 1.1, 0.95]);
-  addSawPart(new THREE.BoxGeometry(0.12, 0.16, 2.0), sawFrameMat, [0, 2.14, 0]);
-  addSawPart(new THREE.BoxGeometry(0.12, 0.1, 2.0), sawFrameMat, [0, 0.05, 0]);
-  addSawPart(new THREE.BoxGeometry(0.12, 0.05, 1.9), sawAccentMat, [0, 2.0, 0]);
+  addSawPart(roundedBox(0.14, 2.2, 0.14), sawFrameMat, [0, 1.1, -0.95]);
+  addSawPart(roundedBox(0.14, 2.2, 0.14), sawFrameMat, [0, 1.1, 0.95]);
+  addSawPart(roundedBox(0.12, 0.16, 2.0), sawFrameMat, [0, 2.14, 0]);
+  addSawPart(roundedBox(0.12, 0.1, 2.0), sawFrameMat, [0, 0.05, 0]);
+  addSawPart(roundedBox(0.12, 0.05, 1.9), sawAccentMat, [0, 2.0, 0]);
   const sawBlades = [];
   for (let k = 0; k <= N; k++) {
     const z = -0.45 + k * 0.15;
-    sawBlades.push(addSawPart(new THREE.BoxGeometry(0.09, 1.7, 0.011), sawBladeMat, [0, 1.02, z]));
+    sawBlades.push(addSawPart(roundedBox(0.09, 1.7, 0.011), sawBladeMat, [0, 1.02, z]));
   }
   sawGroup.visible = false;
   scene.add(sawGroup);
 
   /* ---------- chevrons + baguettes d'espacement ---------- */
   const bearers = [-1, 1].map((s) => {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.1, UNIFORM_W * 1.25), bearerMat);
+    const m = new THREE.Mesh(roundedBox(0.14, 0.1, UNIFORM_W * 1.25), bearerMat);
     m.position.set(s * LOG_LEN * 0.3, 0.05, 0);
     m.castShadow = true; m.receiveShadow = true; m.visible = false;
     scene.add(m);
     return m;
   });
+  const pileOmbre = contactOmbre(scene, LOG_LEN * 1.25, UNIFORM_W * 2.6, 0.004);
+  pileOmbre.mesh.visible = false;
+
   const stickers = [];
   for (let i = 0; i < N - 1; i++) {
     for (let s = 0; s < 3; s++) {
-      const m = new THREE.Mesh(new THREE.BoxGeometry(0.05, STICK * 0.85, UNIFORM_W * 1.03), stickerMat);
+      const m = new THREE.Mesh(roundedBox(0.05, STICK * 0.85, UNIFORM_W * 1.03), stickerMat);
       m.castShadow = true; m.visible = false;
       scene.add(m);
       stickers.push({ mesh: m, layer: i, y: 0.14 + i * (T + STICK) + T / 2 + STICK * 0.42, x: (s - 1) * LOG_LEN * 0.35 });
@@ -503,21 +609,21 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
     return m;
   };
   // tables d'entrée / sortie + pieds
-  addMach(new THREE.BoxGeometry(4.4, 0.07, 0.8), machBodyMat, [0, FEED_Y - TF / 2 - 0.045, 0]);
-  [-1.9, 1.9].forEach((x) => addMach(new THREE.BoxGeometry(0.1, FEED_Y - 0.1, 0.7), machBodyMat, [x, (FEED_Y - 0.1) / 2, 0]));
+  addMach(roundedBox(4.4, 0.07, 0.8), machBodyMat, [0, FEED_Y - TF / 2 - 0.045, 0]);
+  [-1.9, 1.9].forEach((x) => addMach(roundedBox(0.1, FEED_Y - 0.1, 0.7), machBodyMat, [x, (FEED_Y - 0.1) / 2, 0]));
   // bâti : flancs + capot (ouvert en façade pour voir la tête de coupe)
-  addMach(new THREE.BoxGeometry(1.15, 0.9, 0.06), machBodyMat, [0, FEED_Y + 0.32, -0.43]);
-  addMach(new THREE.BoxGeometry(1.15, 0.9, 0.06), machBodyMat, [0, FEED_Y + 0.32, 0.43]);
-  addMach(new THREE.BoxGeometry(1.15, 0.1, 0.92), machBodyMat, [0, FEED_Y + 0.82, 0]);
-  addMach(new THREE.BoxGeometry(1.15, 0.04, 0.92), machAccentMat, [0, FEED_Y + 0.75, 0]);
-  addMach(new THREE.BoxGeometry(0.26, 0.22, 0.05), machBodyMat, [0.32, FEED_Y + 0.4, 0.46]); // pupitre
+  addMach(roundedBox(1.15, 0.9, 0.06), machBodyMat, [0, FEED_Y + 0.32, -0.43]);
+  addMach(roundedBox(1.15, 0.9, 0.06), machBodyMat, [0, FEED_Y + 0.32, 0.43]);
+  addMach(roundedBox(1.15, 0.1, 0.92), machBodyMat, [0, FEED_Y + 0.82, 0]);
+  addMach(roundedBox(1.15, 0.04, 0.92), machAccentMat, [0, FEED_Y + 0.75, 0]);
+  addMach(roundedBox(0.26, 0.22, 0.05), machBodyMat, [0.32, FEED_Y + 0.4, 0.46]); // pupitre
   // tête de coupe rotative + 4 fers
   const cutterHead = new THREE.Group();
   const cutterCyl = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.78, 20), cutterMat);
   cutterCyl.rotation.x = Math.PI / 2;
   cutterHead.add(cutterCyl);
   for (let k = 0; k < 4; k++) {
-    const fer = new THREE.Mesh(new THREE.BoxGeometry(0.022, 0.014, 0.78), machSteelMat);
+    const fer = new THREE.Mesh(roundedBox(0.022, 0.014, 0.78), machSteelMat);
     const a = (k / 4) * Math.PI * 2;
     fer.position.set(Math.cos(a) * 0.11, Math.sin(a) * 0.11, 0);
     fer.rotation.z = a;
@@ -546,7 +652,7 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
   applyCC0(texLoader, CC0_TEXTURES.sawnWood, roughFaceMat, 'map', [2, 1], maxAniso, texSwaps, roughTexOff);
   const roughEndMat = new THREE.MeshStandardMaterial({ map: sharedEndTex, roughness: 0.9, color: DRY.clone() });
   const roughHero = new THREE.Mesh(
-    new THREE.BoxGeometry(LOG_LEN * 0.93, T, UNIFORM_W * 0.97),
+    roundedBox(LOG_LEN * 0.93, T, UNIFORM_W * 0.97),
     [roughEndMat, roughEndMat, roughFaceMat, roughFaceMat, roughFaceMat, roughFaceMat]
   );
   roughHero.castShadow = true; roughHero.receiveShadow = true;
@@ -581,7 +687,7 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
   const strapMat = new THREE.MeshStandardMaterial({ color: 0x2f3134, roughness: 0.65, metalness: 0.25, transparent: true, opacity: 0 });
   const straps = [-0.85, 0.85].map((x) => {
     const h = PLANK_T * 6 + 0.06;
-    const s = new THREE.Mesh(new THREE.BoxGeometry(0.05, h, PLANK_W * 1.04), strapMat);
+    const s = new THREE.Mesh(roundedBox(0.05, h, PLANK_W * 1.04), strapMat);
     s.geometry.translate(0, -h / 2, 0);
     s.position.set(x, h - PLANK_T * 0.6, 0);
     s.castShadow = true;
@@ -614,32 +720,32 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
 
   const BED_TOP = 1.02;
   // châssis : longerons, traverses, réservoir, échappement
-  [-0.35, 0.35].forEach((z) => addTruckPart(new THREE.BoxGeometry(7.4, 0.14, 0.09), cabDarkMat, [0.3, 0.72, z]));
-  [-2.2, 0.3, 2.6].forEach((x) => addTruckPart(new THREE.BoxGeometry(0.1, 0.12, 0.78), cabDarkMat, [x, 0.72, 0]));
+  [-0.35, 0.35].forEach((z) => addTruckPart(roundedBox(7.4, 0.14, 0.09), cabDarkMat, [0.3, 0.72, z]));
+  [-2.2, 0.3, 2.6].forEach((x) => addTruckPart(roundedBox(0.1, 0.12, 0.78), cabDarkMat, [x, 0.72, 0]));
   addTruckPart(new THREE.CylinderGeometry(0.17, 0.17, 0.68, 16), rimMat, [-1.35, 0.56, 0.62], [Math.PI / 2, 0, Math.PI / 2]); // réservoir
   addTruckPart(new THREE.CylinderGeometry(0.055, 0.055, 1.15, 10), cabDarkMat, [-1.78, 1.32, -0.72]); // échappement
   addTruckPart(new THREE.CylinderGeometry(0.06, 0.05, 0.12, 10), rimMat, [-1.78, 1.93, -0.72]);
   // plateau + dosseret + ridelles
-  addTruckPart(new THREE.BoxGeometry(5.6, 0.1, 1.5), deckMat, [1.25, BED_TOP - 0.05, 0]);
-  addTruckPart(new THREE.BoxGeometry(0.12, 0.95, 1.5), bodyMat, [-1.6, BED_TOP + 0.47, 0]);
-  [-0.62, 0.62].forEach((z) => addTruckPart(new THREE.BoxGeometry(5.5, 0.1, 0.06), bodyMat, [1.25, BED_TOP + 0.08, z * 1.2]));
+  addTruckPart(roundedBox(5.6, 0.1, 1.5), deckMat, [1.25, BED_TOP - 0.05, 0]);
+  addTruckPart(roundedBox(0.12, 0.95, 1.5), bodyMat, [-1.6, BED_TOP + 0.47, 0]);
+  [-0.62, 0.62].forEach((z) => addTruckPart(roundedBox(5.5, 0.1, 0.06), bodyMat, [1.25, BED_TOP + 0.08, z * 1.2]));
   // cabine : volume, pare-brise incliné, vitres latérales, déflecteur de toit
-  addTruckPart(new THREE.BoxGeometry(2.0, 1.35, 1.58), bodyMat, [-2.88, 1.5, 0]);
-  addTruckPart(new THREE.BoxGeometry(0.1, 0.68, 1.44), glassMat, [-3.9, 1.84, 0], [0, 0, 0.18]);
-  [-0.8, 0.8].forEach((z) => addTruckPart(new THREE.BoxGeometry(1.35, 0.5, 0.05), glassMat, [-2.72, 1.82, z]));
-  addTruckPart(new THREE.BoxGeometry(1.4, 0.34, 1.3), bodyMat, [-2.55, 2.32, 0], [0, 0, 0.24]); // déflecteur
-  addTruckPart(new THREE.BoxGeometry(2.04, 0.1, 1.64), stripeMat, [-2.88, 1.06, 0]); // bandeau accent
+  addTruckPart(roundedBox(2.0, 1.35, 1.58), bodyMat, [-2.88, 1.5, 0]);
+  addTruckPart(roundedBox(0.1, 0.68, 1.44), glassMat, [-3.9, 1.84, 0], [0, 0, 0.18]);
+  [-0.8, 0.8].forEach((z) => addTruckPart(roundedBox(1.35, 0.5, 0.05), glassMat, [-2.72, 1.82, z]));
+  addTruckPart(roundedBox(1.4, 0.34, 1.3), bodyMat, [-2.55, 2.32, 0], [0, 0, 0.24]); // déflecteur
+  addTruckPart(roundedBox(2.04, 0.1, 1.64), stripeMat, [-2.88, 1.06, 0]); // bandeau accent
   // face avant : calandre à lames, pare-chocs, phares
-  addTruckPart(new THREE.BoxGeometry(0.14, 0.55, 1.35), cabDarkMat, [-3.95, 1.06, 0]);
-  [1.18, 1.0, 0.88].forEach((y) => addTruckPart(new THREE.BoxGeometry(0.16, 0.045, 1.2), rimMat, [-3.96, y, 0]));
-  addTruckPart(new THREE.BoxGeometry(0.28, 0.3, 1.7), cabDarkMat, [-3.94, 0.52, 0]); // pare-chocs
-  [-0.62, 0.62].forEach((z) => addTruckPart(new THREE.BoxGeometry(0.1, 0.12, 0.26), lightMat, [-4.06, 0.66, z]));
+  addTruckPart(roundedBox(0.14, 0.55, 1.35), cabDarkMat, [-3.95, 1.06, 0]);
+  [1.18, 1.0, 0.88].forEach((y) => addTruckPart(roundedBox(0.16, 0.045, 1.2), rimMat, [-3.96, y, 0]));
+  addTruckPart(roundedBox(0.28, 0.3, 1.7), cabDarkMat, [-3.94, 0.52, 0]); // pare-chocs
+  [-0.62, 0.62].forEach((z) => addTruckPart(roundedBox(0.1, 0.12, 0.26), lightMat, [-4.06, 0.66, z]));
   // rétroviseurs + marchepieds
   [-1, 1].forEach((s) => {
-    addTruckPart(new THREE.BoxGeometry(0.04, 0.04, 0.3), cabDarkMat, [-3.75, 2.05, s * 0.94]);
-    addTruckPart(new THREE.BoxGeometry(0.05, 0.34, 0.16), glassMat, [-3.75, 1.86, s * 1.1]);
-    addTruckPart(new THREE.BoxGeometry(0.5, 0.06, 0.28), cabDarkMat, [-2.3, 0.62, s * 0.8]);
-    addTruckPart(new THREE.BoxGeometry(0.5, 0.06, 0.28), cabDarkMat, [-2.3, 0.4, s * 0.8]);
+    addTruckPart(roundedBox(0.04, 0.04, 0.3), cabDarkMat, [-3.75, 2.05, s * 0.94]);
+    addTruckPart(roundedBox(0.05, 0.34, 0.16), glassMat, [-3.75, 1.86, s * 1.1]);
+    addTruckPart(roundedBox(0.5, 0.06, 0.28), cabDarkMat, [-2.3, 0.62, s * 0.8]);
+    addTruckPart(roundedBox(0.5, 0.06, 0.28), cabDarkMat, [-2.3, 0.4, s * 0.8]);
   });
 
   // roues : pneu torique à épaulement rond, jante, moyeu, rayons
@@ -647,7 +753,7 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
   const tireGeo = new THREE.TorusGeometry(0.3, 0.125, 12, 26);
   const rimDiscGeo = new THREE.CylinderGeometry(0.185, 0.185, 0.2, 18);
   const hubGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.24, 12);
-  const spokeGeo = new THREE.BoxGeometry(0.05, 0.24, 0.03);
+  const spokeGeo = roundedBox(0.05, 0.24, 0.03);
   [-3.0, 1.7, 2.85].forEach((x) => {
     [-1, 1].forEach((s) => {
       const w = new THREE.Group();
@@ -669,6 +775,7 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
       wheels.push(w);
     });
   });
+  const truckOmbre = contactOmbre(truckGroup, 11.5, 3.2, 0.004);
   scene.add(truckGroup);
 
   /* ---------- particules : sciure · vapeur · copeaux ---------- */
@@ -742,9 +849,8 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
     barkMat.opacity = logFade;
     endMat.opacity = logFade;
     knotCoreMat.opacity = logFade;
-    mossMat.opacity = logFade * 0.92;
-    lichenMat.opacity = logFade * 0.85;
     barkLossMat.opacity = logFade;
+    logOmbre.mat.opacity = logFade;
     logGroup.visible = logFade > 0.01;
 
     /* 2 — sciage : le cadre multi-lames traverse la grume, les tranches s'ouvrent derrière lui */
@@ -816,6 +922,9 @@ export function initTreeScene(container, onProgressChange, opts = {}) {
       }
     });
     bearerMat.opacity = ramp(t2, 0.02, 0.2) * stackFade;
+    pileOmbre.mesh.visible = bearerMat.opacity > 0.02;
+    pileOmbre.mat.opacity = bearerMat.opacity;
+    pileOmbre.mesh.position.y = 0.004 - stackSink;
     bearers.forEach((b) => {
       b.visible = bearerMat.opacity > 0.05 && p >= BOUNDS[2] - 0.001 && p < BOUNDS[5];
       b.position.y = 0.05 - stackSink;

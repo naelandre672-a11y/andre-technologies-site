@@ -689,6 +689,77 @@ Restent `favicon-32.png` (net, c'est une réduction) et `favicon-180.png` pour
 iOS (agrandi 3×, donc légèrement doux — inévitable depuis une source de 59 px).
 Le `favicon.svg` tracé et le `favicon-512.png` ont été supprimés.
 
+## Scène 3D — passe de crédibilité (24/08/2026)
+
+Constat de départ : la scène était **coincée dans l'entre-deux** — trop réaliste
+pour se lire comme un parti pris graphique, pas assez pour tenir l'illusion.
+C'est ce registre-là qui fait « maquette ». Trois corrections, choisies pour leur
+rapport résultat/effort, sans rien ajouter au poids téléchargé.
+
+### 1. Arêtes chanfreinées — la cause principale
+Les 38 `BoxGeometry` de la scène avaient des arêtes à 90° exact. Aucun objet réel
+n'a d'arête parfaitement vive : il reste toujours un micro-chanfrein qui accroche
+la lumière, et c'est lui qui distingue une pièce usinée d'une primitive 3D.
+
+`RoundedBoxGeometry` vit dans `three/examples`, qu'on n'embarque pas (seuls
+`three.core.js` et `three.module.js` sont dans `vendor/`). La fonction
+`roundedBox()` en haut de `tree-scene.js` en reprend donc la méthode : cube
+subdivisé en 3 — nombre **impair**, pour qu'aucun sommet ne tombe sur un plan
+médian et que `Math.sign()` ne renvoie jamais 0 — puis chaque sommet est repoussé
+sur la somme de Minkowski « boîte creuse + sphère de rayon r ».
+
+Deux pièges traités :
+- **Les groupes de faces sont conservés.** Les débits ont un matériau par face ;
+  une géométrie sans groupes les aurait cassés. Les bornes de groupe restent
+  valides après `toNonIndexed()` parce qu'elles s'expriment alors en sommets au
+  lieu d'indices, et que les deux comptes coïncident.
+- **Les UV sont recalculés** depuis la position finale, face par face, en suivant
+  les conventions de `BoxGeometry`. Sans ça la face plane n'occuperait que le
+  tiers central de la texture et le fil du bois serait écrasé d'un facteur 3.
+  Vérifié numériquement : sens et amplitude identiques à la référence sur les
+  six faces.
+
+Rayon = 9 % de la plus petite dimension, plafonné à 0,035. Un premier essai à
+16 % arrondissait trop : la pile de débits se mettait à ressembler à du mobilier
+au lieu de bois scié. Coût mesuré : +11 400 sommets sur toute la scène.
+
+### 2. Mousse et lichen supprimés
+C'étaient des `SphereGeometry` aplaties en couleur unie, au bord net, posées sur
+l'écorce — elles se lisaient comme des pastilles collées. Elles avaient en plus
+un vrai défaut : le fondu de la grume (`logFade`) chevauche l'apparition des
+débits, donc les taches vertes restaient visibles **sur les faces déjà sciées**,
+en gardant la courbure du rond. La grume texturée est plus crédible sans elles.
+La plaque d'écorce détachée (brune, discrète) est conservée.
+
+### 3. Objets posés au sol
+L'ombre portée du key light ne suffisait pas : il manquait l'assombrissement
+serré, juste sous la pièce, que produit l'occlusion ambiante. Sans lui tout
+lévitait d'un centimètre. Ajout d'un dégradé radial à plat (`contactOmbre()`),
+enfant du groupe qu'il accompagne — il suit donc ses déplacements sans code
+supplémentaire — sous la grume, la pile et le camion. `key.shadow.radius` passe
+de 3 à 1,5 : l'ombre portée était trop molle pour marquer le contact.
+
+### Vérification et sa limite
+Les six étapes ont été contrôlées à l'image fixe, sans erreur console.
+**`requestAnimationFrame` est gelé dans le navigateur intégré** — `visibilityState`
+y vaut `hidden` en permanence — donc la boucle de rendu ne tourne jamais. C'est la
+même limite que la session du 19/08. Contournement retenu : remplacer `rAF` par
+une file pompée à la main et appeler `setParams({ smoothing: 0 })` pour que
+`setProgress()` s'applique sans interpolation. Ça permet de juger chaque étape
+fixe, **mais ni la fluidité ni le rythme des transitions** — à valider à l'œil.
+
+### Ce qui reste ouvert sur la scène (par ordre de gain)
+- **Particules** : de gros points blancs ronds qui évoquent la neige. Il leur
+  faut un sprite à bord dégradé, une taille plus petite et un blending additif.
+- **Camion** : le plus faible, et c'est la dernière image que voit le visiteur.
+  Les détails existent (rétroviseurs, feux, pare-chocs, marchepieds) mais sont
+  trop sombres pour se lire. Soit resserrer le cadrage, soit les éclairer.
+- **Matières uniformes** : toutes les planches ont exactement la même couleur.
+  Une variation aléatoire de ±5 % sur teinte et rugosité coûte trois lignes.
+- **Horizon** : couture nette entre le disque de sol et le fond.
+- **Silhouette de la grume** : la normal map ne modifie pas le contour, qui reste
+  parfaitement lisse et trahit le maillage.
+
 ## Ce qu'il reste à faire avant la mise en ligne définitive
 - [x] Vraies photos de l'entreprise + 2 vidéos partenaires (Urbas, Springer)
       — sauf Rabotage et Expédition, encore approximatives faute de matière
