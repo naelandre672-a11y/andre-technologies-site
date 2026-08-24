@@ -732,5 +732,15 @@ Le `favicon.svg` tracé et le `favicon-512.png` ont été supprimés.
       à décider : ça touche la politique de confidentialité.
 - [ ] Tests multi-navigateurs, notamment Safari iOS.
 - [ ] Accessibilité : passe au clavier et contrastes à vérifier.
-- [ ] Nettoyer les gros fichiers à la racine (zips, vidéos, .crdownload —
-      voir section Images, ~1 Go non utilisé par le site)
+- [x] Nettoyer les gros fichiers (24/08/2026) — le ~1 Go de la racine (zips,
+      vidéos brutes, .crdownload) n'était que local et n'a jamais été commité :
+      `.gitignore` le couvrait déjà, un clone neuf est propre. En revanche
+      31 images orphelines étaient bien dans le dépôt (~3,6 Mo), supprimées :
+      sept familles complètes jamais utilisées (pelletisation-2 et -3,
+      recyclingtechnik, schwingsichter, sechage-lef1 et -lef2, sechage-siat9),
+      cinq variantes `-1200` inutiles — les fonds CSS (`--fond` / `--fond-petit`)
+      ne servent que deux tailles, la variante 1200 n'existait que parce que le
+      script de redimensionnement produisait trois largeurs pour tout — et les
+      cinq placeholders `partenaire0X.png`, remplacés depuis par les vrais logos.
+      `images/` passe de 11 à 7,5 Mo. Vérifié : 11 pages et 52 ressources en 200,
+      aucune image cassée, aucune erreur console.
