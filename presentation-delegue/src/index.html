@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nael — la voix de la T4</title>
+<meta name="description" content="Présentation de campagne pour l’élection des délégués de Terminale 4.">
+<meta name="robots" content="noindex">
+<style>/*__CSS__*/</style>
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+<div id="vignette"></div>
+
+<div id="calque">
+  <div id="panneaux"></div>
+
+  <div id="slogan">
+    <div class="barre"></div>
+    <div class="mots">La voix de la <em>T4</em></div>
+    <div class="accroche">Un délégué qui parle pour vous, pas à votre place.</div>
+  </div>
+
+  <div id="bulle">
+    <p id="bulle-texte"></p>
+  </div>
+
+  <div id="tampon"><div class="encadre"></div></div>
+</div>
+
+<div id="noir"></div>
+<div id="compte"></div>
+<div id="flash"></div>
+
+<div id="hud">
+  <div id="compteur">00 / 00</div>
+  <div id="piste"><div id="progression"></div></div>
+  <div id="etat"></div>
+</div>
+
+<div id="notes">
+  <div class="etiquette">Mes notes — touche N pour masquer</div>
+  <p id="notes-texte"></p>
+  <div class="suite" id="notes-suite"></div>
+</div>
+
+<div id="aide">
+  <span><b>→</b> suivant</span>
+  <span><b>←</b> retour</span>
+  <span><b>N</b> notes</span>
+  <span><b>M</b> son</span>
+  <span><b>F</b> plein écran</span>
+  <span><b>R</b> rejouer</span>
+  <span><b>P</b> perf</span>
+</div>
+
+<div id="repli"></div>
+
+<div id="accueil">
+  <div class="marque">NAEL</div>
+  <div class="sous">La voix de la T4</div>
+  <button id="lancer" type="button">▶ Lancer le show</button>
+  <p class="aide">
+    Le clic est nécessaire pour autoriser le son et passer en plein écran.<br>
+    <kbd>→</kbd> ou <kbd>Espace</kbd> pour avancer · <kbd>N</kbd> pour mes notes ·
+    <kbd>M</kbd> pour couper le son
+  </p>
+</div>
+
+<script>/*__JS__*/</script>
+</body>
+</html>

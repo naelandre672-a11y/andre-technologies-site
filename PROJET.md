@@ -829,6 +829,50 @@ une virgule casserait la paire de tirets.
 les 11 de la page d'accueil, la plupart sont des séparateurs légitimes (titre,
 chapô, numérotation « 01 — Industrie bois »).
 
+## Présentation de campagne — délégué de Terminale 4 (18/09/2026)
+
+Projet **indépendant du site vitrine**, rangé dans `presentation-delegue/` :
+une présentation 3D interactive pour l'élection des délégués de la classe de
+Nael. Rien de commun avec André Technologies, sinon le dépôt qui l'héberge.
+
+**Attention avant toute fusion vers `main`** : Netlify publie la racine du
+dépôt, donc ce dossier se retrouverait en ligne sur
+`andretechnologies.netlify.app/presentation-delegue/`. Ce n'est pas gênant
+techniquement (rien n'y renvoie, aucune page du site ne le référence), mais
+c'est à décider consciemment. Pour l'éviter, ajouter le dossier à un
+`.netlifyignore` ou le sortir du dépôt.
+
+**Le livrable** est `presentation-delegue/index.html` : un fichier autonome de
+~815 Ko qui s'ouvre par un double-clic, sans serveur ni Internet — la
+contrainte étant un PC de lycée branché au vidéoprojecteur. three.js, GSAP et
+les polices Anton et Rubik y sont inlinés ; les sons sont **synthétisés à
+l'exécution** en Web Audio, ce qui évite à la fois le poids des fichiers audio
+et toute question de droits.
+
+Le mode d'emploi pour le jour J est dans `presentation-delegue/MEMO.md`, la
+documentation du code dans `presentation-delegue/README.md`.
+
+### Ce que ce projet a appris, et qui vaut pour le site
+- **Le texte lisible reste en DOM, jamais en texture 3D.** Une texture de texte
+  bave dès qu'elle est projetée ; le DOM reste net à n'importe quelle taille.
+  C'est la même logique que le choix typographique du site : la lisibilité
+  passe avant l'effet.
+- **Une animation CSS ne sait ni se rembobiner ni se figer.** Le compte à
+  rebours était en `@keyframes` : impossible de le remettre dans l'état correct
+  après un retour en arrière. Tout est passé sous GSAP.
+- **`gl_PointSize` doit toujours être borné.** Une particule passant près de la
+  caméra couvrait l'écran entier et effondrait le rendu. Bug invisible tant
+  qu'on ne traverse pas le nuage de points.
+- **`await ctx.resume()` sur un `AudioContext` suspendu ne se résout jamais**
+  sans geste utilisateur, et bloque tout ce qui suit. Idem pour
+  `await requestFullscreen()` : une présentation qui refuse de démarrer devant
+  une classe, c'est le pire scénario possible. Les deux sont maintenant lancés
+  sans `await`.
+- **L'espace fine insécable (U+202F) n'est pas dessinée par Rubik** : le
+  navigateur la rend avec une chasse nulle et la ponctuation se colle au mot
+  (« déplacer? »). L'insécable normale (U+00A0) est un peu plus large mais
+  s'affiche partout. À garder en tête si une police du site change un jour.
+
 ## Ce qu'il reste à faire avant la mise en ligne définitive
 - [x] Vraies photos de l'entreprise + 2 vidéos partenaires (Urbas, Springer)
       — sauf Rabotage et Expédition, encore approximatives faute de matière

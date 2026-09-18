@@ -1,0 +1,19 @@
+{
+  "name": "presentation-delegue",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Presentation 3D de campagne - election des delegues, Terminale 4",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node ../serve.mjs"
+  },
+  "devDependencies": {
+    "@fontsource/anton": "^5.1.0",
+    "@fontsource/rubik": "^5.1.0",
+    "esbuild": "^0.25.0",
+    "gsap": "^3.12.5",
+    "playwright": "^1.63.0",
+    "three": "0.184.0"
+  }
+}

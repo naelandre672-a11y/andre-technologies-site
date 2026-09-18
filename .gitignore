@@ -18,3 +18,7 @@ biarritz-app/
 planning-biarritz.jsx
 images/*.webp
 Site web Nael.url
+
+# Présentation de campagne : dépendances de build et captures de contrôle
+presentation-delegue/node_modules/
+presentation-delegue/.captures/img/

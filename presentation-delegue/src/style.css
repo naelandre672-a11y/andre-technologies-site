@@ -1,0 +1,329 @@
+/* =========================================================================
+   Présentation de campagne — « Nael, la voix de la T4 »
+   Le texte lisible vit en DOM au-dessus du canvas : sur un vidéoprojecteur,
+   une typo rendue par le navigateur reste nette là où une texture 3D bave.
+   ========================================================================= */
+
+@font-face {
+  font-family: 'Anton';
+  src: url('__ANTON_400__') format('woff2');
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'Rubik';
+  src: url('__RUBIK_400__') format('woff2');
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'Rubik';
+  src: url('__RUBIK_500__') format('woff2');
+  font-weight: 500; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'Rubik';
+  src: url('__RUBIK_700__') format('woff2');
+  font-weight: 700; font-style: normal; font-display: block;
+}
+
+:root {
+  --bleu: #1A2BC4;
+  --bleu-clair: #4457F0;
+  --rouge: #EE3526;
+  --jaune: #FFD23F;
+  --blanc: #FFFBF2;
+  --encre: #0D1030;
+  --encre-fonce: #06081A;
+  --display: 'Anton', 'Impact', sans-serif;
+  --texte: 'Rubik', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--encre-fonce);
+  color: var(--blanc);
+  font-family: var(--texte);
+  -webkit-font-smoothing: antialiased;
+}
+body { cursor: none; }
+body.souris { cursor: default; }
+
+canvas#scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* ---------------------------------------------------------------- calques */
+#calque { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+#flash {
+  position: fixed; inset: 0; z-index: 30; opacity: 0;
+  background: var(--blanc); pointer-events: none; mix-blend-mode: screen;
+}
+
+/* Léger assombrissement des bords : le texte tient devant n'importe quel fond. */
+#vignette {
+  position: fixed; inset: 0; z-index: 9; pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(6,8,26,.80) 0%, rgba(6,8,26,.35) 26%, transparent 52%),
+    linear-gradient(to right, rgba(6,8,26,.55) 0%, transparent 46%);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+body.hud #vignette { opacity: 1; }
+
+/* ------------------------------------------------------- écran de démarrage */
+#accueil {
+  position: fixed; inset: 0; z-index: 60; display: grid; place-content: center;
+  text-align: center; gap: 2.2rem; background: radial-gradient(ellipse at 50% 45%, #141a52 0%, #06081A 62%);
+  cursor: default;
+}
+#accueil .marque {
+  font-family: var(--display); font-size: clamp(4rem, 15vw, 14rem); line-height: .84;
+  letter-spacing: .02em;
+  background: linear-gradient(180deg, var(--blanc) 40%, var(--jaune) 130%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 40px rgba(68,87,240,.55));
+}
+#accueil .sous {
+  font-family: var(--display); font-size: clamp(1.1rem, 3vw, 2.4rem);
+  letter-spacing: .32em; color: var(--jaune); text-transform: uppercase;
+}
+#lancer {
+  justify-self: center; pointer-events: auto; cursor: pointer;
+  font-family: var(--display); font-size: clamp(1.3rem, 2.6vw, 2.2rem);
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--encre); background: var(--jaune);
+  border: 0; border-radius: 999px; padding: .75em 1.9em;
+  box-shadow: 0 0 0 0 rgba(255,210,63,.55);
+  animation: pouls 2.4s ease-in-out infinite;
+  transition: transform .18s ease, background .18s ease;
+}
+#lancer:hover { transform: scale(1.05); background: var(--blanc); }
+#lancer:focus-visible { outline: 4px solid var(--bleu-clair); outline-offset: 4px; }
+@keyframes pouls {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,210,63,.5); }
+  50% { box-shadow: 0 0 0 26px rgba(255,210,63,0); }
+}
+#accueil .aide {
+  font-size: clamp(.8rem, 1.3vw, 1.05rem); color: rgba(255,251,242,.62);
+  letter-spacing: .06em; max-width: 46ch; margin: 0 auto; line-height: 1.7;
+}
+#accueil kbd {
+  font-family: var(--texte); font-weight: 700; font-size: .92em;
+  background: rgba(255,251,242,.12); border: 1px solid rgba(255,251,242,.22);
+  border-radius: .35em; padding: .08em .45em; margin: 0 .12em;
+}
+
+/* --------------------------------------------------------- compte à rebours */
+#compte {
+  position: fixed; inset: 0; z-index: 20; display: grid; place-content: center;
+  font-family: var(--display); font-size: clamp(8rem, 26vw, 24rem); line-height: 1;
+  color: var(--blanc); pointer-events: none; text-shadow: 0 0 80px rgba(68,87,240,.9);
+  opacity: 0;   /* invisible au repos : sans ça, le chiffre revient en fin
+                   d'animation au lieu de disparaître entre deux décomptes */
+}
+/* L'animation du décompte est pilotée par GSAP (voir scenes/intro.js) : une
+   animation CSS ne se laisse ni rembobiner ni figer avec la timeline. */
+
+/* ------------------------------------------------------------------ slogan */
+#slogan {
+  position: fixed; left: 0; right: 0; bottom: 13vh; z-index: 12; text-align: center;
+  opacity: 0; transform: translateY(26px);
+  transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1);
+}
+body.slogan-visible #slogan { opacity: 1; transform: none; }
+#slogan .barre {
+  width: min(52vw, 640px); height: 5px; margin: 0 auto 1.4rem;
+  background: linear-gradient(90deg, transparent, var(--jaune), var(--rouge), transparent);
+  transform: scaleX(0); transform-origin: center;
+  transition: transform .9s cubic-bezier(.2,.8,.2,1) .15s;
+}
+body.slogan-visible #slogan .barre { transform: scaleX(1); }
+#slogan .mots {
+  font-family: var(--display); text-transform: uppercase;
+  font-size: clamp(1.8rem, 6.2vw, 5.6rem); line-height: 1;
+  letter-spacing: .06em; color: var(--blanc);
+  text-shadow: 0 6px 40px rgba(6,8,26,.9), 0 0 90px rgba(26,43,196,.8);
+}
+#slogan .mots em { font-style: normal; color: var(--jaune); }
+#slogan .accroche {
+  margin-top: 1.1rem; font-size: clamp(.9rem, 1.9vw, 1.6rem); font-weight: 500;
+  color: rgba(255,251,242,.86); letter-spacing: .02em;
+}
+
+/* ------------------------------------------------------ panneaux de scène */
+.panneau {
+  position: fixed; z-index: 12; left: 5.5vw; bottom: 13vh; max-width: min(46vw, 760px);
+  opacity: 0; visibility: hidden; pointer-events: none;
+}
+.panneau.centre { left: 0; right: 0; max-width: none; text-align: center; padding: 0 6vw; }
+.panneau .surtitre {
+  display: inline-block; font-family: var(--texte); font-weight: 700;
+  font-size: clamp(.75rem, 1.15vw, 1.05rem); letter-spacing: .3em; text-transform: uppercase;
+  color: var(--encre); background: var(--jaune); padding: .42em .95em; border-radius: 3px;
+  margin-bottom: 1.1rem;
+}
+.panneau .surtitre.rouge { background: var(--rouge); color: var(--blanc); }
+.panneau h2 {
+  font-family: var(--display); text-transform: uppercase; font-weight: 400;
+  font-size: clamp(2.6rem, 7.4vw, 7.2rem); line-height: .92; letter-spacing: .005em;
+  text-shadow: 0 8px 44px rgba(6,8,26,.95);
+}
+.panneau h2 em { font-style: normal; color: var(--jaune); }
+.panneau p {
+  margin-top: 1.1rem; font-size: clamp(1.05rem, 2.15vw, 2.05rem); line-height: 1.42;
+  font-weight: 500; color: rgba(255,251,242,.94); text-shadow: 0 3px 22px rgba(6,8,26,.95);
+  max-width: 26ch;
+}
+.panneau.centre p { max-width: 34ch; margin-inline: auto; }
+.panneau .clin {
+  display: inline-block; margin-top: 1.5rem; font-size: clamp(.95rem, 1.75vw, 1.6rem);
+  font-weight: 500; font-style: italic; color: var(--jaune);
+  border-left: 5px solid var(--rouge); padding: .3em 0 .3em .85em; line-height: 1.35;
+  max-width: 30ch; text-shadow: 0 3px 22px rgba(6,8,26,.95);
+}
+
+/* Le tampon qui s'écrase à l'écran */
+#tampon {
+  position: fixed; inset: 0; z-index: 18; display: grid; place-content: center;
+  opacity: 0; pointer-events: none;
+}
+#tampon .encadre {
+  font-family: var(--display); text-transform: uppercase;
+  font-size: clamp(2.2rem, 8vw, 7rem); line-height: 1; letter-spacing: .04em;
+  color: var(--rouge); border: .13em solid var(--rouge); padding: .18em .42em;
+  transform: rotate(-9deg); border-radius: .08em;
+  text-shadow: 0 0 30px rgba(238,53,38,.5);
+  box-shadow: 0 0 60px rgba(238,53,38,.35), inset 0 0 40px rgba(238,53,38,.18);
+  background: rgba(13,16,48,.42);
+}
+#tampon.vert .encadre { color: var(--jaune); border-color: var(--jaune);
+  text-shadow: 0 0 30px rgba(255,210,63,.5);
+  box-shadow: 0 0 70px rgba(255,210,63,.4), inset 0 0 40px rgba(255,210,63,.18); }
+
+/* ---------------------------------------------------------------- le HUD */
+#hud {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 14;
+  display: flex; align-items: center; gap: 1.2rem; padding: 0 2rem 1.1rem;
+  opacity: 0; transition: opacity .5s ease; pointer-events: none;
+}
+body.hud #hud { opacity: 1; }
+#piste { flex: 1; height: 3px; background: rgba(255,251,242,.16); border-radius: 2px; overflow: hidden; }
+#progression {
+  height: 100%; width: 0%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--bleu-clair), var(--jaune));
+  transition: width .5s cubic-bezier(.2,.8,.2,1);
+}
+#compteur {
+  font-family: var(--texte); font-weight: 700; font-size: .82rem; letter-spacing: .22em;
+  color: rgba(255,251,242,.6); font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+#etat {
+  font-family: var(--texte); font-weight: 700; font-size: .72rem; letter-spacing: .2em;
+  color: var(--jaune); text-transform: uppercase; opacity: 0; transition: opacity .3s;
+}
+#etat.vu { opacity: 1; }
+
+/* ------------------------------------------------------- notes de l'orateur */
+#notes {
+  position: fixed; right: 2vw; bottom: 8vh; z-index: 22; width: min(34vw, 460px);
+  background: rgba(6,8,26,.93); border: 1px solid rgba(255,210,63,.4);
+  border-radius: 10px; padding: 1.3rem 1.5rem; backdrop-filter: blur(8px);
+  opacity: 0; visibility: hidden; transform: translateY(14px);
+  transition: opacity .28s ease, transform .28s ease, visibility .28s;
+}
+body.notes #notes { opacity: 1; visibility: visible; transform: none; }
+#notes .etiquette {
+  font-family: var(--texte); font-weight: 700; font-size: .68rem; letter-spacing: .26em;
+  text-transform: uppercase; color: var(--jaune); margin-bottom: .7rem;
+}
+#notes p { font-size: 1.02rem; line-height: 1.58; color: var(--blanc); font-weight: 400; }
+#notes .suite { margin-top: .9rem; font-size: .86rem; color: rgba(255,251,242,.5); }
+
+/* ---------------------------------------------------------- aide clavier */
+#aide {
+  position: fixed; left: 50%; top: 2vh; transform: translateX(-50%); z-index: 24;
+  background: rgba(6,8,26,.92); border: 1px solid rgba(255,251,242,.18);
+  border-radius: 999px; padding: .6rem 1.4rem; display: flex; gap: 1.1rem;
+  font-size: .78rem; letter-spacing: .08em; color: rgba(255,251,242,.72);
+  opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s;
+}
+body.aide #aide { opacity: 1; visibility: visible; }
+#aide b { color: var(--jaune); font-weight: 700; }
+
+/* --------------------------------------------------------- version 2D de secours */
+#repli {
+  position: fixed; inset: 0; z-index: 50; overflow-y: auto; display: none;
+  background: radial-gradient(ellipse at 50% 0%, #17205e 0%, #06081A 60%);
+  padding: 8vh 6vw; cursor: default;
+}
+#repli.actif { display: block; }
+#repli .slide { min-height: 84vh; display: flex; flex-direction: column; justify-content: center;
+  border-bottom: 1px solid rgba(255,251,242,.1); padding: 4vh 0; }
+#repli h1 { font-family: var(--display); font-size: clamp(3rem, 12vw, 10rem); line-height: .9;
+  text-transform: uppercase; }
+#repli h1 em { font-style: normal; color: var(--jaune); }
+#repli h2 { font-family: var(--display); font-size: clamp(2rem, 6vw, 5rem); line-height: .96;
+  text-transform: uppercase; color: var(--blanc); }
+#repli p { font-size: clamp(1rem, 2vw, 1.7rem); line-height: 1.5; margin-top: 1rem;
+  max-width: 34ch; color: rgba(255,251,242,.9); }
+#repli .clin { color: var(--jaune); font-style: italic; border-left: 5px solid var(--rouge);
+  padding-left: .8em; margin-top: 1.2rem; }
+#repli .num { font-family: var(--texte); font-weight: 700; letter-spacing: .3em;
+  color: var(--jaune); font-size: .9rem; margin-bottom: 1rem; }
+
+/* Mode performance : on coupe les effets coûteux côté CSS aussi. */
+.perf #notes { backdrop-filter: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  #lancer { animation: none; }
+}
+
+/* ------------------------------------------- bulle du conseil de classe */
+#bulle {
+  position: fixed; right: 4vw; top: 16vh; z-index: 13; width: min(42vw, 640px);
+  background: var(--blanc); color: var(--encre);
+  border-radius: 18px 18px 18px 4px; padding: 1.6rem 1.9rem;
+  box-shadow: 0 24px 70px rgba(6,8,26,.75), 0 0 0 3px rgba(255,210,63,.35);
+  opacity: 0; visibility: hidden; transform: translateY(16px) scale(.96);
+  transition: opacity .4s cubic-bezier(.2,.8,.2,1), transform .4s cubic-bezier(.2,.8,.2,1), visibility .4s;
+}
+#bulle.vue { opacity: 1; visibility: visible; transform: none; }
+/* La petite pointe de la bulle, dirigée vers la table. */
+#bulle::after {
+  content: ''; position: absolute; left: 2.4rem; bottom: -18px;
+  border: 12px solid transparent; border-top-color: var(--blanc); border-bottom: 0;
+  filter: drop-shadow(0 3px 0 rgba(255,210,63,.35));
+}
+#bulle p {
+  font-size: clamp(1.05rem, 1.95vw, 1.85rem); line-height: 1.45; font-weight: 500;
+  min-height: 3.4em;
+}
+#bulle.frappe p::after {
+  content: '▍'; color: var(--rouge); animation: curseur .6s steps(1) infinite;
+}
+@keyframes curseur { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+/* ------------------------------------- panneau posé en haut de l'écran */
+.panneau.haut {
+  top: 6vh; bottom: auto; left: 0; right: 0; max-width: none;
+  text-align: center; padding: 0 6vw;
+}
+/* Une question posée en haut du cadre partage l'écran avec les réponses en
+   3D : elle ne peut pas prendre la même taille qu'un titre de scène. */
+.panneau.haut h2 { font-size: clamp(1.6rem, 4.2vw, 3.9rem); line-height: 1; }
+.panneau.haut p { max-width: 34ch; margin-inline: auto; }
+
+/* --------------------------------------------- le slogan, version finale */
+body.final #slogan { bottom: 9vh; }
+body.final #slogan .mots { font-size: clamp(2.2rem, 7.6vw, 7rem); }
+body.final #slogan .accroche { font-size: clamp(1rem, 2.2vw, 1.9rem); color: var(--jaune); }
+
+@media (prefers-reduced-motion: reduce) {
+  #bulle.frappe p::after { animation: none; }
+}
+
+/* Noir total au premier instant : le compte à rebours doit démarrer dans le
+   vide, pas sur un champ d'étoiles déjà installé. */
+#noir {
+  position: fixed; inset: 0; z-index: 19; background: #000;
+  opacity: 0; pointer-events: none;
+}
